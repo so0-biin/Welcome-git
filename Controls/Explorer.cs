@@ -1,9 +1,14 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.ExtendedProperties;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -149,12 +154,71 @@ namespace FileManager.Controls
                 Image = Properties.Resources.Folder
             };
         }
+        public string[] GetStatus(string path)
+        {
+            string[] gitStatus;
+            if (JudgeGit(path))
+            {
+                ProcessStartInfo cmd = new ProcessStartInfo();
+                Process process = new Process();
+                cmd.FileName = @"cmd";
+                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+                cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+                cmd.UseShellExecute = false;
+                cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+                cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+                cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+                process.EnableRaisingEvents = false;
+                process.StartInfo = cmd;
+                process.Start();
+                process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+                process.StandardInput.Write(@"git status -s" + Environment.NewLine);
+
+                // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
+                process.StandardInput.Close();
+                StreamReader reader = process.StandardOutput;
+                string output = reader.ReadToEnd();
+                Console.WriteLine("!!!!output");
+                Console.WriteLine(output);
+
+                gitStatus = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < gitStatus.Length; i++)
+                {
+                    Console.WriteLine("!!!!!!!!!!!!!!" + Environment.NewLine);
+                    Console.WriteLine(gitStatus[i]);    
+                }
+
+
+                process.WaitForExit();
+                process.Close();
+
+                return gitStatus;
+            }
+            else { return null; }
+        }
+        public string FindStatus(string[] gitStatus, string fileName)
+        {
+            foreach(string status in gitStatus)
+            {       
+                Console.WriteLine(fileName);
+                Console.WriteLine(status); 
+                if (status.Contains(fileName))
+                {
+                     
+                    return status.Replace(fileName, "");
+                }
+            }
+            return "unmodified/committed";
+        }
 
         public void ShowFiles(string path)
         {
             List<string> files = new List<string>();
             FileType fileType;
-
+            string[] gitStatus = GetStatus(path);
+            
             files.AddRange(Directory.GetFiles(path));
 
             this.BeginUpdate();
@@ -163,6 +227,8 @@ namespace FileManager.Controls
             {
                 try
                 {
+                    string status = "";
+
                     fileType = DetectFileType(Path.GetExtension(file).Substring(1).ToLower());
 
                     this.SmallImageList.Images.Add(fileType.Image);
@@ -171,12 +237,17 @@ namespace FileManager.Controls
                         this.LargeImageList.Images.Add(Image.FromFile(file));
                     else
                         this.LargeImageList.Images.Add(fileType.Image);
+                   
+
+                    if(gitStatus != null)
+                        status = FindStatus(gitStatus,Path.GetFileName(file));
 
                     ListViewItem listViewItem = new ListViewItem(
-                        new string[] { Path.GetFileNameWithoutExtension(file),
-                        File.GetLastWriteTime(file).ToString(),
-                        Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description},
-                        this.SmallImageList.Images.Count - 1);
+                    new string[] { Path.GetFileNameWithoutExtension(file),
+                    File.GetLastWriteTime(file).ToString(),
+                    Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description, JudgeGit(path).ToString(), status},
+                    this.SmallImageList.Images.Count - 1);
+
                     listViewItem.Tag = file;
                     listViewItem.UseItemStyleForSubItems = false;
                     listViewItem.SubItems[1].ForeColor = listViewItem.SubItems[2].ForeColor = Color.Gray;
@@ -202,6 +273,7 @@ namespace FileManager.Controls
         public void ShowDirectories(string path)
         {
             List<string> directories = new List<string>();
+            string[] gitStatus = GetStatus(path);
 
             directories.AddRange(Directory.GetDirectories(path));
 
@@ -209,13 +281,18 @@ namespace FileManager.Controls
 
             foreach (string directory in directories)
             {
+                string status = "";
                 this.SmallImageList.Images.Add(Folder.Image);
                 this.LargeImageList.Images.Add(Folder.Image);
+                if(gitStatus != null)
+                {
+                    status = FindStatus(gitStatus, Path.GetFileName(directory));
+                }
 
                 ListViewItem listViewItem = new ListViewItem(
                     new string[] { Path.GetFileName(directory),
                         File.GetLastWriteTime(directory).ToString(),
-                        Folder.Description, JudgeGit(directory).ToString()},
+                        Folder.Description, JudgeGit(directory).ToString(), status},
                     this.SmallImageList.Images.Count - 1);
                 listViewItem.Tag = directory;
                 listViewItem.UseItemStyleForSubItems = false;
