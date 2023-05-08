@@ -37,6 +37,8 @@ namespace FileManager.Controls
             this.Columns.Add("Name", 150, HorizontalAlignment.Left);
             this.Columns.Add("Date Modified", 150, HorizontalAlignment.Left);
             this.Columns.Add("Type", 100, HorizontalAlignment.Left);
+            this.Columns.Add("git?",100,HorizontalAlignment.Left);
+            this.Columns.Add("Status", 100, HorizontalAlignment.Left);
             this.FullRowSelect = true;
 
             this.MouseDoubleClick += FilesListView_MouseDoubleClick;
@@ -173,7 +175,7 @@ namespace FileManager.Controls
                     ListViewItem listViewItem = new ListViewItem(
                         new string[] { Path.GetFileNameWithoutExtension(file),
                         File.GetLastWriteTime(file).ToString(),
-                        Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description },
+                        Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description},
                         this.SmallImageList.Images.Count - 1);
                     listViewItem.Tag = file;
                     listViewItem.UseItemStyleForSubItems = false;
@@ -189,6 +191,12 @@ namespace FileManager.Controls
             }
 
             this.EndUpdate();
+        }
+
+        public bool JudgeGit(string directoryPath)
+        {
+            string gitDirectoryPath = directoryPath + @"\.git";
+            return Directory.Exists(gitDirectoryPath);
         }
 
         public void ShowDirectories(string path)
@@ -207,7 +215,7 @@ namespace FileManager.Controls
                 ListViewItem listViewItem = new ListViewItem(
                     new string[] { Path.GetFileName(directory),
                         File.GetLastWriteTime(directory).ToString(),
-                        Folder.Description },
+                        Folder.Description, JudgeGit(directory).ToString()},
                     this.SmallImageList.Images.Count - 1);
                 listViewItem.Tag = directory;
                 listViewItem.UseItemStyleForSubItems = false;
