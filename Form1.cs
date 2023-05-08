@@ -20,11 +20,16 @@ namespace FileManager
         {
             InitializeComponent();
 
+
+
             FilesListView = new Explorer();
             FilesListView.Initialize();
             SplitContainer.Panel2.Controls.Add(FilesListView);
 
             InitializeViewOptions();
+            button1.Text = "git init";
+            textBox1.ReadOnly = true;
+            button2.Text = "git commit";
         }
 
         private void NavigationPanel_AfterSelect(object sender, TreeViewEventArgs e)
@@ -129,7 +134,7 @@ namespace FileManager
         private void button1_Click(object sender, EventArgs e)
         {
             //http://redreans.tistory.com/58
-            button1.Text = "git init";
+            
 
             // cmd를 사용하기 위한 준비
             ProcessStartInfo cmd = new ProcessStartInfo();
@@ -155,16 +160,21 @@ namespace FileManager
 
             process.Start(); // cmd 명령 입히는거 시작                     
             process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
-
             StringBuilder sb2 = new StringBuilder();
             process.StandardInput.Write(@"git init" + Environment.NewLine);
 
+            if (Directory.Exists(directoryPath + "\\.git")) {
+                //StreamReader reader = process.StandardOutput;
+                //string output = reader.ReadToEnd();
+                //textBox1.Text = output;
+                textBox1.Text = "Reinitialized existing Git repository in " + directoryPath + "\\.git\\";
+            }
+            else {               
+                textBox1.Text = "Initialized empty Git repository in " + directoryPath + "\\.git\\";
+            }
+            
             process.StandardInput.Close(); // cmd  명령 입력 끝
-
-
-            StreamReader reader = process.StandardOutput;
-            string output = reader.ReadToEnd();
-            textBox1.Text = output;
+            
 
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
@@ -172,12 +182,12 @@ namespace FileManager
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            button1.Text = "git commit";
+            
         }
     }
 }
