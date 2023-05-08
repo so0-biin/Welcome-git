@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -122,6 +124,60 @@ namespace FileManager
             SearchDialog searchDialog = new SearchDialog();
             searchDialog.CurrentDirectory = this.CurrentDirectory.Text;
             searchDialog.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //http://redreans.tistory.com/58
+            button1.Text = "git init";
+
+            // cmd를 사용하기 위한 준비
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+            String directoryPath;
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+
+
+            // cmd 다루기
+            StringBuilder sb = new StringBuilder();
+            sb.Append(this.CurrentDirectory.Text);
+            directoryPath = sb.ToString();
+
+            process.Start(); // cmd 명령 입히는거 시작                     
+            process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
+
+            StringBuilder sb2 = new StringBuilder();
+            process.StandardInput.Write(@"git init" + Environment.NewLine);
+
+            process.StandardInput.Close(); // cmd  명령 입력 끝
+
+
+            StreamReader reader = process.StandardOutput;
+            string output = reader.ReadToEnd();
+            textBox1.Text = output;
+
+            process.WaitForExit();
+            process.Close(); // cmd 창을 닫음
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            button1.Text = "git commit";
         }
     }
 }
