@@ -156,10 +156,11 @@ namespace FileManager.Controls
         }
         public string[] GetStatus(string path)
         {
-            string[] gitStatus;
-            Console.WriteLine(CheckGit(path));
-            if (CheckGit(path))
-            {
+            
+            if (CheckGit(path)) { 
+                Console.WriteLine("path:" + path);
+                string[] gitStatus;
+                Console.WriteLine("?:"+CheckGit(path).ToString());
                 ProcessStartInfo cmd = new ProcessStartInfo();
                 Process process = new Process();
                 cmd.FileName = @"cmd";
@@ -183,10 +184,11 @@ namespace FileManager.Controls
                 string output = reader.ReadToEnd();
                 Console.WriteLine("!!!!output");
                 Console.WriteLine(output);
-
                 gitStatus = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < gitStatus.Length; i++)
                 {
+
+                    //return null;
                     Console.WriteLine("!!!!!!!!!!!!!!" + Environment.NewLine);
                     Console.WriteLine(gitStatus[i]);    
                 }
@@ -197,7 +199,9 @@ namespace FileManager.Controls
 
                 return gitStatus;
             }
-            else { return null; }
+            else {                 
+                return null; }
+            
         }
         public string FindStatus(string[] gitStatus, string fileName)
         {
@@ -246,10 +250,12 @@ namespace FileManager.Controls
                     ListViewItem listViewItem = new ListViewItem(
                     new string[] { Path.GetFileNameWithoutExtension(file),
                     File.GetLastWriteTime(file).ToString(),
-                    Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description, CheckGit(path).ToString(), status},
+                    //Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description, CheckGit(path).ToString(), status},
+                    //this.SmallImageList.Images.Count - 1);
+                    Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description, "", status},
                     this.SmallImageList.Images.Count - 1);
 
-                    listViewItem.Tag = file;
+                listViewItem.Tag = file;
                     listViewItem.UseItemStyleForSubItems = false;
                     listViewItem.SubItems[1].ForeColor = listViewItem.SubItems[2].ForeColor = Color.Gray;
 
@@ -267,7 +273,9 @@ namespace FileManager.Controls
 
         public bool JudgeGit(string directoryPath)
         {
-            string gitDirectoryPath = directoryPath + @"\.git";
+            string gitDirectoryPath;
+            if (directoryPath== "C:\\") gitDirectoryPath = directoryPath + @".git";
+            else gitDirectoryPath = directoryPath + @"\.git";
             return Directory.Exists(gitDirectoryPath);
         }
 
@@ -276,7 +284,7 @@ namespace FileManager.Controls
             while(!JudgeGit(directoryPath))
             {   
                 directoryPath = directoryPath.Substring(0, directoryPath.LastIndexOf('\\'));
-                if (directoryPath == @"C:\") return false;
+                if (directoryPath == @"C:") return false;
             }
             directoryPath = System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString();
             return true;
@@ -301,18 +309,18 @@ namespace FileManager.Controls
 
             foreach (string directory in directories)
             {
-                string status = "";
+                //string status = "";
                 this.SmallImageList.Images.Add(Folder.Image);
                 this.LargeImageList.Images.Add(Folder.Image);
-                if(gitStatus != null)
-                {
-                    status = FindStatus(gitStatus, Path.GetFileName(directory));
-                }
+                //if(gitStatus != null)
+                //{
+                //    status = FindStatus(gitStatus, Path.GetFileName(directory));
+                //}
 
                 ListViewItem listViewItem = new ListViewItem(
                     new string[] { Path.GetFileName(directory),
                         File.GetLastWriteTime(directory).ToString(),
-                        Folder.Description, "", status},
+                        Folder.Description, "", ""},
                     this.SmallImageList.Images.Count - 1);
                 listViewItem.Tag = directory;
                 listViewItem.UseItemStyleForSubItems = false;
