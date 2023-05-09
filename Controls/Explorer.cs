@@ -245,7 +245,7 @@ namespace FileManager.Controls
                     ListViewItem listViewItem = new ListViewItem(
                     new string[] { Path.GetFileNameWithoutExtension(file),
                     File.GetLastWriteTime(file).ToString(),
-                    Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description, JudgeGit(path).ToString(), status},
+                    Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description, CheckGit(path).ToString(), status},
                     this.SmallImageList.Images.Count - 1);
 
                     listViewItem.Tag = file;
@@ -271,14 +271,14 @@ namespace FileManager.Controls
         }
 
         public bool CheckGit(string directoryPath) {
-            string gitDirectoryPath = directoryPath + @"\.git";
-            while(true)
+            while(!JudgeGit(directoryPath))
             {   
-                if(Directory.Exists(gitDirectoryPath)) return true;
-                directoryPath = System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString();
+                directoryPath = directoryPath.Substring(0, directoryPath.LastIndexOf('\\'));
                 if (directoryPath == @"C:\") return false;
-                gitDirectoryPath = directoryPath + @"\.git";
+                Console.WriteLine(directoryPath);
             }
+            directoryPath = System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString();
+            return true;
         }
 
         public void ShowDirectories(string path)
@@ -303,7 +303,7 @@ namespace FileManager.Controls
                 ListViewItem listViewItem = new ListViewItem(
                     new string[] { Path.GetFileName(directory),
                         File.GetLastWriteTime(directory).ToString(),
-                        Folder.Description, JudgeGit(directory).ToString(), status},
+                        Folder.Description, "", status},
                     this.SmallImageList.Images.Count - 1);
                 listViewItem.Tag = directory;
                 listViewItem.UseItemStyleForSubItems = false;
