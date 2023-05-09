@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,10 +42,11 @@
             this.CurrentDirectoryLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.CurrentDirectory = new System.Windows.Forms.ToolStripStatusLabel();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
-            this.NavigationPanel = new FileManager.Controls.Navigation();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.NavigationPanel = new FileManager.Controls.Navigation();
             this.MenuStrip.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
@@ -70,13 +72,13 @@
             // FileMenuItem
             // 
             this.FileMenuItem.Name = "FileMenuItem";
-            this.FileMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.FileMenuItem.Size = new System.Drawing.Size(46, 26);
             this.FileMenuItem.Text = "&File";
             // 
             // EditMenuItem
             // 
             this.EditMenuItem.Name = "EditMenuItem";
-            this.EditMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.EditMenuItem.Size = new System.Drawing.Size(49, 26);
             this.EditMenuItem.Text = "&Edit";
             // 
             // ViewMenuItem
@@ -88,7 +90,7 @@
             this.ViewSmallIcons,
             this.ViewTiles});
             this.ViewMenuItem.Name = "ViewMenuItem";
-            this.ViewMenuItem.Size = new System.Drawing.Size(56, 24);
+            this.ViewMenuItem.Size = new System.Drawing.Size(56, 26);
             this.ViewMenuItem.Text = "&View";
             // 
             // ViewDetails
@@ -166,21 +168,11 @@
             // SplitContainer.Panel2
             // 
             this.SplitContainer.Panel2.Controls.Add(this.textBox1);
+            this.SplitContainer.Panel2.MouseHover += new System.EventHandler(this.Button1_MouseHover);
             this.SplitContainer.Size = new System.Drawing.Size(1067, 467);
             this.SplitContainer.SplitterDistance = 262;
             this.SplitContainer.SplitterWidth = 5;
             this.SplitContainer.TabIndex = 2;
-            // 
-            // NavigationPanel
-            // 
-            this.NavigationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
-            this.NavigationPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NavigationPanel.Location = new System.Drawing.Point(0, 0);
-            this.NavigationPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NavigationPanel.Name = "NavigationPanel";
-            this.NavigationPanel.Size = new System.Drawing.Size(262, 467);
-            this.NavigationPanel.TabIndex = 0;
-            this.NavigationPanel.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NavigationPanel_AfterSelect);
             // 
             // textBox1
             // 
@@ -202,6 +194,7 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.MouseHover += new System.EventHandler(this.Button1_MouseHover);
             // 
             // button2
             // 
@@ -213,6 +206,17 @@
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // NavigationPanel
+            // 
+            this.NavigationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
+            this.NavigationPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NavigationPanel.Location = new System.Drawing.Point(0, 0);
+            this.NavigationPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.NavigationPanel.Name = "NavigationPanel";
+            this.NavigationPanel.Size = new System.Drawing.Size(262, 467);
+            this.NavigationPanel.TabIndex = 0;
+            this.NavigationPanel.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NavigationPanel_AfterSelect);
             // 
             // Form1
             // 
@@ -261,6 +265,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

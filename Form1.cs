@@ -137,7 +137,7 @@ namespace FileManager
         {
             //http://redreans.tistory.com/58
             
-
+            
             // cmd를 사용하기 위한 준비
             ProcessStartInfo cmd = new ProcessStartInfo();
             Process process = new Process();
@@ -159,19 +159,27 @@ namespace FileManager
             StringBuilder sb = new StringBuilder();
             sb.Append(this.CurrentDirectory.Text);
             directoryPath = sb.ToString();
-
+            
             process.Start(); // cmd 명령 입히는거 시작                     
             process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
             StringBuilder sb2 = new StringBuilder();
             process.StandardInput.Write(@"git init" + Environment.NewLine);
 
-            if (Directory.Exists(directoryPath + "\\.git")) {
+            //fileType = DetectFileType(directoryPath.GetExtension(((string)item.Tag)).Substring(1).ToLower());
+
+            if (directoryPath.Length >= 1 && Directory.Exists(directoryPath + "\\.git")) {
                 //StreamReader reader = process.StandardOutput;
                 //string output = reader.ReadToEnd();
                 //textBox1.Text = output;
                 textBox1.Text = "Reinitialized existing Git repository in " + directoryPath + "\\.git\\";
             }
-            else {               
+            else if (directoryPath.Length == 0)
+            {
+                textBox1.Text = "Choose directory to initialize empty Git repository.";
+            }
+
+            else
+            {               
                 textBox1.Text = "Initialized empty Git repository in " + directoryPath + "\\.git\\";
             }
             
@@ -190,6 +198,14 @@ namespace FileManager
         private void button2_Click(object sender, EventArgs e)
         {
             
+        }
+
+
+        private void Button1_MouseHover(object sender, EventArgs e)
+        {
+            this.toolTip1.ToolTipTitle = "Check please";
+            this.toolTip1.IsBalloon = true;
+            this.toolTip1.SetToolTip(this.button1, "Check exactly that the directory you want to initialize is correct.");
         }
     }
 }
