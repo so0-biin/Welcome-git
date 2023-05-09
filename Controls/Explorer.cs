@@ -270,6 +270,17 @@ namespace FileManager.Controls
             return Directory.Exists(gitDirectoryPath);
         }
 
+        public bool CheckGit(string directoryPath) {
+            string gitDirectoryPath = directoryPath + @"\.git";
+            while(true)
+            {   
+                if(Directory.Exists(gitDirectoryPath)) return true;
+                directoryPath = System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString();
+                if (directoryPath == @"C:\") return false;
+                gitDirectoryPath = directoryPath + @"\.git";
+            }
+        }
+
         public void ShowDirectories(string path)
         {
             List<string> directories = new List<string>();
