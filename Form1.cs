@@ -18,7 +18,7 @@ namespace FileManager
 
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();            
 
 
 
@@ -39,10 +39,21 @@ namespace FileManager
             FilesListView.Items.Clear();
             FilesListView.LargeImageList.Images.Clear();
             FilesListView.SmallImageList.Images.Clear();
+            textBox1.Text = string.Empty;
 
             string path = (string)e.Node.Tag;
+            FilesListView.SelectedNavigationNode = e.Node;
+            this.CurrentDirectory.Text = path;
             try
             {
+                if (Directory.Exists(this.CurrentDirectory.Text + "\\.git"))
+                {
+                    button1.Enabled = false;
+                }
+                else
+                {
+                    button1.Enabled = true;
+                }
                 FilesListView.ShowFiles(path);
                 FilesListView.ShowDirectories(path);
             }
@@ -51,9 +62,7 @@ namespace FileManager
 
             }
 
-            FilesListView.SelectedNavigationNode = e.Node;
-
-            this.CurrentDirectory.Text = path;
+            
         }
 
         private void InitializeViewOptions()
@@ -165,23 +174,15 @@ namespace FileManager
             StringBuilder sb2 = new StringBuilder();
             process.StandardInput.Write(@"git init" + Environment.NewLine);
 
-            //fileType = DetectFileType(directoryPath.GetExtension(((string)item.Tag)).Substring(1).ToLower());
 
-            if (directoryPath.Length >= 1 && Directory.Exists(directoryPath + "\\.git")) {
-                //StreamReader reader = process.StandardOutput;
-                //string output = reader.ReadToEnd();
-                //textBox1.Text = output;
-                textBox1.Text = "Reinitialized existing Git repository in " + directoryPath + "\\.git\\";
+            if (directoryPath.Length >= 1) {
+                textBox1.Text = "Initialized empty Git repository in " + directoryPath + "\\.git\\";
             }
-            else if (directoryPath.Length == 0)
+            else 
             {
                 textBox1.Text = "Choose directory to initialize empty Git repository.";
             }
 
-            else
-            {               
-                textBox1.Text = "Initialized empty Git repository in " + directoryPath + "\\.git\\";
-            }
             
             process.StandardInput.Close(); // cmd  명령 입력 끝
             
