@@ -157,7 +157,8 @@ namespace FileManager.Controls
         public string[] GetStatus(string path)
         {
             string[] gitStatus;
-            if (JudgeGit(path))
+            Console.WriteLine(CheckGit(path));
+            if (CheckGit(path))
             {
                 ProcessStartInfo cmd = new ProcessStartInfo();
                 Process process = new Process();
@@ -271,11 +272,11 @@ namespace FileManager.Controls
         }
 
         public bool CheckGit(string directoryPath) {
+            if (directoryPath == null) return false;
             while(!JudgeGit(directoryPath))
             {   
                 directoryPath = directoryPath.Substring(0, directoryPath.LastIndexOf('\\'));
                 if (directoryPath == @"C:\") return false;
-                Console.WriteLine(directoryPath);
             }
             directoryPath = System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString();
             return true;
@@ -284,7 +285,15 @@ namespace FileManager.Controls
         public void ShowDirectories(string path)
         {
             List<string> directories = new List<string>();
+            //bool checkGit;
+            //if (path != null) checkGit = CheckGit(path);
+            //else checkGit = false;
+
             string[] gitStatus = GetStatus(path);
+            //if (checkGit) gitStatus = GetStatus(path);
+            //else gitStatus = null;
+            
+            Console.WriteLine(gitStatus);
 
             directories.AddRange(Directory.GetDirectories(path));
 
