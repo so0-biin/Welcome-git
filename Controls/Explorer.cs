@@ -40,6 +40,7 @@ namespace FileManager.Controls
             this.FullRowSelect = true;
 
             this.MouseDoubleClick += FilesListView_MouseDoubleClick;
+            this.MouseClick += m_ListView_MouseClick;
 
             InitializeFileTypes();
         }
@@ -303,5 +304,25 @@ namespace FileManager.Controls
                 (parent.Controls["SplitContainer"] as SplitContainer).Panel1.Controls["NavigationPanel"].Focus();
             }
         }
+
+        
+        private void m_ListView_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button.Equals(MouseButtons.Right))
+            {
+                string path = (string)(sender as Explorer).SelectedItems[0].Tag;
+
+                if (!Directory.Exists(path))
+                {
+                    ContextMenuStrip m = new ContextMenuStrip();
+
+                    m.Items.Add("git add");
+                    m.Items.Add("git restore");
+                    m.Show(PointToScreen(e.Location));
+                }
+            }
+        }
+
+        
     }
 }
