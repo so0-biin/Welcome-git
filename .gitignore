@@ -36,6 +36,7 @@ x64/
 *.tmp
 *.tmp_proj
 *.log
+*.lock
 *.vspscc
 *.vssscc
 .builds
@@ -56,6 +57,7 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+*.vsidx
 
 # Guidance Automation Toolkit
 *.gpState
