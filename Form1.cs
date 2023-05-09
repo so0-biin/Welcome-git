@@ -27,9 +27,11 @@ namespace FileManager
             SplitContainer.Panel2.Controls.Add(FilesListView);
 
             InitializeViewOptions();
-            button1.Text = "git init";
+
             textBox1.ReadOnly = true;
+            button1.Text = "git init";
             button2.Text = "git commit";
+
         }
 
         private void NavigationPanel_AfterSelect(object sender, TreeViewEventArgs e)
