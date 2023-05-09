@@ -188,6 +188,19 @@ namespace FileManager
 
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
+            
+            // git init file Redirection
+            FilesListView.Items.Clear();
+            try
+            {
+                FilesListView.ShowFiles(directoryPath);
+                FilesListView.ShowDirectories(directoryPath);
+            }
+            catch
+            {
+
+            }
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
