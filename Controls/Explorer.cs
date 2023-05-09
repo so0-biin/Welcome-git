@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace FileManager.Controls
 {
@@ -211,13 +212,24 @@ namespace FileManager.Controls
                 Console.WriteLine(status); 
                 if (status.Contains(fileName))
                 {
-                     
-                    return status.Replace(fileName, "");
+                    return NameStatus(status);
                 }
             }
             return "unmodified/committed";
         }
 
+        public string NameStatus(string status)
+        {
+            if (status.Contains(@"?? "))
+                return "untracked";
+            if (status.Contains(@"A  "))
+                return "staged";
+            if (status.Contains(@" M "))
+                return "modified";
+            if (status.Contains(@"M  "))
+                return "staged";
+            return "";
+        }
         public void ShowFiles(string path)
         {
             List<string> files = new List<string>();
