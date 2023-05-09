@@ -167,6 +167,7 @@
             // 
             // SplitContainer.Panel2
             // 
+            this.SplitContainer.Panel2.AutoScroll = true;
             this.SplitContainer.Panel2.Controls.Add(this.textBox1);
             this.SplitContainer.Panel2.MouseHover += new System.EventHandler(this.Button1_MouseHover);
             this.SplitContainer.Size = new System.Drawing.Size(1067, 467);
@@ -187,9 +188,9 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(811, 5);
+            this.button1.Location = new System.Drawing.Point(811, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 23);
+            this.button1.Size = new System.Drawing.Size(122, 28);
             this.button1.TabIndex = 3;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -199,9 +200,9 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(939, 5);
+            this.button2.Location = new System.Drawing.Point(939, 0);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(122, 23);
+            this.button2.Size = new System.Drawing.Size(122, 28);
             this.button2.TabIndex = 4;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -230,6 +231,7 @@
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.MinimumSize = new System.Drawing.Size(1085, 288);
             this.Name = "Form1";
             this.Text = "File Manager";
             this.MenuStrip.ResumeLayout(false);
