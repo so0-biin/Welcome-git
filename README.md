@@ -41,7 +41,9 @@ If you want to run this program in your local system, please follow this guide.
 
 
 ## Common Problems
-(run, build 하다가 문제가 발생하면 여기로 와서 해결 방안 알려주기, 위에를 자세히 적으면 얘는 없어도 될 것 같긴 함)
+run, build 하다가 문제가 발생하면 여기로 와서 해결 방안 알려주기, 위에를 자세히 적으면 얘는 없어도 될 것 같긴 함
+
+!!!! 우리의 개발 문제가 아니라 file manager의 문제로 인해 어쩔 수 없는 상황인 경우 명시해주는게 어떤가??!!!
 
 
 ## Bug Reporting and Feature Request
