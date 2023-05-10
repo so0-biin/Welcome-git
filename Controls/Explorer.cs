@@ -358,12 +358,19 @@ namespace FileManager.Controls
         private void FilesListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             string path = (string)(sender as Explorer).SelectedItems[0].Tag;
+            string file_name = Path.GetFileName(path);
+            int index = path.IndexOf(file_name);
+            string real_path = path.Remove(index, file_name.Length);
+            real_path = real_path.TrimEnd('\\');
+
+            MessageBox.Show(real_path + "!!!!" + file_name);
 
             if (!Directory.Exists(path))
             {
                 // if the path represents a file
 
-                //System.Diagnostics.Process.Start(path);
+               // System.Diagnostics.Process.Start(path);
+
                 ProcessStartInfo cmd = new ProcessStartInfo();
                 Process process = new Process();
                 String directoryPath;
@@ -387,8 +394,8 @@ namespace FileManager.Controls
                 directoryPath = sb.ToString();
 
                 process.Start(); // cmd 명령 입히는거 시작                     
-                process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
-                process.StandardInput.Write(@"git add" + Path.GetFileName(path) + Environment.NewLine);
+                process.StandardInput.Write(@"cd " + real_path + Environment.NewLine);
+                process.StandardInput.Write(@"git add " + file_name + Environment.NewLine);
 
                 process.StandardInput.Close(); // cmd  명령 입력 끝
 
