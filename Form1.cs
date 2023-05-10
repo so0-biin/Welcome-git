@@ -224,7 +224,7 @@ namespace FileManager
             CommitMenu commitMenu = new CommitMenu(this);
             commitMenu.Show(); // commitmenu 닫기 전에는 form1 제어 불가
             commitMenu.SetTextBeforeCommit(this.CurrentDirectory.Text, result);
-            button2.Enabled = false;
+            //button2.Enabled = false;
         }
 
 
@@ -302,12 +302,13 @@ namespace FileManager
             return result;
         }
 
-        public void setTextAfterCommit(string[] result)
+        public void setTextAfterCommit(string[] result, string commitMsg)
         {
-            foreach(string hey in result)
+            /*foreach(string hey in result) // 해당 부분만 parsing하는거 너무 빡세서 일단은 보류
             {
                  textBox1.Text += hey + " \r\n";
-            }
+            }*/
+            textBox1.Text += "Successfully Committed - " + commitMsg;
         }
     }
 }

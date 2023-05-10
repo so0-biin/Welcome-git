@@ -92,7 +92,7 @@ namespace FileManager
             string output = reader.ReadToEnd();
 
             gitAfterCommit = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            form1.setTextAfterCommit(gitAfterCommit);
+            form1.setTextAfterCommit(gitAfterCommit, textBox2.Text);
  
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
