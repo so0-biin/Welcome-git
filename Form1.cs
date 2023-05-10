@@ -292,11 +292,6 @@ namespace FileManager
                 }                   
             }
 
-            /*foreach(string hey in result)
-            {
-                textBox1.Text += hey + " hey";
-            }*/
-
             if (result == null) //-> return 커밋할 파일이 존재하지 않아용
                 return result;
             return result;
@@ -304,11 +299,7 @@ namespace FileManager
 
         public void setTextAfterCommit(string[] result, string commitMsg)
         {
-            /*foreach(string hey in result) // 해당 부분만 parsing하는거 너무 빡세서 일단은 보류
-            {
-                 textBox1.Text += hey + " \r\n";
-            }*/
-            textBox1.Text += "Successfully Committed - " + commitMsg;
+            textBox1.Text += "Successfully Committed";
         }
     }
 }

@@ -37,15 +37,31 @@ namespace FileManager
         {
             this.path = directoryPath;
             textBox1.Text += directoryPath + "\r\n";
+            int noneFilesInStage = 0;
 
             foreach (string staged in result)
             {
-                if (String.IsNullOrEmpty(staged)) continue;
+                if (String.IsNullOrEmpty(staged))
+                {
+                    noneFilesInStage++; 
+                    continue;
+                }
                 else
                 {
                     textBox1.Text += staged + "\r\n";
                 }
             }
+
+            if(noneFilesInStage == result.Length)
+            {
+                button1.Enabled = false; // stage에 아무 파일이 없으면 commit button 비활성화
+                textBox1.Text = "The File to commit does not exist on Stage.\r\n" +
+                    "Press Exit to return to the main screen.";
+                textBox2.ReadOnly = true;
+                textBox2.Enabled = false;
+                textBox2.Enabled = true;
+            }
+                
                    
         }
 
