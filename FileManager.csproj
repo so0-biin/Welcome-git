@@ -58,6 +58,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommitMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommitMenu.Designer.cs">
+      <DependentUpon>CommitMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Navigation.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -85,6 +91,9 @@
     <Compile Include="SearchDialog.Designer.cs">
       <DependentUpon>SearchDialog.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CommitMenu.resx">
+      <DependentUpon>CommitMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SearchResult.resx">
       <DependentUpon>SearchResult.cs</DependentUpon>
     </EmbeddedResource>
