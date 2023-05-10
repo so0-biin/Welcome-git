@@ -221,10 +221,10 @@ namespace FileManager
             gitStatus = GetStatus(this.CurrentDirectory.Text);
             result = FindStatus(gitStatus);
 
-            CommitMenu commitMenu = new CommitMenu();
+            CommitMenu commitMenu = new CommitMenu(this);
             commitMenu.Show(); // commitmenu 닫기 전에는 form1 제어 불가
-            commitMenu.SetText(this.CurrentDirectory.Text, result);
-
+            commitMenu.SetTextBeforeCommit(this.CurrentDirectory.Text, result);
+            button2.Enabled = false;
         }
 
 
@@ -300,6 +300,14 @@ namespace FileManager
             if (result == null) //-> return 커밋할 파일이 존재하지 않아용
                 return result;
             return result;
+        }
+
+        public void setTextAfterCommit(string[] result)
+        {
+            foreach(string hey in result)
+            {
+                 textBox1.Text += hey + " \r\n";
+            }
         }
     }
 }

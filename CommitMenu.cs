@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,10 +17,12 @@ namespace FileManager
     {
 
         private string path;
+        Form1 form1;
 
-        public CommitMenu()
+        public CommitMenu(Form1 form)
         {
             InitializeComponent();
+            form1 = form;
 
             label1.Text = "The list of Staged Changes";
             label2.Text = "Enter a commit message";
@@ -29,7 +33,7 @@ namespace FileManager
             textBox1.Enabled = true;
             
         }
-        public void SetText(string directoryPath, string[] result)
+        public void SetTextBeforeCommit(string directoryPath, string[] result)
         {
             this.path = directoryPath;
             textBox1.Text += directoryPath + "\r\n";
@@ -62,6 +66,7 @@ namespace FileManager
             Process process = new Process();
             string directoryPath;
             directoryPath = this.path;
+            string[] gitAfterCommit;
 
             cmd.FileName = @"cmd";
             cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
@@ -78,14 +83,21 @@ namespace FileManager
             process.Start(); // cmd 명령 입히는거 시작                     
             process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
 
-            //textBox2.Text = "git commit -m " + "\"" + textBox2.Text + "\"" +  Environment.NewLine;
 
             process.StandardInput.Write(@"git commit -m " + "\"" + textBox2.Text + "\"" + Environment.NewLine);
 
             process.StandardInput.Close(); // cmd  명령 입력 끝
 
+            StreamReader reader = process.StandardOutput;
+            string output = reader.ReadToEnd();
+
+            gitAfterCommit = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            form1.setTextAfterCommit(gitAfterCommit);
+ 
             process.WaitForExit();
-            process.Close(); // cmd 창을 닫음*/
+            process.Close(); // cmd 창을 닫음
+
+            this.Close(); // commitMenu close
         }
     }
 }
