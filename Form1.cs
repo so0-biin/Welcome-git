@@ -223,19 +223,8 @@ namespace FileManager
 
             CommitMenu commitMenu = new CommitMenu();
             commitMenu.Show(); // commitmenu 닫기 전에는 form1 제어 불가
-            commitMenu.SetText(result);
+            commitMenu.SetText(this.CurrentDirectory.Text, result);
 
-            //textBox1.Text += "Changes to be committed: \r\n";
-            //textBox1.Text += "  (use \"git restore --staged <file>...\" to unstage)\r\n";
-            /*textBox1.Text += "[The list of staged changes]";
-            foreach(string staged in result)
-            {
-                if(String.IsNullOrEmpty(staged)) continue;
-                else
-                {
-                    textBox1.Text += staged + "\r\n";                           
-                }
-            }*/
         }
 
 
