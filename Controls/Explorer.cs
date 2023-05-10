@@ -460,6 +460,8 @@ namespace FileManager.Controls
                     m.Show(PointToScreen(e.Location));
 
                     m.ItemClicked += m_ItemClicked;
+
+
                     
                 }
             }
@@ -502,7 +504,7 @@ namespace FileManager.Controls
         {
             ProcessStartInfo cmd = new ProcessStartInfo();
             Process process = new Process();
-            String directoryPath;
+
             cmd.FileName = @"cmd";
             cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
             cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
@@ -532,6 +534,20 @@ namespace FileManager.Controls
 
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
+
+            this.Items.Clear();
+            this.LargeImageList.Images.Clear();
+            this.SmallImageList.Images.Clear();
+
+            try
+            {
+                this.ShowFiles(real_path);
+                this.ShowDirectories(real_path);
+            }
+            catch
+            {
+
+            }
         }
     }
 }
