@@ -43,9 +43,10 @@ namespace FileManager.Controls
             this.SmallImageList.ImageSize = SmallIconSize;
             this.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
             this.Columns.Add("Name", 150, HorizontalAlignment.Left);
+            this.Columns.Add("Status", 75, HorizontalAlignment.Left);
             this.Columns.Add("Date Modified", 150, HorizontalAlignment.Left);
             this.Columns.Add("Type", 100, HorizontalAlignment.Left);
-            this.Columns.Add("Status", 100, HorizontalAlignment.Left);
+
             this.FullRowSelect = true;
 
             this.MouseDoubleClick += FilesListView_MouseDoubleClick;
@@ -247,15 +248,25 @@ namespace FileManager.Controls
                     if(gitStatus != null)
                         status = FindStatus(gitStatus,Path.GetFileName(file));
 
+
                     ListViewItem listViewItem = new ListViewItem(
-                    new string[] { Path.GetFileNameWithoutExtension(file),
+                    new string[] { Path.GetFileNameWithoutExtension(file), status,
                     File.GetLastWriteTime(file).ToString(),
-                    Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description, status},
+                    Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description},
                     this.SmallImageList.Images.Count - 1);
 
+                    
                     listViewItem.Tag = file;
                     listViewItem.UseItemStyleForSubItems = false;
-                    listViewItem.SubItems[1].ForeColor = listViewItem.SubItems[2].ForeColor = Color.Gray;
+                    if (status.Equals("untracked"))
+                        listViewItem.SubItems[0].ForeColor = Color.Red;
+                    else if(status.Equals("staged"))
+                        listViewItem.SubItems[0].ForeColor = Color.Green;
+                    else if(status.Equals("modified"))
+                        listViewItem.SubItems[0].ForeColor= Color.Blue;
+                    else
+                        listViewItem.SubItems[0].ForeColor = Color.Black;
+                    listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
                     this.Items.Add(listViewItem);
                 }
@@ -302,13 +313,13 @@ namespace FileManager.Controls
                 this.LargeImageList.Images.Add(Folder.Image);
 
                 ListViewItem listViewItem = new ListViewItem(
-                    new string[] { Path.GetFileName(directory),
+                    new string[] {Path.GetFileName(directory),"",
                         File.GetLastWriteTime(directory).ToString(),
-                        Folder.Description, ""},
+                        Folder.Description},
                     this.SmallImageList.Images.Count - 1);
                 listViewItem.Tag = directory;
                 listViewItem.UseItemStyleForSubItems = false;
-                listViewItem.SubItems[1].ForeColor = listViewItem.SubItems[2].ForeColor = Color.Gray;
+                listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
                 this.Items.Add(listViewItem);
             }
