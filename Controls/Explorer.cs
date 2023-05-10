@@ -27,12 +27,10 @@ namespace FileManager.Controls
         private FileType Document;
         private FileType Folder;
 
-        private System.Windows.Forms.ToolStripStatusLabel CurrentDirectory;
-
         public void Initialize()
         {
             SmallIconSize = new Size(16, 16);
-            TileIconSize  = new Size(32, 32);
+            TileIconSize = new Size(32, 32);
             LargeIconSize = new Size(128, 128);
 
             this.View = View.Details;
@@ -158,10 +156,12 @@ namespace FileManager.Controls
                 Image = Properties.Resources.Folder
             };
         }
+
         public string[] GetStatus(string path)
         {
-            
-            if (CheckGit(path)) { 
+
+            if (CheckGit(path))
+            {
                 string[] gitStatus;
                 ProcessStartInfo cmd = new ProcessStartInfo();
                 Process process = new Process();
@@ -185,38 +185,40 @@ namespace FileManager.Controls
                 StreamReader reader = process.StandardOutput;
                 string output = reader.ReadToEnd();
                 gitStatus = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                
+
                 process.WaitForExit();
                 process.Close();
 
                 return gitStatus;
             }
-            else {                 
-                return null; }
-            
+            else
+            {
+                return null;
+            }
+
         }
         public string FindStatus(string[] gitStatus, string fileName)
         {
-            foreach(string status in gitStatus)
-            { 
+            foreach (string status in gitStatus)
+            {
                 if (status.Contains(fileName))
                 {
                     return NameStatus(status);
                 }
             }
-            return "unmodified/committed";
+            return "Unmodified/Committed";
         }
 
         public string NameStatus(string status)
         {
             if (status.Contains(@"?? "))
-                return "untracked";
+                return "Untracked";
             if (status.Contains(@"A  "))
-                return "staged";
+                return "Staged";
             if (status.Contains(@" M "))
-                return "modified";
+                return "Modified";
             if (status.Contains(@"M  "))
-                return "staged";
+                return "Staged";
             return "";
         }
         public void ShowFiles(string path)
@@ -224,7 +226,7 @@ namespace FileManager.Controls
             List<string> files = new List<string>();
             FileType fileType;
             string[] gitStatus = GetStatus(path);
-            
+
             files.AddRange(Directory.GetFiles(path));
 
             this.BeginUpdate();
@@ -237,16 +239,19 @@ namespace FileManager.Controls
 
                     fileType = DetectFileType(Path.GetExtension(file).Substring(1).ToLower());
 
+                    if (gitStatus != null)
+                    {
+                        status = FindStatus(gitStatus, Path.GetFileName(file));
+                    }
+                    
+                    
                     this.SmallImageList.Images.Add(fileType.Image);
+                    
 
                     if (fileType.Name == "Picture")
                         this.LargeImageList.Images.Add(Image.FromFile(file));
                     else
                         this.LargeImageList.Images.Add(fileType.Image);
-                   
-
-                    if(gitStatus != null)
-                        status = FindStatus(gitStatus,Path.GetFileName(file));
 
 
                     ListViewItem listViewItem = new ListViewItem(
@@ -255,17 +260,29 @@ namespace FileManager.Controls
                     Path.GetExtension(file).Substring(1).ToUpper() + fileType.Description},
                     this.SmallImageList.Images.Count - 1);
 
-                    
+
                     listViewItem.Tag = file;
                     listViewItem.UseItemStyleForSubItems = false;
-                    if (status.Equals("untracked"))
+                    if (status.Equals("Untracked"))
+                    {
                         listViewItem.SubItems[0].ForeColor = Color.Red;
-                    else if(status.Equals("staged"))
+                        listViewItem.SubItems[1].ForeColor = Color.Red;
+                    }
+                    else if (status.Equals("Staged"))
+                    {
                         listViewItem.SubItems[0].ForeColor = Color.Green;
-                    else if(status.Equals("modified"))
-                        listViewItem.SubItems[0].ForeColor= Color.Blue;
+                        listViewItem.SubItems[1].ForeColor = Color.Green;
+                    }
+                    else if (status.Equals("Modified"))
+                    {
+                        listViewItem.SubItems[0].ForeColor = Color.Blue;
+                        listViewItem.SubItems[1].ForeColor = Color.Blue;
+                    }
                     else
+                    {
                         listViewItem.SubItems[0].ForeColor = Color.Black;
+                        listViewItem.SubItems[1].ForeColor = Color.Black;
+                    }
                     listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
                     this.Items.Add(listViewItem);
@@ -283,15 +300,16 @@ namespace FileManager.Controls
         public bool JudgeGit(string directoryPath)
         {
             string gitDirectoryPath;
-            if (directoryPath== "C:\\") gitDirectoryPath = directoryPath + @".git";
+            if (directoryPath == "C:\\") gitDirectoryPath = directoryPath + @".git";
             else gitDirectoryPath = directoryPath + @"\.git";
             return Directory.Exists(gitDirectoryPath);
         }
 
-        public bool CheckGit(string directoryPath) {
+        public bool CheckGit(string directoryPath)
+        {
             if (directoryPath == null) return false;
-            while(!JudgeGit(directoryPath))
-            {   
+            while (!JudgeGit(directoryPath))
+            {
                 directoryPath = directoryPath.Substring(0, directoryPath.LastIndexOf('\\'));
                 if (directoryPath == @"C:") return false;
             }
@@ -412,7 +430,7 @@ namespace FileManager.Controls
             }
         }
 
-        
+
         private void m_ListView_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button.Equals(MouseButtons.Right))
@@ -437,16 +455,16 @@ namespace FileManager.Controls
 
                     m.Tag = dict;
 
-                    if (status.Equals("untracked"))
+                    if (status.Equals("Untracked"))
                     {
                         m.Items.Add("git add (untracked)");
                     }
-                    else if (status.Equals("modified"))
+                    else if (status.Equals("Modified"))
                     {
                         m.Items.Add("git add (modified)");
                         m.Items.Add("git restore");
                     }
-                    else if (status.Equals("staged"))
+                    else if (status.Equals("Staged"))
                     {
                         m.Items.Add("git restore --staged");
                     }
@@ -460,13 +478,10 @@ namespace FileManager.Controls
                     m.Show(PointToScreen(e.Location));
 
                     m.ItemClicked += m_ItemClicked;
-
-
-                    
                 }
             }
         }
-        
+
         void m_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             Dictionary<string, string> dict = (sender as ContextMenuStrip).Tag as Dictionary<string, string>;
@@ -477,7 +492,7 @@ namespace FileManager.Controls
             switch (e.ClickedItem.Text)
             {
                 case "git add (untracked)":
-                    cmd_ex(real_path, file_name, "add");    
+                    cmd_ex(real_path, file_name, "add");
                     break;
                 case "git add (modified)":
                     cmd_ex(real_path, file_name, "add");
@@ -493,7 +508,7 @@ namespace FileManager.Controls
                     break;
                 case "git rm":
                     cmd_ex(real_path, file_name, "rm");
-                break;
+                    break;
                 case "git mv":
                     cmd_ex(real_path, file_name, "mv");
                     break;
@@ -523,12 +538,12 @@ namespace FileManager.Controls
             //sb.Append(this.CurrentDirectory.Text);
             //directoryPath = sb.ToString();
 
-            process.Start(); 
-            
+            process.Start();
+
             // cmd 명령 입히는거 시작                     
-            
-             process.StandardInput.Write(@"cd " + real_path + Environment.NewLine);
-             process.StandardInput.Write(@"git " + command + " " + file_name + Environment.NewLine);
+
+            process.StandardInput.Write(@"cd " + real_path + Environment.NewLine);
+            process.StandardInput.Write(@"git " + command + " " + file_name + Environment.NewLine);
 
             process.StandardInput.Close(); // cmd  명령 입력 끝
 
