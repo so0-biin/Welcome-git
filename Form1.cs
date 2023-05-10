@@ -225,6 +225,8 @@ namespace FileManager
             commitMenu.Show(); // commitmenu 닫기 전에는 form1 제어 불가
             commitMenu.SetTextBeforeCommit(this.CurrentDirectory.Text, result);
             //button2.Enabled = false;
+            
+
         }
 
 
@@ -300,6 +302,20 @@ namespace FileManager
         public void setTextAfterCommit(string[] result, string commitMsg)
         {
             textBox1.Text += "Successfully Committed";
+
+            string directoryPath = this.CurrentDirectory.Text;
+
+            FilesListView.Items.Clear();
+            try
+            {
+                FilesListView.ShowFiles(directoryPath);
+                FilesListView.ShowDirectories(directoryPath);
+            }
+            catch
+            {
+
+            }
+
         }
     }
 }
