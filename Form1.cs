@@ -1,5 +1,6 @@
 ﻿using FileManager.Controls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FileManager
 {
@@ -212,7 +214,25 @@ namespace FileManager
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            CommitMenu commitMenu = new CommitMenu();
+            commitMenu.ShowDialog(); // commitmenu 닫기 전에는 form1 제어 불가
+            string[] gitStatus;
+            string[] result;
+
+            gitStatus = GetStatus(this.CurrentDirectory.Text);
+            result = FindStatus(gitStatus);
+
+            //textBox1.Text += "Changes to be committed: \r\n";
+            //textBox1.Text += "  (use \"git restore --staged <file>...\" to unstage)\r\n";
+            textBox1.Text += "[The list of staged changes]";
+            foreach(string staged in result)
+            {
+                if(String.IsNullOrEmpty(staged)) continue;
+                else
+                {
+                    textBox1.Text += staged + "\r\n";                           
+                }
+            }
         }
 
 
@@ -221,6 +241,73 @@ namespace FileManager
             this.toolTip1.ToolTipTitle = "Check please";
             this.toolTip1.IsBalloon = true;
             this.toolTip1.SetToolTip(this.button1, "Check exactly that the directory you want to initialize is correct.");
+        }
+
+        public string[] GetStatus(string path)
+        {           
+            string[] gitStatus;
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+            process.Start();
+            process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+            process.StandardInput.Write(@"git status" + Environment.NewLine);
+            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
+            process.StandardInput.Close();
+
+            StreamReader reader = process.StandardOutput;
+            string output = reader.ReadToEnd();            
+
+            gitStatus = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            process.WaitForExit();
+            process.Close();
+            return gitStatus;
+        }
+
+        public string[] FindStatus(string[] gitStatus)
+        {
+            string[] result = new string[gitStatus.Length]; 
+
+            bool flag = false;
+            int i = 0;
+            foreach (string status in gitStatus)
+            {
+                if (status.Equals("Changes to be committed:"))
+                    flag = true;
+                if (status.Equals("Changes not staged for commit:"))
+                    flag = false;
+                if (status.Equals("Untracked files:"))
+                    flag = false;
+                if (flag && status.Contains("modified: "))
+                {
+                    //textBox1.Text += status + " status in findstatus\n";
+                    result[i++] = status;
+                }                   
+                if (flag && status.Contains("new file: "))
+                {
+                    //textBox1.Text += status + " status in findstatus\n";
+                    result[i++] = status;
+                }                   
+            }
+
+            /*foreach(string hey in result)
+            {
+                textBox1.Text += hey + " hey";
+            }*/
+
+            if (result == null) //-> return 커밋할 파일이 존재하지 않아용
+                return result;
+            return result;
         }
     }
 }
