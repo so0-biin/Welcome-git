@@ -28,7 +28,7 @@ Welcome-git supports the version controlling of a git repository.
 
 (view more screenshots toggle, 우리의 기능들을 하나씩 보여주는 screenshot들 첨부, 너무 많으면 readme 지저분해지니까 toggle로 처리하기)
 
-## Development
+## Installation
 If you want to run this program in your local system, please follow this guide. 
 (여기에 우리 프로그램 실행하는 법 자세하게 적으면 될 듯, 여기에는 normal하게 잘 설치 되는 경우를 적고 만약에 중간에 문제가 생기면 goto 아래의 Common Problems로 가게 하기)
 1.
@@ -36,11 +36,15 @@ If you want to run this program in your local system, please follow this guide.
 3.
 
 
+## Build
+프로그램 빌드하는 방법 적으면 될 듯, 마찬가지로 문제 생기면 goto 아래의 Common Problems로 가게 하기
+
+
 ## Common Problems
-(Development를 하다가 문제가 발생하면 여기로 와서 해결 방안 알려주기)
+(run, build 하다가 문제가 발생하면 여기로 와서 해결 방안 알려주기, 위에를 자세히 적으면 얘는 없어도 될 것 같긴 함)
 
 
-## Bug Reporting and Feature Request.
+## Bug Reporting and Feature Request
 If you find any bugs, please report it by submitting an issue on our [issue page](https://github.com/so0-biin/Welcome-git/issues) with a detailed explanation. Giving some screenshots would also be very helpful. You can also submit a feature request on our [issue page](https://github.com/so0-biin/Welcome-git/issues) and we will try to implement it as soon as possible.
 
 
