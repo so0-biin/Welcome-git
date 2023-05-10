@@ -418,10 +418,20 @@ namespace FileManager.Controls
             if (e.Button.Equals(MouseButtons.Right))
             {
                 string path = (string)(sender as Explorer).SelectedItems[0].Tag;
+                string file_name = Path.GetFileName(path);
+                int index = path.IndexOf(file_name);
+                string real_path = path.Remove(index, file_name.Length);
+                real_path = real_path.TrimEnd('\\');
 
                 if (!Directory.Exists(path))
                 {
                     ContextMenuStrip m = new ContextMenuStrip();
+
+                    Dictionary<string, string> dict = new Dictionary<string, string>();
+                    dict.Add("real_path", real_path);
+                    dict.Add("file_name", file_name);
+
+                    m.Tag = dict;
 
                     m.Items.Add("git add (untracked)");
                     m.Items.Add("git add (modified)");
@@ -433,47 +443,78 @@ namespace FileManager.Controls
                     m.Show(PointToScreen(e.Location));
 
                     m.ItemClicked += m_ItemClicked;
+                    
                 }
             }
         }
         
         void m_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            Dictionary<string, string> dict = (sender as ContextMenuStrip).Tag as Dictionary<string, string>;
+
+            string real_path = dict["real_path"];
+            string file_name = dict["file_name"];
+
             switch (e.ClickedItem.Text)
             {
                 case "git add (untracked)":
-                    ProcessStartInfo cmd = new ProcessStartInfo();
-                    Process process = new Process();
-                    String directoryPath;
-                    cmd.FileName = @"cmd";
-                    cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
-                    cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
-
-                    cmd.UseShellExecute = false;
-                    cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
-                    cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
-                    cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
-
-                    process.EnableRaisingEvents = false;
-                    process.StartInfo = cmd;
-
-
-                    // cmd 다루기
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(this.CurrentDirectory.Text);
-                    directoryPath = sb.ToString();
-
-                    process.Start(); // cmd 명령 입히는거 시작                     
-                    process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
-                    process.StandardInput.Write(@"git init" + Environment.NewLine);
-
-                    process.StandardInput.Close(); // cmd  명령 입력 끝
-
-
-                    process.WaitForExit();
-                    process.Close(); // cmd 창을 닫음
+                    cmd_ex(real_path, file_name, "add");    
+                    break;
+                case "git add (modified)":
+                    cmd_ex(real_path, file_name, "add");
+                    break;
+                case "git restore":
+                    cmd_ex(real_path, file_name, "restore");
+                    break;
+                case "git restore --staged":
+                    cmd_ex(real_path, file_name, "restore --staged");
+                    break;
+                case "git rm --cached":
+                    cmd_ex(real_path, file_name, "rm --cached");
+                    break;
+                case "git rm":
+                    cmd_ex(real_path, file_name, "rm");
+                break;
+                case "git mv":
+                    cmd_ex(real_path, file_name, "mv");
                     break;
             }
+        }
+
+        void cmd_ex(String real_path, String file_name, String command)
+        {
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+            String directoryPath;
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+
+            // cmd 다루기
+            //StringBuilder sb = new StringBuilder();
+            //sb.Append(path);
+            //sb.Append(this.CurrentDirectory.Text);
+            //directoryPath = sb.ToString();
+
+            process.Start(); 
+            
+            // cmd 명령 입히는거 시작                     
+            
+             process.StandardInput.Write(@"cd " + real_path + Environment.NewLine);
+             process.StandardInput.Write(@"git " + command + " " + file_name + Environment.NewLine);
+
+            process.StandardInput.Close(); // cmd  명령 입력 끝
+
+            process.WaitForExit();
+            process.Close(); // cmd 창을 닫음
         }
     }
 }
