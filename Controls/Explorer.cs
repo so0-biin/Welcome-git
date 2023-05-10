@@ -411,9 +411,16 @@ namespace FileManager.Controls
                 int index = path.IndexOf(file_name);
                 string real_path = path.Remove(index, file_name.Length);
                 real_path = real_path.TrimEnd('\\');
+
                 if (!Directory.Exists(path))
                 {
                     ContextMenuStrip m = new ContextMenuStrip();
+
+                    Dictionary<string, string> dict = new Dictionary<string, string>();
+                    dict.Add("real_path", real_path);
+                    dict.Add("file_name", file_name);
+
+                    m.Tag = dict;
 
                     m.Items.Add("git add (untracked)");
                     m.Items.Add("git add (modified)");
@@ -432,18 +439,34 @@ namespace FileManager.Controls
         
         void m_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            
-            string path = (string)(sender as Explorer).SelectedItems[0].Tag;
-            string file_name = Path.GetFileName(path);
-            int index = path.IndexOf(file_name);
-            string real_path = path.Remove(index, file_name.Length);
-            real_path = real_path.TrimEnd('\\');
-            
+            Dictionary<string, string> dict = (sender as ContextMenuStrip).Tag as Dictionary<string, string>;
+
+            string real_path = dict["real_path"];
+            string file_name = dict["file_name"];
+
             switch (e.ClickedItem.Text)
             {
                 case "git add (untracked)":
                     cmd_ex(real_path, file_name, "add");    
+                    break;
+                case "git add (modified)":
+                    cmd_ex(real_path, file_name, "add");
+                    break;
+                case "git restore":
+                    cmd_ex(real_path, file_name, "restore");
+                    break;
+                case "git restore --staged":
+                    cmd_ex(real_path, file_name, "restore --staged");
+                    break;
+                case "git rm --cached":
+                    cmd_ex(real_path, file_name, "rm --cached");
+                    break;
+                case "git rm":
+                    cmd_ex(real_path, file_name, "rm");
                 break;
+                case "git mv":
+                    cmd_ex(real_path, file_name, "mv");
+                    break;
             }
         }
 
@@ -475,7 +498,7 @@ namespace FileManager.Controls
             // cmd 명령 입히는거 시작                     
             
              process.StandardInput.Write(@"cd " + real_path + Environment.NewLine);
-             process.StandardInput.Write(@"git" + command + " " + file_name + Environment.NewLine);
+             process.StandardInput.Write(@"git " + command + " " + file_name + Environment.NewLine);
 
             process.StandardInput.Close(); // cmd  명령 입력 끝
 
