@@ -91,6 +91,7 @@
     <Compile Include="SearchDialog.Designer.cs">
       <DependentUpon>SearchDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="StatusType.cs" />
     <EmbeddedResource Include="CommitMenu.resx">
       <DependentUpon>CommitMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,6 +172,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Archive.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\committed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\untracked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\staged.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\modified.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
