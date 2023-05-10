@@ -1,26 +1,30 @@
 # Welcome-git
 2023 Chungang-univ OSS Team10 project
+(screenshots)
+(view more screenshots toggle)
+
+## Installation
 
 
-# Project Roadmap
+
+## Bug Reporting
 
 
-### Installation
+
+## Feature Request
 
 
-### Bug Reporting
+
+## Common Problems
 
 
-### Feature Request
+
+## Architecture
 
 
-### Common Problems
+
+## Development
 
 
-### Architecture
 
-
-### Development
-
-
-### License
+## License
