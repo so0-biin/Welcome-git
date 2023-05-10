@@ -266,7 +266,7 @@ namespace FileManager.Controls
                         listViewItem.SubItems[0].ForeColor= Color.Blue;
                     else
                         listViewItem.SubItems[0].ForeColor = Color.Black;
-                    listViewItem.SubItems[1].ForeColor = listViewItem.SubItems[2].ForeColor = Color.Gray;
+                    listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
                     this.Items.Add(listViewItem);
                 }
@@ -319,7 +319,7 @@ namespace FileManager.Controls
                     this.SmallImageList.Images.Count - 1);
                 listViewItem.Tag = directory;
                 listViewItem.UseItemStyleForSubItems = false;
-                listViewItem.SubItems[1].ForeColor = listViewItem.SubItems[2].ForeColor = Color.Gray;
+                listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
                 this.Items.Add(listViewItem);
             }
