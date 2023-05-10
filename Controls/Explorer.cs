@@ -27,9 +27,6 @@ namespace FileManager.Controls
         private FileType Document;
         private FileType Folder;
 
-        private List<StatusType> StatusTypes;
-        private StatusType Committed;
-
         private System.Windows.Forms.ToolStripStatusLabel CurrentDirectory;
 
         public void Initialize()
@@ -56,7 +53,6 @@ namespace FileManager.Controls
             this.MouseClick += m_ListView_MouseClick;
 
             InitializeFileTypes();
-            InitializeStatusTypes();
         }
 
         public void InitializeFileTypes()
@@ -163,36 +159,6 @@ namespace FileManager.Controls
             };
         }
 
-
-        public void InitializeStatusTypes()
-        {
-            StatusType Staged = new StatusType()
-            {
-                Name = "Staged",
-                Image = Properties.Resources.Staged
-            };
-
-            StatusType Untracked = new StatusType()
-            {
-                Name = "Untracked",
-                Image = Properties.Resources.Untracked
-            };
-
-            StatusType Modified = new StatusType()
-            {
-                Name = "Modified",
-                Image = Properties.Resources.Modified
-            };
-
-            Committed = new StatusType()
-            {
-                Name = "Committed",
-                Image = Properties.Resources.Committed
-            };
-
-            StatusTypes = new List<StatusType> { Staged, Untracked, Modified };
-        }
-
         public string[] GetStatus(string path)
         {
 
@@ -261,7 +227,6 @@ namespace FileManager.Controls
         {
             List<string> files = new List<string>();
             FileType fileType;
-            StatusType statusType;
             string[] gitStatus = GetStatus(path);
 
             files.AddRange(Directory.GetFiles(path));
@@ -279,13 +244,11 @@ namespace FileManager.Controls
                     if (gitStatus != null)
                     {
                         status = FindStatus(gitStatus, Path.GetFileName(file));
-                        statusType = DetectStatusType(status);
-                        this.SmallImageList.Images.Add(statusType.Image);
                     }
-                    else
-                    {
-                        this.SmallImageList.Images.Add(fileType.Image);
-                    }
+                    
+                    
+                    this.SmallImageList.Images.Add(fileType.Image);
+                    
 
                     if (fileType.Name == "Picture")
                         this.LargeImageList.Images.Add(Image.FromFile(file));
@@ -303,13 +266,25 @@ namespace FileManager.Controls
                     listViewItem.Tag = file;
                     listViewItem.UseItemStyleForSubItems = false;
                     if (status.Equals("Untracked"))
+                    {
                         listViewItem.SubItems[0].ForeColor = Color.Red;
+                        listViewItem.SubItems[1].ForeColor = Color.Red;
+                    }
                     else if (status.Equals("Staged"))
+                    {
                         listViewItem.SubItems[0].ForeColor = Color.Green;
+                        listViewItem.SubItems[1].ForeColor = Color.Green;
+                    }
                     else if (status.Equals("Modified"))
+                    {
                         listViewItem.SubItems[0].ForeColor = Color.Blue;
+                        listViewItem.SubItems[1].ForeColor = Color.Blue;
+                    }
                     else
+                    {
                         listViewItem.SubItems[0].ForeColor = Color.Black;
+                        listViewItem.SubItems[1].ForeColor = Color.Black;
+                    }
                     listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
                     this.Items.Add(listViewItem);
@@ -410,17 +385,6 @@ namespace FileManager.Controls
 
             return Document;
         }
-
-        public StatusType DetectStatusType(string searchName)
-        {
-            foreach (StatusType type in StatusTypes)
-            {
-                if (searchName == type.Name)
-                    return type;
-            }
-            return Committed;
-        }
-
 
         private void FilesListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {

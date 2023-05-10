@@ -93,16 +93,6 @@ namespace FileManager.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Committed {
-            get {
-                object obj = ResourceManager.GetObject("Committed", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
         internal static System.Drawing.Bitmap Computer_16x {
             get {
                 object obj = ResourceManager.GetObject("Computer_16x", resourceCulture);
@@ -173,16 +163,6 @@ namespace FileManager.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Modified {
-            get {
-                object obj = ResourceManager.GetObject("Modified", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
         internal static System.Drawing.Bitmap Pdf {
             get {
                 object obj = ResourceManager.GetObject("Pdf", resourceCulture);
@@ -206,26 +186,6 @@ namespace FileManager.Properties {
         internal static System.Drawing.Bitmap Powerpoint {
             get {
                 object obj = ResourceManager.GetObject("Powerpoint", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap Staged {
-            get {
-                object obj = ResourceManager.GetObject("Staged", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap Untracked {
-            get {
-                object obj = ResourceManager.GetObject("Untracked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
