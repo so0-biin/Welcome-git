@@ -20,6 +20,24 @@ namespace FileManager
             label2.Text = "Enter a commit message";
             button1.Text = "Commit";    
             button2.Text = "Exit";
+            textBox1.ReadOnly = true;
+            textBox1.Enabled = false;
+            textBox1.Enabled = true;
+            //textBox1.Text += "check in this \r\n";
+        }
+        public void SetText(string[] result)
+        {
+            //textBox1.Text += "check in here \r\n";
+            foreach (string staged in result)
+            {
+                //textBox1.Text += "check in rear \r\n";
+                if (String.IsNullOrEmpty(staged)) continue;
+                else
+                {
+                    textBox1.Text += staged + "\r\n";
+                }
+            }
+                   
         }
 
         private void label1_Click(object sender, EventArgs e)

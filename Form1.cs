@@ -214,17 +214,20 @@ namespace FileManager
 
         private void button2_Click(object sender, EventArgs e)
         {
-            CommitMenu commitMenu = new CommitMenu();
-            commitMenu.ShowDialog(); // commitmenu 닫기 전에는 form1 제어 불가
+           
             string[] gitStatus;
             string[] result;
 
             gitStatus = GetStatus(this.CurrentDirectory.Text);
             result = FindStatus(gitStatus);
 
+            CommitMenu commitMenu = new CommitMenu();
+            commitMenu.Show(); // commitmenu 닫기 전에는 form1 제어 불가
+            commitMenu.SetText(result);
+
             //textBox1.Text += "Changes to be committed: \r\n";
             //textBox1.Text += "  (use \"git restore --staged <file>...\" to unstage)\r\n";
-            textBox1.Text += "[The list of staged changes]";
+            /*textBox1.Text += "[The list of staged changes]";
             foreach(string staged in result)
             {
                 if(String.IsNullOrEmpty(staged)) continue;
@@ -232,7 +235,7 @@ namespace FileManager
                 {
                     textBox1.Text += staged + "\r\n";                           
                 }
-            }
+            }*/
         }
 
 
