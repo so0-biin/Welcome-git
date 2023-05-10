@@ -423,6 +423,10 @@ namespace FileManager.Controls
                 string real_path = path.Remove(index, file_name.Length);
                 real_path = real_path.TrimEnd('\\');
 
+
+                ListViewItem item = (sender as Explorer).SelectedItems[0];
+                string status = item.SubItems[1].Text;
+
                 if (!Directory.Exists(path))
                 {
                     ContextMenuStrip m = new ContextMenuStrip();
@@ -433,13 +437,26 @@ namespace FileManager.Controls
 
                     m.Tag = dict;
 
-                    m.Items.Add("git add (untracked)");
-                    m.Items.Add("git add (modified)");
-                    m.Items.Add("git restore");
-                    m.Items.Add("git restore --staged");
-                    m.Items.Add("git rm --cached");
-                    m.Items.Add("git rm");
-                    m.Items.Add("git mv");
+                    if (status.Equals("untracked"))
+                    {
+                        m.Items.Add("git add (untracked)");
+                    }
+                    else if (status.Equals("modified"))
+                    {
+                        m.Items.Add("git add (modified)");
+                        m.Items.Add("git restore");
+                    }
+                    else if (status.Equals("staged"))
+                    {
+                        m.Items.Add("git restore --staged");
+                    }
+                    else
+                    {
+                        m.Items.Add("git rm --cached");
+                        m.Items.Add("git rm");
+                        m.Items.Add("git mv");
+                    }
+
                     m.Show(PointToScreen(e.Location));
 
                     m.ItemClicked += m_ItemClicked;
