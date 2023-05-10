@@ -1,7 +1,7 @@
 # Welcome-git
 2023 Chungang-univ OSS Team10 project
 
-Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. You can see more details about [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
+Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. The original file explorer used to create our program is [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
 
 Feature #1. File explorer
 
@@ -15,6 +15,14 @@ Welcome-git supports to turn any local directory into a git repository.
 
 - It provides a "git init" button as menu for a git repository creation only if a current directory in the browser is not managed by git yet.
 - Once the repository creation is requested, the service creates a new git repository for the current working directory.
+
+Feature #3. Version controlling
+
+Welcome-git supports the version controlling of a git repository.
+
+- Files with different status have a different mark on their icon.
+- It provides a different menu depending on the status(untracked/modified/staged/committed or unmodified) of a selected file.
+- It provides a "git commit" button as separate menu for committing staged changes.
 
 (screenshots)
 
