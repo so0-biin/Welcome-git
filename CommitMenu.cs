@@ -15,6 +15,21 @@ namespace FileManager
         public CommitMenu()
         {
             InitializeComponent();
+
+            label1.Text = "The list of Staged Changes";
+            label2.Text = "Enter a commit message";
+            button1.Text = "Commit";    
+            button2.Text = "Exit";
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
