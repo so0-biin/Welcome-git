@@ -242,7 +242,7 @@ namespace FileManager.Controls
                     return NameStatus(status);
                 }
             }
-            return "unmodified/committed";
+            return "Unmodified/Committed";
         }
 
         public string NameStatus(string status)
@@ -302,11 +302,11 @@ namespace FileManager.Controls
 
                     listViewItem.Tag = file;
                     listViewItem.UseItemStyleForSubItems = false;
-                    if (status.Equals("untracked"))
+                    if (status.Equals("Untracked"))
                         listViewItem.SubItems[0].ForeColor = Color.Red;
-                    else if (status.Equals("staged"))
+                    else if (status.Equals("Staged"))
                         listViewItem.SubItems[0].ForeColor = Color.Green;
-                    else if (status.Equals("modified"))
+                    else if (status.Equals("Modified"))
                         listViewItem.SubItems[0].ForeColor = Color.Blue;
                     else
                         listViewItem.SubItems[0].ForeColor = Color.Black;
