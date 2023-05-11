@@ -22,11 +22,9 @@ namespace FileManager
         {
             InitializeComponent();            
 
-
-
             FilesListView = new Explorer();
             FilesListView.Initialize();
-            SplitContainer.Panel2.Controls.Add(FilesListView);
+            splitContainer1.Panel1.Controls.Add(FilesListView);
 
             InitializeViewOptions();
 
@@ -329,19 +327,18 @@ namespace FileManager
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void SplitContainer_Panel2_Paint(object sender, PaintEventArgs e)
         {
-            string directoryPath = this.CurrentDirectory.Text;
-            FilesListView.Items.Clear();
-            try
-            {
-                FilesListView.ShowFiles(directoryPath);
-                FilesListView.ShowDirectories(directoryPath);               
-            }
-            catch
-            {
 
-            }
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
