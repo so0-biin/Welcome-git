@@ -201,7 +201,7 @@ namespace FileManager.Controls
         {
             foreach (string status in gitStatus)
             {
-                if (status.Contains(fileName))
+                if (status.Contains(" " + fileName))
                 {
                     return NameStatus(status);
                 }
@@ -579,11 +579,6 @@ namespace FileManager.Controls
             process.StartInfo = cmd;
 
             // cmd 다루기
-            //StringBuilder sb = new StringBuilder();
-            //sb.Append(path);
-            //sb.Append(this.CurrentDirectory.Text);
-            //directoryPath = sb.ToString();
-
             process.Start();
 
             // cmd 명령 입히는거 시작                     
