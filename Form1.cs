@@ -223,8 +223,7 @@ namespace FileManager
             CommitMenu commitMenu = new CommitMenu(this);
             commitMenu.Show(); // commitmenu 닫기 전에는 form1 제어 불가
             commitMenu.SetTextBeforeCommit(this.CurrentDirectory.Text, result);
-            //button2.Enabled = false;
-            
+                       
 
         }
 
