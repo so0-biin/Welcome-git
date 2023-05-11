@@ -219,10 +219,10 @@ namespace FileManager.Controls
                 return "Staged";
             if (status.Contains(@"R  "))
                 return "Staged";
-            if (status.Contains(@" M "))
-                return "Modified";
             if (status.Contains(@"M  "))
                 return "Staged";
+            if (status.Contains(@" M "))
+                return "Modified";
 
             if (status.Contains(@"MM "))
                 return "Modified & Staged";
@@ -482,13 +482,13 @@ namespace FileManager.Controls
                     }
                     else if (status.Equals("Staged"))
                     {
-                        m.Items.Add("git restore --stage (off stage)");
+                        m.Items.Add("git restore --staged (off stage)");
                     }
                     else if (status.Equals("Modified & Staged"))
                     {
                         m.Items.Add("git add (on stage)");
                         m.Items.Add("git restore (undo change)");
-                        m.Items.Add("git restore --stage (off stage)");
+                        m.Items.Add("git restore --staged (off stage)");
                     }
                     else
                     {
