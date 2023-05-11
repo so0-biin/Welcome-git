@@ -31,7 +31,7 @@ namespace FileManager
             textBox1.ReadOnly = true;
             button1.Text = "Create git repository";
             button2.Text = "Commit";
-            button3.Text = "Refresh";
+            //button3.Text = "Refresh";
 
         }
 
