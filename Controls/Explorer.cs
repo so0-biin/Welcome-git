@@ -514,7 +514,74 @@ namespace FileManager.Controls
                     cmd_ex(real_path, file_name, "rm");
                     break;
                 case "git mv":
-                    cmd_ex(real_path, file_name, "mv");
+                    Form inputForm = new Form();
+
+                    inputForm.Text = "write new file name";
+                    TextBox inputBox = new TextBox();
+                    inputBox.Location = new Point(10, 10);
+                    inputForm.Controls.Add(inputBox);
+
+                    Button okButton = new Button();
+                    okButton.Text = "OK";
+
+                    okButton.DialogResult = DialogResult.OK;
+                    okButton.Location = new Point(10, 50);
+                    inputForm.Controls.Add(okButton);
+
+                    DialogResult result = inputForm.ShowDialog();
+                    string newFileName = "";
+                    if (result == DialogResult.OK)
+                    {
+                        newFileName = inputBox.Text;
+                    }
+
+                    ProcessStartInfo cmd = new ProcessStartInfo();
+                    Process process = new Process();
+
+                    cmd.FileName = @"cmd";
+                    cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+                    cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+                    cmd.UseShellExecute = false;
+                    cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+                    cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+                    cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+                    process.EnableRaisingEvents = false;
+                    process.StartInfo = cmd;
+
+                    // cmd 다루기
+                    //StringBuilder sb = new StringBuilder();
+                    //sb.Append(path);
+                    //sb.Append(this.CurrentDirectory.Text);
+                    //directoryPath = sb.ToString();
+
+                    process.Start();
+
+                    // cmd 명령 입히는거 시작                     
+
+                    process.StandardInput.Write(@"cd " + real_path + Environment.NewLine);
+                    process.StandardInput.Write(@"git mv " + file_name + " " + newFileName + Environment.NewLine);
+
+                    process.StandardInput.Close(); // cmd  명령 입력 끝
+
+                    process.WaitForExit();
+                    process.Close(); // cmd 창을 닫음
+
+                    this.Items.Clear();
+                    this.LargeImageList.Images.Clear();
+                    this.SmallImageList.Images.Clear();
+
+                    try
+                    {
+                        this.ShowFiles(real_path);
+                        this.ShowDirectories(real_path);
+                    }
+                    catch
+                    {
+
+                    }
+
                     break;
             }
         }
