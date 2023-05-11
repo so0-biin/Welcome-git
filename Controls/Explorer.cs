@@ -223,6 +223,13 @@ namespace FileManager.Controls
                 return "Modified";
             if (status.Contains(@"M  "))
                 return "Staged";
+
+            if (status.Contains(@"MM "))
+                return "Modified & Staged";
+            if (status.Contains(@"AM "))
+                return "Modified & Staged";
+            if (status.Contains(@"RM "))
+                return "Modified & Staged";
             return "";
         }
         public void ShowFiles(string path)
@@ -281,6 +288,11 @@ namespace FileManager.Controls
                     {
                         listViewItem.SubItems[0].ForeColor = Color.Blue;
                         listViewItem.SubItems[1].ForeColor = Color.Blue;
+                    }
+                    else if (status.Equals("Modified & Staged"))
+                    {
+                        listViewItem.SubItems[0].ForeColor = Color.Green; 
+                        listViewItem.SubItems[1].ForeColor = Color.Red;
                     }
                     else
                     {
@@ -470,6 +482,12 @@ namespace FileManager.Controls
                     }
                     else if (status.Equals("Staged"))
                     {
+                        m.Items.Add("git restore --stage (off stage)");
+                    }
+                    else if (status.Equals("Modified & Staged"))
+                    {
+                        m.Items.Add("git add (on stage)");
+                        m.Items.Add("git restore (undo change)");
                         m.Items.Add("git restore --stage (off stage)");
                     }
                     else
