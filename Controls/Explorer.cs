@@ -211,9 +211,13 @@ namespace FileManager.Controls
 
         public string NameStatus(string status)
         {
+            if (status.Contains(@"D  "))
+                return "Untracked";
             if (status.Contains(@"?? "))
                 return "Untracked";
             if (status.Contains(@"A  "))
+                return "Staged";
+            if (status.Contains(@"R  "))
                 return "Staged";
             if (status.Contains(@" M "))
                 return "Modified";

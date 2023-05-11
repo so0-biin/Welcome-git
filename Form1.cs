@@ -297,6 +297,11 @@ namespace FileManager
                     //textBox1.Text += status + " status in findstatus\n";
                     result[i++] = status;
                 }
+                if (flag && status.Contains("renamed: "))
+                {
+                    //textBox1.Text += status + " status in findstatus\n";
+                    result[i++] = status;
+                }
             }
 
             if (result == null) //-> return 커밋할 파일이 존재하지 않아용
