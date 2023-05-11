@@ -461,22 +461,22 @@ namespace FileManager.Controls
 
                     if (status.Equals("Untracked"))
                     {
-                        m.Items.Add("git add (untracked)");
+                        m.Items.Add("git add (on stage)");
                     }
                     else if (status.Equals("Modified"))
                     {
-                        m.Items.Add("git add (modified)");
-                        m.Items.Add("git restore");
+                        m.Items.Add("git add (on stage)");
+                        m.Items.Add("git restore (undo change)");
                     }
                     else if (status.Equals("Staged"))
                     {
-                        m.Items.Add("git restore --staged");
+                        m.Items.Add("git restore --stage (off stage)");
                     }
                     else
                     {
-                        m.Items.Add("git rm --cached");
-                        m.Items.Add("git rm");
-                        m.Items.Add("git mv");
+                        m.Items.Add("git rm --cached (untrack file)");
+                        m.Items.Add("git rm (delete)");
+                        m.Items.Add("git mv (change file name)");
                     }
 
                     m.Show(PointToScreen(e.Location));
@@ -495,25 +495,22 @@ namespace FileManager.Controls
 
             switch (e.ClickedItem.Text)
             {
-                case "git add (untracked)":
+                case "git add (on stage)":
                     cmd_ex(real_path, file_name, "add");
                     break;
-                case "git add (modified)":
-                    cmd_ex(real_path, file_name, "add");
-                    break;
-                case "git restore":
+                case "git restore (undo change)":
                     cmd_ex(real_path, file_name, "restore");
                     break;
-                case "git restore --staged":
+                case "git restore --staged (off stage)":
                     cmd_ex(real_path, file_name, "restore --staged");
                     break;
-                case "git rm --cached":
+                case "git rm --cached (untrack file)":
                     cmd_ex(real_path, file_name, "rm --cached");
                     break;
-                case "git rm":
+                case "git rm (delete)":
                     cmd_ex(real_path, file_name, "rm");
                     break;
-                case "git mv":
+                case "git mv (change file name)":
                     Form inputForm = new Form();
 
                     inputForm.Text = "write new file name";

@@ -31,8 +31,8 @@ namespace FileManager
             InitializeViewOptions();
 
             textBox1.ReadOnly = true;
-            button1.Text = "git init";
-            button2.Text = "git commit";
+            button1.Text = "Create git repository";
+            button2.Text = "Commit";
 
         }
 
