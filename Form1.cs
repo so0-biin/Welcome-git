@@ -309,7 +309,7 @@ namespace FileManager
 
         public void setTextAfterCommit(string[] result, string commitMsg)
         {
-            textBox1.Text += "Successfully Committed";
+            textBox1.Text += "Successfully Committed!\r\n" + commitMsg;
 
             string directoryPath = this.CurrentDirectory.Text;
 

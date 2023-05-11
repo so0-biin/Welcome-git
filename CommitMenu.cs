@@ -10,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Interop;
 
 namespace FileManager
 {
@@ -99,8 +100,27 @@ namespace FileManager
             process.Start(); // cmd 명령 입히는거 시작                     
             process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
 
+            string commitMsg = textBox2.Text.Replace("\r\n", " / ");
+            process.StandardInput.Write(@"git commit -m " + "\"" + commitMsg + "\"" + Environment.NewLine);
 
-            process.StandardInput.Write(@"git commit -m " + "\"" + textBox2.Text + "\"" + Environment.NewLine);
+
+            /*
+             * string[] commitMsg = textBox2.Text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            process.StandardInput.Write(@"git commit -m " + "\"" + commitMsg[0] + Environment.NewLine);for(int i = 1; i < commitMsg.Length; i++)
+            {
+                
+                if(i == commitMsg.Length - 1) // 마지막 line
+                {
+                    process.StandardInput.Write(@"" + commitMsg[i] + "\"" + Environment.NewLine);
+                }
+                else
+                {
+                    process.StandardInput.Write(@"" + commitMsg[i] + Environment.NewLine);
+                }
+            }*/
+
+            //process.StandardInput.Write(@"\"" + Environment.NewLine);
+
 
             process.StandardInput.Close(); // cmd  명령 입력 끝
 
