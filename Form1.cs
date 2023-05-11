@@ -31,7 +31,7 @@ namespace FileManager
             textBox1.ReadOnly = true;
             button1.Text = "Create git repository";
             button2.Text = "Commit";
-            //button3.Text = "Refresh";
+            button3.Text = "Refresh";
 
         }
 
@@ -340,6 +340,21 @@ namespace FileManager
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string directoryPath = this.CurrentDirectory.Text;
+            FilesListView.Items.Clear();
+            try
+            {
+                FilesListView.ShowFiles(directoryPath);
+                FilesListView.ShowDirectories(directoryPath);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

@@ -105,7 +105,6 @@ namespace FileManager.Controls
                 return;
 
             Initialize();
-            //AddDirectories("C:", this.Nodes[0]);
             this.Nodes[0].Expand();
         }
 
