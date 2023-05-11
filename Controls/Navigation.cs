@@ -18,7 +18,7 @@ namespace FileManager.Controls
                 Properties.Resources.HardDrive_16x, Properties.Resources.CDDrive_16x,
                 Properties.Resources.FolderClosed_16x, Properties.Resources.FolderOpened_16x });
 
-            ImageListTreeView.Images.SetKeyName(0, "Computer");
+            //ImageListTreeView.Images.SetKeyName(0, "Computer");
             ImageListTreeView.Images.SetKeyName(1, "HardDrive");
             ImageListTreeView.Images.SetKeyName(2, "CDDrive");
             ImageListTreeView.Images.SetKeyName(3, "ClosedFolder");
@@ -26,13 +26,32 @@ namespace FileManager.Controls
 
             this.ImageList = ImageListTreeView;
 
-            TreeNode RootNode = new TreeNode();
-            RootNode.Name = "Computer";
-            RootNode.Text = "My Computer";
-            RootNode.ImageIndex = RootNode.SelectedImageIndex = this.ImageList.Images.IndexOfKey("Computer");
-            RootNode.Tag = null;
+            TreeNode parent = new TreeNode();
+            parent.Name = "C:\\";
+            parent.Text = "C:\\";
+            parent.ImageIndex = parent.SelectedImageIndex = this.ImageList.Images.IndexOfKey("HardDrive");
+            parent.Tag = "C:\\";
 
-            this.Nodes.Add(RootNode);
+
+
+            string[] directories = Directory.GetDirectories("C:\\");
+
+            foreach (string directory in directories)
+            {
+                TreeNode node = new TreeNode()
+                {
+                    Name = Path.GetFileName(directory),
+                    Text = Path.GetFileName(directory),
+                    Tag = directory
+                };
+
+
+                node.ImageIndex = node.SelectedImageIndex = this.ImageList.Images.IndexOfKey("ClosedFolder");
+
+                parent.Nodes.Add(node);
+            }
+
+            this.Nodes.Add(parent);
         }
 
         private void AddDirectories(string path, TreeNode parent)
@@ -86,7 +105,7 @@ namespace FileManager.Controls
                 return;
 
             Initialize();
-            AddDirectories(null, this.Nodes[0]);
+            //AddDirectories("C:", this.Nodes[0]);
             this.Nodes[0].Expand();
         }
 
