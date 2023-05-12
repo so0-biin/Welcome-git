@@ -26,7 +26,8 @@ Welcome-git supports the version controlling of a git repository.
 - Files with different status have a different mark on their icon.
 - It provides a different menu depending on the status(untracked/modified/staged/committed or unmodified) of a selected file.
 - It provides a "git commit" button as separate menu for committing staged changes.
-[![Demo_video](http://img.youtube.com/vi/6CNpSh8Mkyw/3.jpg)](htttps://youtu.be/6CNpSh8Mkyw?t=0s)
+
+[![Demo](https://img.youtube.com/vi/6CNpSh8Mkyw/maxresdefault.jpg)](https://www.youtube.com/watch?v=6CNpSh8Mkyw)
 
 (screenshots, 전체적인 화면 캡쳐해서 보여주기) 
 
@@ -37,7 +38,7 @@ If you want to run this program in your local system, please follow this guide.
 
 #### 1. Prerequisites
 
-[![Demo](https://img.youtube.com/vi/6CNpSh8Mkyw/maxresdefault.jpg)](https://www.youtube.com/watch?v=6CNpSh8Mkyw)
+[Visual Studio 2022](https://visualstudio.microsoft.com/ko/vs/community/) with the following components
 
 * Install ".NET desktop development" in Visual Studio installer Workloads.
 * Install ".NET 6.0 Runtime", ".NET 7.0 Runtime" in Visual Studio installer Individual components.
