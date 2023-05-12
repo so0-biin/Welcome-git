@@ -479,10 +479,12 @@ namespace FileManager.Controls
                     {
                         m.Items.Add("git add (on stage)");
                         m.Items.Add("git restore (undo change)");
+                        m.Items.Add("git rm --cached (untrack file)");
                     }
                     else if (status.Equals("Staged"))
                     {
                         m.Items.Add("git restore --staged (off stage)");
+                        m.Items.Add("git rm --cached (untrack file)");
                     }
                     else if (status.Equals("Modified & Staged"))
                     {
