@@ -37,7 +37,7 @@ If you want to run this program in your local system, please follow this guide.
 
 #### 1. Prerequisites
 
-<iframe width="887" height="499" src="https://www.youtube.com/embed/6CNpSh8Mkyw" title="oss project team10 demovideo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Demo](https://img.youtube.com/vi/6CNpSh8Mkyw/maxresdefault.jpg)](https://www.youtube.com/watch?v=6CNpSh8Mkyw)
 
 * Install ".NET desktop development" in Visual Studio installer Workloads.
 * Install ".NET 6.0 Runtime", ".NET 7.0 Runtime" in Visual Studio installer Individual components.
