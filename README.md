@@ -60,8 +60,8 @@ To build Files for development, open the **FileManager.sln** item in Visual Stud
 
 ## Common Problems
 
-!!!! 우리의 개발 문제가 아니라 file manager의 문제로 인해 어쩔 수 없는 상황인 경우 명시해주는게 어떤가??!!!
-
+- As the operation does not work when a korean titled file is created, please create file names only in English.
+- Due to the absence of the redirection function in the internal navigation panel of the file browser, the program cannot load newly created directories from external sources while it is running. Therefore, although a new directory appears in the right Explorer, clicking it takes you to an entirely different path. To use the new directory, you need to create it first and then start the program.
 
 ## Bug Reporting and Feature Request
 If you find any bugs, please report it by submitting an issue on our [issue page](https://github.com/so0-biin/Welcome-git/issues) with a detailed explanation. Giving some screenshots would also be very helpful. You can also submit a feature request on our [issue page](https://github.com/so0-biin/Welcome-git/issues) and we will try to implement it as soon as possible.
