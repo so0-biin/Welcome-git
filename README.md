@@ -37,8 +37,7 @@ If you want to run this program in your local system, please follow this guide.
 
 #### 1. Prerequisites
 
-[Visual Studio 2022](https://visualstudio.microsoft.com/ko/vs/community/) with the following components
-
+<iframe width="956" height="538" src="https://www.youtube.com/embed/6CNpSh8Mkyw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 * Install ".NET desktop development" in Visual Studio installer Workloads.
 * Install ".NET 6.0 Runtime", ".NET 7.0 Runtime" in Visual Studio installer Individual components.
 
