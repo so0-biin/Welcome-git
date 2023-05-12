@@ -28,7 +28,8 @@ Welcome-git supports the version controlling of a git repository.
 - It provides a different menu depending on the status(untracked/modified/staged/committed or unmodified) of a selected file.
 - It provides a "git commit" button as separate menu for committing staged changes.
 
-[![Demo](https://img.youtube.com/vi/6CNpSh8Mkyw/maxresdefault.jpg)](https://www.youtube.com/watch?v=6CNpSh8Mkyw)
+[![Demo](
+https://i.ytimg.com/an_webp/6CNpSh8Mkyw/mqdefault_6s.webp?du=3000&sqp=CIC8-aIG&rs=AOn4CLCo96RzwFktzjY3CoER5SbsL7QpBA.jpg)](https://www.youtube.com/watch?v=6CNpSh8Mkyw)
 
 (screenshots, 전체적인 화면 캡쳐해서 보여주기) 
 
