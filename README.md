@@ -7,7 +7,7 @@
 Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. The original file explorer used to create our program is [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
 
 Feature #1. File explorer
-
+![git_init](https://github.com/so0-biin/Welcome-git/assets/69229909/1085a290-0530-4cf0-8fdb-c6a8446129b8)
 - The file browsing starts from the root directory(C:\) of the computer.
 - All files and directories included in the current directory are displayed with their icon, name, and extensions(Status, Date Modified, Type).
 - A user can browse a directory by double clicking its icon.
