@@ -18,7 +18,6 @@ namespace FileManager.Controls
                 Properties.Resources.HardDrive_16x, Properties.Resources.CDDrive_16x,
                 Properties.Resources.FolderClosed_16x, Properties.Resources.FolderOpened_16x });
 
-            //ImageListTreeView.Images.SetKeyName(0, "Computer");
             ImageListTreeView.Images.SetKeyName(1, "HardDrive");
             ImageListTreeView.Images.SetKeyName(2, "CDDrive");
             ImageListTreeView.Images.SetKeyName(3, "ClosedFolder");

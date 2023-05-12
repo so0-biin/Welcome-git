@@ -282,22 +282,18 @@ namespace FileManager
                     flag = false;
                 if (flag && status.Contains("modified: "))
                 {
-                    //textBox1.Text += status + " status in findstatus\n";
                     result[i++] = status;
                 }                   
                 if (flag && status.Contains("new file: "))
                 {
-                    //textBox1.Text += status + " status in findstatus\n";
                     result[i++] = status;
                 }
                 if (flag && status.Contains("deleted: "))
                 {
-                    //textBox1.Text += status + " status in findstatus\n";
                     result[i++] = status;
                 }
                 if (flag && status.Contains("renamed: "))
                 {
-                    //textBox1.Text += status + " status in findstatus\n";
                     result[i++] = status;
                 }
             }

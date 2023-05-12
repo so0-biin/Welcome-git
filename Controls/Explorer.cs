@@ -329,7 +329,6 @@ namespace FileManager.Controls
                 directoryPath = directoryPath.Substring(0, directoryPath.LastIndexOf('\\'));
                 if (directoryPath == @"C:") return false;
             }
-            //directoryPath = System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString();
             return true;
         }
 
