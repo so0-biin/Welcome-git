@@ -1,4 +1,7 @@
 # Welcome-git
+
+## Introduction
+
 2023 Chungang-univ OSS Team10 project
 
 Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. The original file explorer used to create our program is [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
@@ -31,14 +34,18 @@ Welcome-git supports the version controlling of a git repository.
 ## Build
 If you want to run this program in your local system, please follow this guide. 
 
-# 1. Prerequisites
+#### 1. Prerequisites
 
 [Visual Studio 2022](https://visualstudio.microsoft.com/ko/vs/community/) with the following components
 
-*Install ".NET desktop development" in Visual Studio installer Workloads.
-*Install ".NET 6.0 Runtime", ".NET 7.0 Runtime" in Visual Studio installer Individual components.
+* Install ".NET desktop development" in Visual Studio installer Workloads.
+* Install ".NET 6.0 Runtime", ".NET 7.0 Runtime" in Visual Studio installer Individual components.
 
-# 2. Clone the repository
+<p align = "center"><img src = "https://github.com/so0-biin/Welcome-git/assets/81238093/441c8b03-5658-4457-8824-d823caa17685.png" width = "70%" height = "70%"></p>
+<p align = "center"><img src = "https://github.com/so0-biin/Welcome-git/assets/81238093/68860198-af30-469e-b023-6aabef4358b0.png" width = "70%" height = "70%"></p>
+
+
+#### 2. Clone the repository
 
 
     git clone https://github.com/so0-biin/Welcome-git.git
@@ -46,9 +53,9 @@ If you want to run this program in your local system, please follow this guide.
 
 This will create a local copy of the repository.
 
-# 3. Build the project
+#### 3. Build the project
 
-To build Files for development, open the FileManager.sln item in Visual Studio.
+To build Files for development, open the **FileManager.sln** item in Visual Studio.
 
 
 ## Common Problems
