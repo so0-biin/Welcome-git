@@ -41,7 +41,7 @@ namespace FileManager.Controls
             this.SmallImageList.ImageSize = SmallIconSize;
             this.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
             this.Columns.Add("Name", 150, HorizontalAlignment.Left);
-            this.Columns.Add("Status", 75, HorizontalAlignment.Left);
+            this.Columns.Add("Status", 150, HorizontalAlignment.Left);
             this.Columns.Add("Date Modified", 150, HorizontalAlignment.Left);
             this.Columns.Add("Type", 100, HorizontalAlignment.Left);
 
