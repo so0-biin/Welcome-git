@@ -7,7 +7,7 @@
 Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. The original file explorer used to create our program is [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
 
 Feature #1. File explorer
-![git_init](https://github.com/so0-biin/Welcome-git/assets/69229909/e6268b3a-049e-4139-9857-5385fc719cbe)
+![git_init](https://github.com/so0-biin/Welcome-git/assets/69229909/d4f6bf37-e17d-4c4d-b9b5-efe48ffac1b3)
 
 - The file browsing starts from the root directory(C:\) of the computer.
 - All files and directories included in the current directory are displayed with their icon, name, and extensions(Status, Date Modified, Type).
@@ -40,9 +40,8 @@ If you want to run this program in your local system, please follow this guide.
 * Install ".NET desktop development" in Visual Studio installer Workloads.
 * Install ".NET 6.0 Runtime", ".NET 7.0 Runtime" in Visual Studio installer Individual components.
 
-<p align = "center"><img src = "https://github.com/so0-biin/Welcome-git/assets/81238093/441c8b03-5658-4457-8824-d823caa17685.png" width = "70%" height = "70%"></p>
-<p align = "center"><img src = "https://github.com/so0-biin/Welcome-git/assets/81238093/68860198-af30-469e-b023-6aabef4358b0.png" width = "70%" height = "70%"></p>
-
+![dotnet](https://github.com/so0-biin/Welcome-git/assets/69229909/f90efca9-13fd-4fb1-b134-8a522c23aacd)
+![workload](https://github.com/so0-biin/Welcome-git/assets/69229909/f9ef9d9e-59a2-49cb-9795-0cffa4693198)
 
 #### 2. Clone the repository
 
@@ -53,6 +52,8 @@ If you want to run this program in your local system, please follow this guide.
 This will create a local copy of the repository.
 
 #### 3. Build the project
+
+![run_btn](https://github.com/so0-biin/Welcome-git/assets/69229909/147b8160-a1e4-40f6-91a3-501d3079b98a)
 
 To build Files for development, open the **FileManager.sln** item in Visual Studio.
 
