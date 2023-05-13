@@ -30,10 +30,6 @@ Welcome-git supports the version controlling of a git repository.
 
 [![Demo_video](http://img.youtube.com/vi/ro7aTemv6Us/0.jpg)](https://youtu.be/ro7aTemv6Us)
 
-(screenshots, 전체적인 화면 캡쳐해서 보여주기) 
-
-(view more screenshots toggle, 우리의 기능들을 하나씩 보여주는 screenshot들 첨부, 너무 많으면 readme 지저분해지니까 toggle로 처리하기)
-
 ## Build
 If you want to run this program in your local system, please follow this guide. 
 
