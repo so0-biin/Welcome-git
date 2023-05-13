@@ -53,9 +53,11 @@ This will create a local copy of the repository.
 
 #### 3. Build the project
 
+To build Files for development, open the **FileManager.sln** item in Visual Studio.
+
 ![run_btn](https://github.com/so0-biin/Welcome-git/assets/69229909/147b8160-a1e4-40f6-91a3-501d3079b98a)
 
-To build Files for development, open the **FileManager.sln** item in Visual Studio.
+Click the run button and Enjoy our program!
 
 
 ## Common Problems
