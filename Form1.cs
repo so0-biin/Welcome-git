@@ -32,6 +32,8 @@ namespace FileManager
             button1.Text = "Create git repository";
             button2.Text = "Commit";
             button3.Text = "Refresh";
+            button4.Text = "Clone git repository";
+            button5.Text = "History";
 
         }
 
@@ -352,10 +354,16 @@ namespace FileManager
 
             }
         }
-
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click_1(Object sender, EventArgs e)
         {
+            CloneMenu cloneMenu = new CloneMenu();
+            cloneMenu.Show();
+        }
 
+        private void button5_Click(object sender, EventArgs e)
+        {            
+            HistoryMenu historyMenu = new HistoryMenu();
+            historyMenu.Show();
         }
     }
 }
