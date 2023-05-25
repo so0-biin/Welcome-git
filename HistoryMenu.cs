@@ -12,9 +12,11 @@ namespace FileManager
 {
     public partial class HistoryMenu : Form
     {
-        public HistoryMenu()
+        string currentDirectory;
+        public HistoryMenu(string data)
         {
             InitializeComponent();
+            currentDirectory = data;
         }
 
         private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
@@ -34,7 +36,7 @@ namespace FileManager
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Merge merge = new Merge();
+            Merge merge = new Merge(currentDirectory);
             merge.Show();
         }
     }
