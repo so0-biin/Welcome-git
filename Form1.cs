@@ -358,6 +358,7 @@ namespace FileManager
         {
             CloneMenu cloneMenu = new CloneMenu();
             cloneMenu.Show();
+            cloneMenu.SetPathBeforeCommit(this.CurrentDirectory.Text);
         }
 
         private void button5_Click(object sender, EventArgs e)

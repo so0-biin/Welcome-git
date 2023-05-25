@@ -103,6 +103,9 @@
     <Compile Include="SearchDialog.Designer.cs">
       <DependentUpon>SearchDialog.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CloneMenu.resx">
+      <DependentUpon>CloneMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CommitMenu.resx">
       <DependentUpon>CommitMenu.cs</DependentUpon>
     </EmbeddedResource>
