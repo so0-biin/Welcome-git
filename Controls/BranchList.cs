@@ -26,7 +26,7 @@ namespace FileManager.Controls
             this.MouseClick += Branch_ListView_MouseClick;
         }
 
-        public string[] BranchCommand(string path, string command, string branch)
+        public string[] GetBranch(string path)
         {
             string[] branchList;
             ProcessStartInfo cmd = new ProcessStartInfo();
@@ -44,7 +44,7 @@ namespace FileManager.Controls
             process.StartInfo = cmd;
             process.Start();
             process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-            process.StandardInput.Write(@"git " + command + " " + branch + Environment.NewLine);
+            process.StandardInput.Write(@"git branch" + Environment.NewLine);
 
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
             process.StandardInput.Close();
@@ -57,6 +57,7 @@ namespace FileManager.Controls
 
             return branchList;
         }
+
         public string[] FilterBranch(string[] cmdResult)
         {
             string[] branchList = new string[cmdResult.Length];
@@ -74,7 +75,7 @@ namespace FileManager.Controls
         public void ShowBranches(string path)
         {
             currentDirectory = path;
-            string[] cmdResult = BranchCommand(path, "branch", "");
+            string[] cmdResult = GetBranch(path);
             string[] branches = FilterBranch(cmdResult);
 
             this.BeginUpdate();
@@ -124,11 +125,81 @@ namespace FileManager.Controls
             switch(e.ClickedItem.Text)
             {
                 case "branch delete":
+                    BranchCommand(currentDirectory, "branch -d", currentBranch);
                     break;
                 case "branch rename":
+                    Form inputForm = new Form();
+
+                    inputForm.Text = "rename branch";
+                    inputForm.Size = new Size(300, 100);
+
+                    TextBox inputBox = new TextBox();
+                    inputBox.Text = currentBranch.Trim();
+                    inputBox.Location = new Point(10, 10);
+                    inputForm.Controls.Add(inputBox);
+
+                    Button okButton = new Button();
+                    okButton.Text = "OK";
+
+                    okButton.DialogResult = DialogResult.OK;
+                    okButton.Location = new Point(150, 10);
+                    inputForm.Controls.Add(okButton);
+
+                    DialogResult result = inputForm.ShowDialog();
+                    string renamedBranch = "";
+                    string commandBranch = "";
+
+                    if (result == DialogResult.OK)
+                    {
+                        renamedBranch = inputBox.Text;
+                    }
+                    commandBranch = currentBranch + " " + renamedBranch;
+                    BranchCommand(currentDirectory, "branch -m", commandBranch);
                     break;
                 case "branch checkout":
+                    BranchCommand(currentDirectory, "checkout", currentBranch);
                     break;
+            }
+        }
+        public void BranchCommand(string path, string command, string branch)
+        {
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+            process.Start();
+            process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+            if (command.Equals("branch -m"))
+            {
+                string[] oldNewBranch = branch.Split(' ');
+                Console.WriteLine(oldNewBranch[0]);
+                //process.StandardInput.Write(@"git checkout " + oldNewBranch[0] + Environment.NewLine);
+            }
+            process.StandardInput.Write(@"git " + command + " " + branch + Environment.NewLine);
+
+            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
+            process.StandardInput.Close();
+            
+            process.WaitForExit();
+            process.Close();
+
+            this.Items.Clear();
+            try
+            {
+                this.ShowBranches(currentDirectory);
+            }
+            catch
+            {
+
             }
         }
     }
