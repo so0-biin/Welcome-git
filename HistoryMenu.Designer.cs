@@ -30,11 +30,11 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.BranchListView = new FileManager.Controls.BranchList();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -60,7 +60,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.panel1);
+            this.splitContainer1.Panel1.Controls.Add(this.BranchListView);
             // 
             // splitContainer1.Panel2
             // 
@@ -68,6 +68,17 @@
             this.splitContainer1.Size = new System.Drawing.Size(800, 426);
             this.splitContainer1.SplitterDistance = 200;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // BranchListView
+            // 
+            this.BranchListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BranchListView.HideSelection = false;
+            this.BranchListView.Location = new System.Drawing.Point(0, 0);
+            this.BranchListView.Name = "BranchListView";
+            this.BranchListView.Size = new System.Drawing.Size(200, 426);
+            this.BranchListView.TabIndex = 0;
+            this.BranchListView.UseCompatibleStateImageBehavior = false;
+            this.BranchListView.View = System.Windows.Forms.View.List;
             // 
             // splitContainer2
             // 
@@ -115,15 +126,6 @@
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 426);
-            this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
             // HistoryMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -137,6 +139,7 @@
             this.Name = "HistoryMenu";
             this.Text = "HistoryMenu";
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -157,6 +160,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Panel panel1;
+        private Controls.BranchList BranchListView;
     }
 }

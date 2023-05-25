@@ -70,6 +70,9 @@
     <Compile Include="CommitMenu.Designer.cs">
       <DependentUpon>CommitMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BranchList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Navigation.cs">
       <SubType>Component</SubType>
     </Compile>

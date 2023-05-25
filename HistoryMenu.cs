@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileManager.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,7 @@ namespace FileManager
 {
     public partial class HistoryMenu : Form
     {
+        //private BranchList BranchListView;
         private string currentDirectory;
         public HistoryMenu()
         {
@@ -22,9 +24,26 @@ namespace FileManager
         {
             InitializeComponent();
             currentDirectory = data;
-            Console.WriteLine(currentDirectory);
+
+            BranchListView = new BranchList();
+            BranchListView.Initialize();
+            BranchRefresh();
+
+            button2.Text = "Create";
         }
 
+        public void BranchRefresh()
+        {
+            BranchListView.Items.Clear();
+            try
+            {
+                BranchListView.ShowBranches(currentDirectory);
+            }
+            catch
+            {
+
+            }
+        }
         private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -35,9 +54,5 @@ namespace FileManager
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }
