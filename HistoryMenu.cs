@@ -12,9 +12,17 @@ namespace FileManager
 {
     public partial class HistoryMenu : Form
     {
+        private string currentDirectory;
         public HistoryMenu()
         {
             InitializeComponent();
+        }
+
+        public HistoryMenu(string data)
+        {
+            InitializeComponent();
+            currentDirectory = data;
+            Console.WriteLine(currentDirectory);
         }
 
         private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)

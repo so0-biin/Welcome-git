@@ -362,7 +362,7 @@ namespace FileManager
 
         private void button5_Click(object sender, EventArgs e)
         {            
-            HistoryMenu historyMenu = new HistoryMenu();
+            HistoryMenu historyMenu = new HistoryMenu(this.CurrentDirectory.Text);
             historyMenu.Show();
         }
     }
