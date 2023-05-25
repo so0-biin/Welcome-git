@@ -79,7 +79,7 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(141, 20);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(579, 21);
+            this.textBox2.Size = new System.Drawing.Size(179, 21);
             this.textBox2.TabIndex = 4;
             // 
             // label2
@@ -98,7 +98,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(179, 20);
             this.comboBox1.TabIndex = 6;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Merge
             // 
