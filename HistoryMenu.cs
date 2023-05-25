@@ -27,7 +27,6 @@ namespace FileManager
         {
             InitializeComponent();
             currentDirectory = data;
-<<<<<<< HEAD
 
             BranchListView = new BranchList();
             BranchListView.Initialize();
@@ -35,8 +34,6 @@ namespace FileManager
 
             BranchRefresh();
 
-            button2.Text = "Create";
-=======
             button2.Text = "Create";
 
         }
@@ -94,7 +91,7 @@ namespace FileManager
                 branchName = inputBox.Text; 
             }
             branchCmd(currentDirectory, "branch", branchName);
->>>>>>> branch_create
+            BranchRefresh();
         }
 
         public void BranchRefresh()
@@ -119,17 +116,10 @@ namespace FileManager
 
         }
 
-<<<<<<< HEAD
-=======
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
             BranchCreate();
         }
->>>>>>> branch_create
     }
 }
