@@ -21,6 +21,9 @@ namespace FileManager.Controls
 
             this.Columns.Add("Branch List", 200, HorizontalAlignment.Left);
 
+            this.FullRowSelect = true;
+
+            this.MouseClick += Branch_ListView_MouseClick;
         }
 
         public string[] BranchCommand(string path, string command, string branch)
@@ -94,5 +97,39 @@ namespace FileManager.Controls
 
         }
 
+        private void Branch_ListView_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            if(e.Button == MouseButtons.Right)
+            {
+                string currentBranch = (string)(sender as BranchList).SelectedItems[0].Tag;
+
+                ContextMenuStrip menu = new ContextMenuStrip();
+
+                menu.Tag = currentBranch;
+
+                menu.Items.Add("branch delete");
+                menu.Items.Add("branch rename");
+                menu.Items.Add("branch checkout");
+
+                menu.Show(PointToScreen(e.Location));
+                menu.ItemClicked += Branch_Menu_ItemClicked;
+            }
+        }
+
+        void Branch_Menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            string currentBranch = (sender as ContextMenuStrip).Tag as string;
+
+            switch(e.ClickedItem.Text)
+            {
+                case "branch delete":
+                    break;
+                case "branch rename":
+                    break;
+                case "branch checkout":
+                    break;
+            }
+        }
     }
 }
