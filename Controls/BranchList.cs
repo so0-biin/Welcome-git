@@ -13,15 +13,17 @@ namespace FileManager.Controls
 {
     public class BranchList : ListView
     {
+        private string currentDirectory;
         public void Initialize()
         {
             this.View = View.Details;
             this.Dock = DockStyle.Fill;
 
             this.Columns.Add("Branch List", 200, HorizontalAlignment.Left);
+
         }
 
-        public string[] GetBranch(string path)
+        public string[] BranchCommand(string path, string command, string branch)
         {
             string[] branchList;
             ProcessStartInfo cmd = new ProcessStartInfo();
@@ -39,7 +41,7 @@ namespace FileManager.Controls
             process.StartInfo = cmd;
             process.Start();
             process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-            process.StandardInput.Write(@"git branch" + Environment.NewLine);
+            process.StandardInput.Write(@"git " + command + " " + branch + Environment.NewLine);
 
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
             process.StandardInput.Close();
@@ -52,24 +54,45 @@ namespace FileManager.Controls
 
             return branchList;
         }
+        public string[] FilterBranch(string[] cmdResult)
+        {
+            string[] branchList = new string[cmdResult.Length];
+            int i = 0;
+            foreach (string result in cmdResult)
+            {
+                if (!result.Contains(@"\") && !result.Contains("Microsoft"))
+                {
+                    branchList[i++] = result;
+                }
+            }
 
+            return branchList;
+        }
         public void ShowBranches(string path)
         {
-            string[] branches = GetBranch(path);
+            currentDirectory = path;
+            string[] cmdResult = BranchCommand(path, "branch", "");
+            string[] branches = FilterBranch(cmdResult);
 
             this.BeginUpdate();
             foreach (string branch in branches)
             {
-                ListViewItem item = new ListViewItem(branch);
+                if (branch != null)
+                {
+                    ListViewItem item = new ListViewItem(branch);
 
-                item.Tag = branch;
-                item.UseItemStyleForSubItems = false;
-                if (branch.Contains("*"))
-                    item.SubItems[0].ForeColor = Color.Green;
-                this.Items.Add(item);
+                    item.Tag = branch;
+                    item.UseItemStyleForSubItems = false;
+
+                    if (branch.Contains("*"))
+                        item.SubItems[0].ForeColor = Color.Green;
+                    this.Items.Add(item);
+                }
+                    
             }
             this.EndUpdate();
 
         }
+
     }
 }
