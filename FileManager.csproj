@@ -121,6 +121,9 @@
     <EmbeddedResource Include="HistoryMenu.resx">
       <DependentUpon>HistoryMenu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Merge.resx">
+      <DependentUpon>Merge.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
