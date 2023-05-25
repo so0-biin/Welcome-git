@@ -13,7 +13,7 @@ namespace FileManager
 {
     public partial class HistoryMenu : Form
     {
-        //private BranchList BranchListView;
+        private BranchList BranchListView;
         private string currentDirectory;
         public HistoryMenu()
         {
@@ -27,6 +27,8 @@ namespace FileManager
 
             BranchListView = new BranchList();
             BranchListView.Initialize();
+            splitContainer1.Panel1.Controls.Add(BranchListView);
+
             BranchRefresh();
 
             button2.Text = "Create";

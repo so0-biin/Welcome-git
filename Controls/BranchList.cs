@@ -15,6 +15,9 @@ namespace FileManager.Controls
     {
         public void Initialize()
         {
+            this.View = View.Details;
+            this.Dock = DockStyle.Fill;
+
             this.Columns.Add("Branch List", 200, HorizontalAlignment.Left);
         }
 
