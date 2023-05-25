@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,7 +25,63 @@ namespace FileManager
         {
             InitializeComponent();
             currentDirectory = data;
-            Console.WriteLine(currentDirectory);
+            button2.Text = "Create";
+
+        }
+        private void branchCmd(string path, string command, string branch)
+        {
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+            process.Start();
+            process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+            process.StandardInput.Write(@"git "+command+" "+branch + Environment.NewLine);
+
+            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
+            process.StandardInput.Close();
+            StreamReader reader = process.StandardOutput;
+            string output = reader.ReadToEnd();
+
+            process.WaitForExit();
+            process.Close();
+        }
+
+        private void BranchCreate()
+        {
+            Form inputForm = new Form();
+
+            inputForm.Text = "write new branch name";
+            inputForm.Size = new Size(350, 100);
+
+            TextBox inputBox = new TextBox();
+            inputBox.Location = new Point(10, 10);
+            inputForm.Controls.Add(inputBox);
+
+            Button okButton = new Button();
+            okButton.Text = "OK";
+
+            okButton.DialogResult = DialogResult.OK;
+            okButton.Location = new Point(150, 10);
+            inputForm.Controls.Add(okButton);
+
+            DialogResult result = inputForm.ShowDialog();
+            string branchName = "";
+
+            if (result == DialogResult.OK)
+            {
+                branchName = inputBox.Text; 
+            }
+            branchCmd(currentDirectory, "branch", branchName);
         }
 
         private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
@@ -38,6 +97,11 @@ namespace FileManager
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            BranchCreate();
         }
     }
 }
