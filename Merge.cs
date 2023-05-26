@@ -90,7 +90,7 @@ namespace FileManager
             string fail2 = "CONFLICT";
             string fail3 = "Merge conflict";
             if (result.Contains("merge failed")||result.Contains("CONFLICT")||result.Contains("Merge conflict")){
-                textBox1.Text = "conflict occured";
+                textBox1.Text = "conflict occured and automatically aborted merge";
                 ProcessStartInfo cmd = new ProcessStartInfo();
                 Process process = new Process();
 
@@ -183,10 +183,11 @@ namespace FileManager
 
             foreach (string branch in branchList)
             {
-                //string branchName = branch.Trim();
-                if (!branch.Equals(current_branch))
+                string branchName = branch.Trim();
+                string current_branchName = current_branch.Trim();
+                if (!branchName.Equals(current_branchName))
                 {
-                    comboBox1.Items.Add(branch);
+                    comboBox1.Items.Add(branchName);
                 }
             }
         }
