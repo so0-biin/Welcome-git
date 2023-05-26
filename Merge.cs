@@ -143,7 +143,7 @@ namespace FileManager
 
             foreach (string branch in branchList)
             {
-                string branchName = branch.Trim();
+                //string branchName = branch.Trim();
                 if (!branch.Equals(current_branch))
                 {
                     comboBox1.Items.Add(branch);
