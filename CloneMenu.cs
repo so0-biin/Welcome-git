@@ -21,6 +21,10 @@ namespace FileManager
             textBox2.ReadOnly = true;
             label1.Text = "Input Git repository address to CLONE";
             label2.Text = "Destination Path";
+            label3.Text = "ID";
+            label4.Text = "Access Token";
+            button1.Text = "Clone";
+            button2.Text = "Exit";
             
         }
 
