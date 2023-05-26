@@ -51,73 +51,15 @@ namespace FileManager
 
             try
             {
-                ProcessStartInfo cmd = new ProcessStartInfo();
-                Process process = new Process();
-
-                cmd.FileName = @"cmd";
-                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
-                cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
-
-                cmd.UseShellExecute = false;
-                cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
-                cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
-                cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
-
-                process.EnableRaisingEvents = false;
-                process.StartInfo = cmd;
-
-                // cmd 다루기
-
-                process.Start();
-
-                // cmd 명령 입히는거 시작                     
-                process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-                process.StandardInput.Write(@"git merge " + selected_branch + Environment.NewLine);
-
-                process.StandardInput.Close(); // cmd  명령 입력 끝
-
-                result = process.StandardOutput.ReadToEnd();
-
-                process.WaitForExit();
-                process.Close(); // cmd 창을 닫음
-
+                result = cmd_ex(path, "merge " + selected_branch);
             }
             catch (Exception ex)
             {
             }
-            //MessageBox.Show(result);
-            string fail1 = "merge failed";
-            string fail2 = "CONFLICT";
-            string fail3 = "Merge conflict";
+
             if (result.Contains("merge failed")||result.Contains("CONFLICT")||result.Contains("Merge conflict")){
                 textBox1.Text = "conflict occured and automatically aborted merge";
-                ProcessStartInfo cmd = new ProcessStartInfo();
-                Process process = new Process();
-
-                cmd.FileName = @"cmd";
-                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
-                cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
-
-                cmd.UseShellExecute = false;
-                cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
-                cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
-                cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
-
-                process.EnableRaisingEvents = false;
-                process.StartInfo = cmd;
-
-                // cmd 다루기
-
-                process.Start();
-
-                // cmd 명령 입히는거 시작
-                process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-                process.StandardInput.Write(@"git merge --abort" + Environment.NewLine);
-
-                process.StandardInput.Close(); // cmd  명령 입력 끝
-
-                process.WaitForExit();
-                process.Close(); // cmd 창을 닫음
+                cmd_ex(path, "merge --abort");
             }
             else
             {
@@ -137,35 +79,7 @@ namespace FileManager
 
             try
             {
-                ProcessStartInfo cmd = new ProcessStartInfo();
-                Process process = new Process();
-
-                cmd.FileName = @"cmd";
-                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
-                cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
-
-                cmd.UseShellExecute = false;
-                cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
-                cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
-                cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
-
-                process.EnableRaisingEvents = false;
-                process.StartInfo = cmd;
-
-                // cmd 다루기
-
-                process.Start();
-
-                // cmd 명령 입히는거 시작                     
-                process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-                process.StandardInput.Write(@"git branch" + Environment.NewLine);
-
-                process.StandardInput.Close(); // cmd  명령 입력 끝
-
-                result = process.StandardOutput.ReadToEnd();
-
-                process.WaitForExit();
-                process.Close(); // cmd 창을 닫음
+                result = cmd_ex(path, "branch");
             }
             catch (Exception ex)
             {
@@ -198,40 +112,48 @@ namespace FileManager
 
             try
             {
-                ProcessStartInfo cmd = new ProcessStartInfo();
-                Process process = new Process();
-
-                cmd.FileName = @"cmd";
-                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
-                cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
-
-                cmd.UseShellExecute = false;
-                cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
-                cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
-                cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
-
-                process.EnableRaisingEvents = false;
-                process.StartInfo = cmd;
-
-                // cmd 다루기
-
-                process.Start();
-
-                // cmd 명령 입히는거 시작                     
-                process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-                process.StandardInput.Write(@"git branch --show-current" + Environment.NewLine);
-
-                process.StandardInput.Close(); // cmd  명령 입력 끝
-
-                result = process.StandardOutput.ReadToEnd();
-
-                process.WaitForExit();
-                process.Close(); // cmd 창을 닫음
-
+                result = cmd_ex(path, "branch --show-current");
             }
             catch (Exception ex)
             {
             }
+
+            return result;
+        }
+
+        private string cmd_ex(string path, string command)
+        {
+            string result = "";
+
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+
+            // cmd 다루기
+
+            process.Start();
+
+            // cmd 명령 입히는거 시작                     
+            process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+            process.StandardInput.Write(@"git " + command + Environment.NewLine);
+
+            process.StandardInput.Close(); // cmd  명령 입력 끝
+
+            result = process.StandardOutput.ReadToEnd();
+
+            process.WaitForExit();
+            process.Close(); // cmd 창을 닫음
 
             return result;
         }
