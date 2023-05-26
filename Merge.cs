@@ -47,6 +47,7 @@ namespace FileManager
         private void button2_Click(object sender, EventArgs e)  //merge button
         {
             string selected_branch = comboBox1.SelectedItem.ToString();
+            string result = "";
 
             try
             {
@@ -75,6 +76,8 @@ namespace FileManager
 
                 process.StandardInput.Close(); // cmd  명령 입력 끝
 
+                result = process.StandardOutput.ReadToEnd();
+
                 process.WaitForExit();
                 process.Close(); // cmd 창을 닫음
 
@@ -82,7 +85,17 @@ namespace FileManager
             catch (Exception ex)
             {
             }
-            
+            //MessageBox.Show(result);
+            string fail1 = "merge failed";
+            string fail2 = "CONFLICT";
+            string fail3 = "Merge conflict";
+            if (result.Contains("merge failed")||result.Contains("CONFLICT")||result.Contains("Merge conflict")){
+                textBox1.Text = "conflict occured";
+            }
+            else
+            {
+                textBox1.Text = "successfully merged";
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)  //exit button
