@@ -15,6 +15,7 @@ namespace FileManager
     public partial class Merge : Form
     {
         string path;
+        string current_branch;
 
         public Merge(string currentDirectory)
         {
@@ -28,7 +29,7 @@ namespace FileManager
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
 
-            string current_branch = currentBranch(path);
+            current_branch = currentBranch(path);
 
             string search_front = "--show-current";
             int index = current_branch.IndexOf(search_front);
@@ -38,15 +39,53 @@ namespace FileManager
             int index_back = current_branch.IndexOf(path);
             current_branch = current_branch.Remove(index_back, path.Length+1);
             textBox2.Text = current_branch;
+
+            comboBox1.Text = "select branch";
             comboBox_show(path);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)  //merge button
         {
+            string selected_branch = comboBox1.SelectedItem.ToString();
 
+            try
+            {
+                ProcessStartInfo cmd = new ProcessStartInfo();
+                Process process = new Process();
+
+                cmd.FileName = @"cmd";
+                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+                cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+                cmd.UseShellExecute = false;
+                cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+                cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+                cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+                process.EnableRaisingEvents = false;
+                process.StartInfo = cmd;
+
+                // cmd 다루기
+
+                process.Start();
+
+                // cmd 명령 입히는거 시작                     
+                process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+                process.StandardInput.Write(@"git merge " + selected_branch + Environment.NewLine);
+
+                process.StandardInput.Close(); // cmd  명령 입력 끝
+
+                process.WaitForExit();
+                process.Close(); // cmd 창을 닫음
+
+            }
+            catch (Exception ex)
+            {
+            }
+            
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)  //exit button
         {
             this.Close();
         }
@@ -105,7 +144,10 @@ namespace FileManager
             foreach (string branch in branchList)
             {
                 string branchName = branch.Trim();
-                comboBox1.Items.Add(branchName);
+                if (!branch.Equals(current_branch))
+                {
+                    comboBox1.Items.Add(branch);
+                }
             }
         }
 
@@ -136,7 +178,7 @@ namespace FileManager
 
                 // cmd 명령 입히는거 시작                     
                 process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-                process.StandardInput.Write(@"git branch --show-current " + Environment.NewLine);
+                process.StandardInput.Write(@"git branch --show-current" + Environment.NewLine);
 
                 process.StandardInput.Close(); // cmd  명령 입력 끝
 
@@ -145,18 +187,12 @@ namespace FileManager
                 process.WaitForExit();
                 process.Close(); // cmd 창을 닫음
 
-                return result;
             }
             catch (Exception ex)
             {
             }
 
             return result;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
