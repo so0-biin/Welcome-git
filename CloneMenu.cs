@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,14 +59,10 @@ namespace FileManager
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) // clone button click
         {
-            bool validRepoAddress;
-            bool validId;
-            bool validAccessToken;
-            validRepoAddress = repoAddressCheck();
-            validId = idCheck();
-            validAccessToken = accessTokenCheck();
+            repoClone(textBox2.Text, textBox1.Text); // clone 버튼 클릭하면 clone하기 - private / public
+
 
             /* implementation 
  1. 입력받은 id, token 넣어서 명령어 입력
@@ -73,33 +70,47 @@ namespace FileManager
 3. id, access token 어딘가에 저장
  */
 
-            if (!validRepoAddress) { 
-                
+        }
+
+        private void repoClone(string path, string address)
+        {
+            string repoAddress = address;
+            if(!textBox3.Text.Equals("")) // private이면 주소에 수정 필요하다
+            {
+                int Index = address.IndexOf("/");
+                repoAddress = "https://" + textBox3.Text + ":" + textBox4.Text + "@" + address.Substring(Index + 2); // "https://"github.com, id, token 넣기 위해서 자르기;
             }
+
+            string[] clone;
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+
+            process.Start();
+            process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+            process.StandardInput.Write(@"git clone " + repoAddress + Environment.NewLine);
+            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다  ls-remote --exit-code --quiet
+            process.StandardInput.Close();
+
+            string errorOutput = process.StandardError.ReadToEnd();
+            textBox5.Text += repoAddress;
+            clone = errorOutput.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            process.WaitForExit();
+            process.Close();
         }
 
-        private bool repoAddressCheck() 
-        {
-            // repo address valid address check
-            string pattern = @"^https:\/\/github\.com\/.+\/.+\.git$";
-            bool isMatch = System.Text.RegularExpressions.Regex.IsMatch(textBox1.Text, pattern);
-
-            return isMatch;
-        }
-
-        private bool idCheck()
-        {
-            bool isMatch = false;
-            return isMatch;
-        }
-
-        private bool accessTokenCheck()
-        {
-            bool isMatch = false;   
-            return isMatch;    
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e) // check button click
         {
             textBox5.Text = string.Empty;
             if(textBox1.Text == "") // repository input nothing
