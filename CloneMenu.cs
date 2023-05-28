@@ -119,13 +119,13 @@ namespace FileManager
                     if( isPublic ) // public repository
                     {
                         button1.Enabled = true; // clone button active
-                        textBox5.Text += "You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
+                        textBox5.Text += "Public Repository: You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
                         
                         button1.Focus();
-
                     }
                     else // private repository
                     {
+                        button1.Enabled = false;
                         textBox3.ReadOnly = false; // input id
                         textBox4.ReadOnly = false; // input access token
                         textBox3.Focus();
@@ -159,7 +159,6 @@ namespace FileManager
             process.StandardInput.Close();
 
             string errorOutput = process.StandardError.ReadToEnd();
-            //string normalOutput = process.StandardOutput.ReadToEnd();   
 
             privateRepo = errorOutput.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             process.WaitForExit();
@@ -171,7 +170,7 @@ namespace FileManager
                 if (line.Equals("remote: Repository not found.")) // private이면 error가 출력됨
                 {
                     flag = false;
-                    textBox5.Text += "Input your ID and Access Token.\n";    // private을 clone 시도할 때 id, token을 입력해야함
+                    textBox5.Text += "Private Repository: Input your ID and Access Token.\n"; // private을 clone 시도할 때 id, token을 입력해야함
                 }
             }           
             return flag;
