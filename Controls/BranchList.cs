@@ -48,10 +48,11 @@ namespace FileManager.Controls
 
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
             process.StandardInput.Close();
-            StreamReader reader = process.StandardOutput;
-            string output = reader.ReadToEnd();
+            StreamReader readOutput = process.StandardOutput;
+            string output = readOutput.ReadToEnd();
+            
             branchList = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
+            
             process.WaitForExit();
             process.Close();
 
@@ -121,7 +122,11 @@ namespace FileManager.Controls
         void Branch_Menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             string currentBranch = (sender as ContextMenuStrip).Tag as string;
-
+            if (currentBranch.Contains("*"))
+            {
+                string[] split = currentBranch.Split('*');
+                currentBranch = split[1];
+            }
             switch(e.ClickedItem.Text)
             {
                 case "branch delete":
@@ -181,14 +186,38 @@ namespace FileManager.Controls
             if (command.Equals("branch -m"))
             {
                 string[] oldNewBranch = branch.Split(' ');
-                Console.WriteLine(oldNewBranch[0]);
                 //process.StandardInput.Write(@"git checkout " + oldNewBranch[0] + Environment.NewLine);
             }
             process.StandardInput.Write(@"git " + command + " " + branch + Environment.NewLine);
 
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
             process.StandardInput.Close();
-            
+            StreamReader readError = process.StandardError;
+            string error = readError.ReadToEnd();
+            if (error.Contains("error"))
+            {
+                Form errorForm = new Form();
+
+                errorForm.Text = "branch error";
+                errorForm.Size = new Size(400, 150);
+
+                Label errorLabel = new Label();
+                errorLabel.Text = error;
+                errorLabel.AutoSize = true;
+                errorLabel.MaximumSize = new Size(390, 0);
+                errorLabel.Location = new Point(10, 10);
+                errorForm.Controls.Add(errorLabel);
+
+                Button okButton = new Button();
+                okButton.Text = "OK";
+
+                okButton.DialogResult = DialogResult.OK;
+                okButton.Location = new Point(300, 80);
+                errorForm.Controls.Add(okButton);
+
+                DialogResult result = errorForm.ShowDialog();
+
+            }
             process.WaitForExit();
             process.Close();
 
