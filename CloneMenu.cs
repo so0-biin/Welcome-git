@@ -46,9 +46,9 @@ namespace FileManager
 
         }
 
-        public void transferMessage()
+        public void SetTextBeforeClone(string path)
         {
-
+            textBox2.Text = path;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -77,13 +77,15 @@ namespace FileManager
         private void repoClone(string path, string address)
         {
             string repoAddress = address;
+            bool publicRepo = true;
             if(!textBox3.Text.Equals("")) // private이면 주소에 수정 필요하다
             {
+                publicRepo = false;
                 int Index = address.IndexOf("/");
                 repoAddress = "https://" + textBox3.Text + ":" + textBox4.Text + "@" + address.Substring(Index + 2); // "https://"github.com, id, token 넣기 위해서 자르기;
             }
 
-            string[] clone;
+            string[] cloneError;
             ProcessStartInfo cmd = new ProcessStartInfo();
             Process process = new Process();
 
@@ -106,10 +108,32 @@ namespace FileManager
             process.StandardInput.Close();
 
             string errorOutput = process.StandardError.ReadToEnd();
-            clone = errorOutput.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            cloneError = errorOutput.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+
             process.WaitForExit();
             process.Close();
             this.Close();
+
+
+            if (publicRepo) // public repo인 경우에
+            {
+                
+                if (cloneError[0].Contains("fatal")) //error가 발생하면
+                {
+                    form1.setTextAfterClone(false, cloneError);
+                }
+                else
+                {
+                    form1.setTextAfterClone(true, cloneError);
+                }
+                
+            }
+            else
+            {
+                
+            }
+            
         }
 
         private void button3_Click(object sender, EventArgs e) // check button click
