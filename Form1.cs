@@ -363,7 +363,13 @@ namespace FileManager
         private void button5_Click(object sender, EventArgs e)
         {            
             HistoryMenu historyMenu = new HistoryMenu();
-            historyMenu.Show();
+            historyMenu.Show(); // historymenu 닫기 전에는 form1 제어 불가
+            historyMenu.SetTextBeforeCommit(this.CurrentDirectory.Text, result);
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileManager.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,14 @@ namespace FileManager
 {
     public partial class HistoryMenu : Form
     {
+        private CommitHistory FilesListView;
         public HistoryMenu()
         {
             InitializeComponent();
+
+            FilesListView = new CommitHistory();
+            FilesListView.Initialize();
+            splitContainer2.Panel1.Controls.Add(FilesListView);
         }
 
         private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
