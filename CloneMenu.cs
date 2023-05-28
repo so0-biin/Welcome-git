@@ -17,10 +17,12 @@ namespace FileManager
     public partial class CloneMenu : Form
     {
         private string path;
+        Form1 form1;
         
-        public CloneMenu()
+        public CloneMenu(Form1 form)
         {
             InitializeComponent();
+            form1 = form;
 
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
@@ -44,10 +46,9 @@ namespace FileManager
 
         }
 
-        public void SetPathBeforeCommit(string path)
+        public void transferMessage()
         {
-            this.path = path;
-            textBox2.Text = path;   
+
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -105,10 +106,10 @@ namespace FileManager
             process.StandardInput.Close();
 
             string errorOutput = process.StandardError.ReadToEnd();
-            textBox5.Text += repoAddress;
             clone = errorOutput.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             process.WaitForExit();
             process.Close();
+            this.Close();
         }
 
         private void button3_Click(object sender, EventArgs e) // check button click

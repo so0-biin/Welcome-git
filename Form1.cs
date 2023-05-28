@@ -325,6 +325,20 @@ namespace FileManager
 
         }
 
+        public void setTextAfterClone(bool success, string cloneMsg)
+        {
+            textBox1.Text = "";
+            if(success) // success clone, 
+            {
+                textBox1.Text = "Successfully Cloned!";
+            }
+            else
+            {
+                textBox1.Text = cloneMsg; // fail 관련해서 정리해서 넘어온 msg 출력
+            }
+
+        }
+
         private void SplitContainer_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
@@ -356,9 +370,8 @@ namespace FileManager
         }
         private void button4_Click_1(Object sender, EventArgs e)
         {
-            CloneMenu cloneMenu = new CloneMenu();
-            cloneMenu.Show();
-            cloneMenu.SetPathBeforeCommit(this.CurrentDirectory.Text);
+            CloneMenu cloneMenu = new CloneMenu(this);
+            cloneMenu.Show();          
         }
 
         private void button5_Click(object sender, EventArgs e)
