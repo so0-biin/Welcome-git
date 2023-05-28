@@ -35,6 +35,7 @@ namespace FileManager
             button1.Text = "Clone";
             button2.Text = "Exit";
             button3.Text = "Check";
+            button4.Text = "Check";
             
         }
 
@@ -137,7 +138,7 @@ namespace FileManager
                     }
                     else // private repository
                     {
-                        button1.Enabled = false;
+                        button1.Enabled = false; // clone button active not yet, check id, accesstoken
                         textBox1.ReadOnly = true;
                         textBox3.ReadOnly = false; // input id
                         textBox4.ReadOnly = false; // input access token
@@ -183,10 +184,23 @@ namespace FileManager
                 if (line.Equals("remote: Repository not found.")) // private이면 error가 출력됨
                 {
                     flag = false;
-                    textBox5.Text += "Private Repository: Input your ID and Access Token.\n"; // private을 clone 시도할 때 id, token을 입력해야함
+                    textBox5.Text = "Private Repository: Input your ID and Access Token."; // private을 clone 시도할 때 id, token을 입력해야함
                 }
             }           
             return flag;
-        }                   
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if(textBox3.Text.Equals("") || textBox4.Text.Equals("")) // 둘 중 하나라도 empty이면 안됨
+            {
+                textBox5.Text = "Private Repository: Check your id, access token. Invalid input exists.";
+            }
+            else // 둘 다 값이 채워져 있을 때
+            {
+                textBox5.Text = "Private Repository: You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
+                button1.Enabled = true; // clone 버튼 누를 수 있도록 하기
+            }
+        }
     }
 }
