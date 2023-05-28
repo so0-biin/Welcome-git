@@ -119,19 +119,16 @@ namespace FileManager
                     if( isPublic ) // public repository
                     {
                         button1.Enabled = true; // clone button active
-                        textBox5.Text += "You can clone " + textBox1.Text + " in " + textBox2.Text;
+                        textBox5.Text += "You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
                         
                         button1.Focus();
 
                     }
                     else // private repository
                     {
-                        textBox3.ReadOnly = true; // input id
-                        textBox4.ReadOnly = true; // input access token
-
-                        button1.Enabled = true; // clone button active
-                        textBox5.Text += "You can clone " + textBox1.Text + " in " + textBox2.Text;
-
+                        textBox3.ReadOnly = false; // input id
+                        textBox4.ReadOnly = false; // input access token
+                        textBox3.Focus();
                     }
                 }
             }
@@ -139,7 +136,7 @@ namespace FileManager
 
         private bool repoPublicCheck(string path, string address)
         {
-            string[] checkoutput;
+            string[] privateRepo;
             ProcessStartInfo cmd = new ProcessStartInfo();
             Process process = new Process();
 
@@ -157,26 +154,24 @@ namespace FileManager
 
             process.Start();
             process.StandardInput.Write(@"cd " + path + Environment.NewLine);
-            //process.StandardInput.Write(@"git  " + address + Environment.NewLine);
-            process.StandardInput.Write(@"git status" + Environment.NewLine);
+            process.StandardInput.Write(@"git ls-remote --exit-code --quiet " + address + Environment.NewLine);
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다  ls-remote --exit-code --quiet
             process.StandardInput.Close();
 
-            //StreamReader reader = process.StandardOutput;
-            string output = process.StandardError.ReadToEnd();
+            string errorOutput = process.StandardError.ReadToEnd();
+            //string normalOutput = process.StandardOutput.ReadToEnd();   
 
-            checkoutput = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            privateRepo = errorOutput.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             process.WaitForExit();
             process.Close();
 
-            bool flag = false;
-            foreach(string line in checkoutput)
+            bool flag = true; 
+            foreach(string line in privateRepo)
             {
-                textBox5.Text += line;
-                if (line.Equals("remote: Repository not found."))
+                if (line.Equals("remote: Repository not found.")) // private이면 error가 출력됨
                 {
-                    //textBox5.Text += line;   
-                    flag = true;
+                    flag = false;
+                    textBox5.Text += "Input your ID and Access Token.\n";    // private을 clone 시도할 때 id, token을 입력해야함
                 }
             }           
             return flag;
