@@ -26,7 +26,7 @@ namespace FileManager
             label2.Text = "merge branch";
             button1.Text = "Exit";
             button2.Text = "Merge";
-            textBox1.ReadOnly = true;
+            //textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
 
             current_branch = currentBranch(path);
@@ -58,12 +58,22 @@ namespace FileManager
             }
 
             if (result.Contains("merge failed")||result.Contains("CONFLICT")||result.Contains("Merge conflict")){
-                textBox1.Text = "conflict occured and automatically aborted merge";
+                result = cmd_ex(path, "status");
+                string search_front = "git status";
+                int index = result.IndexOf(search_front);
+                int index2 = index + search_front.Length;
+                result = result.Substring(index2).Trim();
+
+                string result_back = result.Remove(result.IndexOf("no changes"));
+                MessageBox.Show(result_back + "conflict occured and automatically aborted merge");
+                //textBox1.Text = result + " conflict occured and automatically aborted merge";
+                //textBox1.Text = "conflict occured and automatically aborted merge";
                 cmd_ex(path, "merge --abort");
             }
             else
             {
-                textBox1.Text = "successfully merged";
+                //textBox1.Text = "successfully merged";
+                MessageBox.Show("successfully merged");
             }
         }
 
