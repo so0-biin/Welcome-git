@@ -67,6 +67,12 @@ namespace FileManager
             validId = idCheck();
             validAccessToken = accessTokenCheck();
 
+            /* implementation 
+ 1. 입력받은 id, token 넣어서 명령어 입력
+2. git clone 받기
+3. id, access token 어딘가에 저장
+ */
+
             if (!validRepoAddress) { 
                 
             }
@@ -112,7 +118,7 @@ namespace FileManager
                     bool isPublic = repoPublicCheck(path, textBox1.Text);
                     if( isPublic ) // public repository
                     {
-                        button1.Enabled = true;
+                        button1.Enabled = true; // clone button active
                         textBox5.Text += "You can clone " + textBox1.Text + " in " + textBox2.Text;
                         
                         button1.Focus();
@@ -122,7 +128,10 @@ namespace FileManager
                     {
                         textBox3.ReadOnly = true; // input id
                         textBox4.ReadOnly = true; // input access token
-                        
+
+                        button1.Enabled = true; // clone button active
+                        textBox5.Text += "You can clone " + textBox1.Text + " in " + textBox2.Text;
+
                     }
                 }
             }
@@ -149,12 +158,12 @@ namespace FileManager
             process.Start();
             process.StandardInput.Write(@"cd " + path + Environment.NewLine);
             //process.StandardInput.Write(@"git  " + address + Environment.NewLine);
-            process.StandardInput.Write(@"git  status" + Environment.NewLine);
+            process.StandardInput.Write(@"git status" + Environment.NewLine);
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다  ls-remote --exit-code --quiet
             process.StandardInput.Close();
 
             //StreamReader reader = process.StandardOutput;
-            string output = process.StandardOutput.ReadToEnd();
+            string output = process.StandardError.ReadToEnd();
 
             checkoutput = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             process.WaitForExit();
