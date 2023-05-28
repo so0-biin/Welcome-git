@@ -17,7 +17,6 @@ namespace FileManager
         public HistoryMenu()
         {
             InitializeComponent();
-
             FilesListView = new CommitHistory();
             FilesListView.Initialize();
             splitContainer2.Panel1.Controls.Add(FilesListView);
