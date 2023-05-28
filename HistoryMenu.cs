@@ -14,13 +14,19 @@ namespace FileManager
     public partial class HistoryMenu : Form
     {
         private CommitHistory FilesListView;
-        public HistoryMenu()
+        private string currentDirectory;
+
+        public HistoryMenu(string data)
         {
             InitializeComponent();
             FilesListView = new CommitHistory();
             FilesListView.Initialize();
             splitContainer2.Panel1.Controls.Add(FilesListView);
+
+            currentDirectory = data;
+            Console.WriteLine(currentDirectory);
         }
+
 
         private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
         {
