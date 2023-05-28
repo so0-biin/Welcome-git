@@ -122,10 +122,12 @@ namespace FileManager
                         textBox5.Text += "Public Repository: You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
                         
                         button1.Focus();
+                        textBox1.ReadOnly = true;
                     }
                     else // private repository
                     {
                         button1.Enabled = false;
+                        textBox1.ReadOnly = true;
                         textBox3.ReadOnly = false; // input id
                         textBox4.ReadOnly = false; // input access token
                         textBox3.Focus();
