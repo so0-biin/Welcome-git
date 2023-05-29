@@ -194,7 +194,7 @@ namespace FileManager.Controls
             process.StandardInput.Close();
             StreamReader readError = process.StandardError;
             string error = readError.ReadToEnd();
-            if (error.Contains("error"))
+            if (error.Contains("error") || error.Contains("fatal"))
             {
                 Form errorForm = new Form();
 

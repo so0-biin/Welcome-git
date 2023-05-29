@@ -58,8 +58,32 @@ namespace FileManager
 
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
             process.StandardInput.Close();
-            StreamReader reader = process.StandardOutput;
-            string output = reader.ReadToEnd();
+            StreamReader readError = process.StandardError;
+            string error = readError.ReadToEnd();
+            if (error.Contains("error") || error.Contains("fatal"))
+            {
+                Form errorForm = new Form();
+
+                errorForm.Text = "branch error";
+                errorForm.Size = new Size(400, 150);
+
+                Label errorLabel = new Label();
+                errorLabel.Text = error;
+                errorLabel.AutoSize = true;
+                errorLabel.MaximumSize = new Size(390, 0);
+                errorLabel.Location = new Point(10, 10);
+                errorForm.Controls.Add(errorLabel);
+
+                Button okButton = new Button();
+                okButton.Text = "OK";
+
+                okButton.DialogResult = DialogResult.OK;
+                okButton.Location = new Point(300, 80);
+                errorForm.Controls.Add(okButton);
+
+                DialogResult result = errorForm.ShowDialog();
+
+            }
 
             process.WaitForExit();
             process.Close();
