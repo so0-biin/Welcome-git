@@ -28,8 +28,9 @@ namespace FileManager
             textBox3.ReadOnly = true;
             textBox4.ReadOnly = true;
             textBox5.ReadOnly = true;
-            button1.Enabled = false;
-            label1.Text = "Input Git repository address to CLONE";
+            button1.Enabled = false; // clone button
+            //button4.Enabled = false; // id-token button
+            label1.Text = "Input Git repository address to CLONE and click Check button";
             label2.Text = "Destination Path";
             label3.Text = "ID";
             label4.Text = "Access Token";
@@ -37,7 +38,11 @@ namespace FileManager
             button1.Text = "Clone";
             button2.Text = "Exit";
             button3.Text = "Check";
-            button4.Text = "Check";
+            //button4.Text = "Check";
+            string[] data = { "public", "private" };
+            comboBox1.Items.AddRange(data);
+            label6.Text = "Repository property";
+            comboBox1.Enabled = false;
             
         }
 
@@ -117,8 +122,7 @@ namespace FileManager
 
 
             if (publicRepo) // public repo인 경우에
-            {
-                
+            {              
                 if (cloneError[0].Contains("fatal")) //error가 발생하면
                 {
                     form1.setTextAfterClone(false, cloneError);
@@ -129,14 +133,29 @@ namespace FileManager
                 }
                 
             }
-            else
+            else // private repo인 경우에
             {
-                
+                bool successClonePrivate = true;
+                foreach(string output in cloneError)
+                {
+                    if(output.Contains("fatal"))
+                    {
+                        successClonePrivate = false;
+                    }
+                }
+                if(successClonePrivate) // 성공적으로 private을 clone
+                {
+                    form1.setTextAfterClone(true, cloneError);
+                }
+                else
+                {
+                    form1.setTextAfterClone(false, cloneError);
+                }
             }
             
         }
 
-        private void button3_Click(object sender, EventArgs e) // check button click
+        private void button3_Click(object sender, EventArgs e) // 주소 옆에 있는 check button click
         {
             textBox5.Text = string.Empty;
             if(textBox1.Text == "") // repository input nothing
@@ -152,15 +171,25 @@ namespace FileManager
                 }
                 else // valid address, check private or public 
                 {
-                    bool isPublic = repoPublicCheck(path, textBox1.Text);
-                    if( isPublic ) // public repository
+                    comboBox1.Enabled = true; // valid address니까 public/private check 할 수 있도록 checkbox active
+                    textBox5.Text = "Valid address. Choose your Repository property.";
+                    comboBox1.Focus();  
+                    //bool isPublic = repoPublicCheck(path, textBox1.Text);
+                    /*
+                    string repoProperty = comboBox1.SelectedItem.ToString();
+                    if (repoProperty.Equals("")) // 아무것도 선택되지 않음
                     {
                         button1.Enabled = true; // clone button active
-                        textBox5.Text += "Public Repository: You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
-                        
+                        textBox5.Text += "You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
+                        textBox5.Text += " Input Id and access token if you clone the PRIVATE repository.";
+
                         button1.Focus();
                         textBox1.ReadOnly = true;
+                        textBox3.ReadOnly = false; // input id
+                        textBox4.ReadOnly = false; // input access token
+
                     }
+                    
                     else // private repository
                     {
                         button1.Enabled = false; // clone button active not yet, check id, accesstoken
@@ -169,11 +198,13 @@ namespace FileManager
                         textBox4.ReadOnly = false; // input access token
                         textBox3.Focus();
                     }
+                    */
+                    
                 }
             }
         }
 
-        private bool repoPublicCheck(string path, string address)
+        private bool repoPublicCheck(string path, string address) // invitation 받지 않은 private repo 확인용
         {
             string[] privateRepo;
             ProcessStartInfo cmd = new ProcessStartInfo();
@@ -223,9 +254,28 @@ namespace FileManager
             }
             else // 둘 다 값이 채워져 있을 때
             {
-                textBox5.Text = "Private Repository: You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
+                textBox5.Text = "You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
                 button1.Enabled = true; // clone 버튼 누를 수 있도록 하기
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // combobox의 값이 변경될 때 호출되는 이벤트
+            if(comboBox1.SelectedItem.ToString() == "public") //public 선택하면 clone 버튼 활성화
+            {
+                button1.Enabled = true; //clone 버튼 활성화
+                textBox5.Text = "You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
+            }
+            else if(comboBox1.SelectedItem.ToString() == "private") // private 선택하면 id, token 활성화
+            {
+                textBox3.ReadOnly = false;
+                textBox4.ReadOnly = false; // id, token 활성화
+                //button4.Enabled = true; // check button, 없애
+                textBox5.Text = "Input your ID and Access Token to clone private repository.";
+
+            }
+
         }
     }
 }
