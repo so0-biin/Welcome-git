@@ -68,27 +68,15 @@ namespace FileManager
 
         private void button1_Click(object sender, EventArgs e) // clone button click
         {
-            repoClone(textBox2.Text, textBox1.Text); // clone 버튼 클릭하면 clone하기 - private / public
+            repoClone(textBox2.Text, textBox1.Text); // clone 버튼 클릭하면 clone하기 - private / public, 경로, 주소
 
 
-            /* implementation 
- 1. 입력받은 id, token 넣어서 명령어 입력
-2. git clone 받기
-3. id, access token 어딘가에 저장
- */
 
         }
 
-        private void repoClone(string path, string address)
+        private void cloneCmd(string path, string repoAddress)
         {
-            string repoAddress = address;
-            bool publicRepo = true;
-            if(!textBox3.Text.Equals("")) // private이면 주소에 수정 필요하다
-            {
-                publicRepo = false;
-                int Index = address.IndexOf("/");
-                repoAddress = "https://" + textBox3.Text + ":" + textBox4.Text + "@" + address.Substring(Index + 2); // "https://"github.com, id, token 넣기 위해서 자르기;
-            }
+            // repoAddress가 public이면 입력받은 address로 그냥 오고 private이면 변형되어서 올 것임
 
             string[] cloneError;
             ProcessStartInfo cmd = new ProcessStartInfo();
@@ -109,50 +97,57 @@ namespace FileManager
             process.Start();
             process.StandardInput.Write(@"cd " + path + Environment.NewLine);
             process.StandardInput.Write(@"git clone " + repoAddress + Environment.NewLine);
-            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다  ls-remote --exit-code --quiet
+            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
             process.StandardInput.Close();
 
             string errorOutput = process.StandardError.ReadToEnd();
             cloneError = errorOutput.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            // git clone 후 error 메시지를 받음
 
 
             process.WaitForExit();
             process.Close();
             this.Close();
 
-
-            if (publicRepo) // public repo인 경우에
-            {              
-                if (cloneError[0].Contains("fatal")) //error가 발생하면
-                {
-                    form1.setTextAfterClone(false, cloneError);
-                }
-                else
-                {
-                    form1.setTextAfterClone(true, cloneError);
-                }
-                
-            }
-            else // private repo인 경우에
+            bool successClone = true;
+            foreach(string output in cloneError)
             {
-                bool successClonePrivate = true;
-                foreach(string output in cloneError)
-                {
-                    if(output.Contains("fatal"))
-                    {
-                        successClonePrivate = false;
-                    }
-                }
-                if(successClonePrivate) // 성공적으로 private을 clone
-                {
-                    form1.setTextAfterClone(true, cloneError);
-                }
-                else
-                {
-                    form1.setTextAfterClone(false, cloneError);
+
+                if(output.Contains("fatal")) {
+                    successClone = false; // success 하게 clone 실패했다고 출력
+                    
                 }
             }
-            
+            form1.setTextAfterClone(successClone, cloneError);
+
+
+        }
+
+        private void repoClone(string path, string address)
+        {
+            string repoAddress = address;
+            //bool publicRepo = true;
+            if(comboBox1.SelectedItem.ToString() == "private") // private이면 주소에 수정 필요하다
+            {
+                //publicRepo = false;
+                int Index = address.IndexOf("/");
+                // id, token 입력한 것 확인하기
+                if (textBox3.Text.Equals("") || textBox4.Text.Equals("")) // 둘 중 하나라도 empty이면 안됨
+                {
+                    textBox5.Text = "Check your id, access token. Invalid input exists.";
+                }
+                else // 둘 다 입력이 되었음
+                {
+                    // "https://"github.com, id, token 넣기 위해서 잘라서 넣기
+                    repoAddress = "https://" + textBox3.Text + ":" + textBox4.Text + "@" + address.Substring(Index + 2);
+                    cloneCmd(path, repoAddress);
+                }               
+            }
+            else // public일 때 그냥 수행
+            {
+                cloneCmd(path, repoAddress);
+            }
+                               
         }
 
         private void button3_Click(object sender, EventArgs e) // 주소 옆에 있는 check button click
@@ -172,34 +167,9 @@ namespace FileManager
                 else // valid address, check private or public 
                 {
                     comboBox1.Enabled = true; // valid address니까 public/private check 할 수 있도록 checkbox active
+                    textBox1.ReadOnly = true;
                     textBox5.Text = "Valid address. Choose your Repository property.";
-                    comboBox1.Focus();  
-                    //bool isPublic = repoPublicCheck(path, textBox1.Text);
-                    /*
-                    string repoProperty = comboBox1.SelectedItem.ToString();
-                    if (repoProperty.Equals("")) // 아무것도 선택되지 않음
-                    {
-                        button1.Enabled = true; // clone button active
-                        textBox5.Text += "You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
-                        textBox5.Text += " Input Id and access token if you clone the PRIVATE repository.";
-
-                        button1.Focus();
-                        textBox1.ReadOnly = true;
-                        textBox3.ReadOnly = false; // input id
-                        textBox4.ReadOnly = false; // input access token
-
-                    }
-                    
-                    else // private repository
-                    {
-                        button1.Enabled = false; // clone button active not yet, check id, accesstoken
-                        textBox1.ReadOnly = true;
-                        textBox3.ReadOnly = false; // input id
-                        textBox4.ReadOnly = false; // input access token
-                        textBox3.Focus();
-                    }
-                    */
-                    
+                    comboBox1.Focus();                  
                 }
             }
         }
@@ -264,16 +234,20 @@ namespace FileManager
             // combobox의 값이 변경될 때 호출되는 이벤트
             if(comboBox1.SelectedItem.ToString() == "public") //public 선택하면 clone 버튼 활성화
             {
+                textBox3.ReadOnly = true;
+                textBox4.ReadOnly = true; // id, token 활성화
                 button1.Enabled = true; //clone 버튼 활성화
                 textBox5.Text = "You can clone " + "\"" + textBox1.Text + "\"" + " in " + textBox2.Text;
+                button1.Focus();
             }
             else if(comboBox1.SelectedItem.ToString() == "private") // private 선택하면 id, token 활성화
             {
                 textBox3.ReadOnly = false;
                 textBox4.ReadOnly = false; // id, token 활성화
                 //button4.Enabled = true; // check button, 없애
+                button1.Enabled = true; //clone 버튼 활성화
                 textBox5.Text = "Input your ID and Access Token to clone private repository.";
-
+                textBox3.Focus();
             }
 
         }

@@ -336,7 +336,7 @@ namespace FileManager
             {
                 foreach(string msg in cloneMsg)
                 {
-                    textBox1.Text += msg; // fail 관련해서 정리해서 넘어온 msg 출력
+                    textBox1.Text += msg + "\r\n"; // fail 관련해서 정리해서 넘어온 msg 출력
                 }
                 
             }
