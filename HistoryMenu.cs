@@ -33,7 +33,6 @@ namespace FileManager
         {
             string[] commitLog = GraphListView.GetCommitLog(path);
             
-
             GraphListView.Items.Clear();
             try 
             {

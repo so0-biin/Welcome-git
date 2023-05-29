@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.ExtendedProperties;
+using DocumentFormat.OpenXml.Presentation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -66,9 +67,11 @@ namespace FileManager.Controls
             string output = reader.ReadToEnd();
             int start = output.IndexOf('*');
             int length = path.Length;
-            output = output.Substring(start, output.Length - start - length - 1);
 
             Console.WriteLine(output);
+            
+            output = output.Substring(start, output.Length - start - length - 1);
+
 
             commitLog = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
@@ -86,25 +89,43 @@ namespace FileManager.Controls
             
             foreach (string commit in commitLog)
             {
-                int graphIndex = commit.IndexOf(' ');
-                int checksumIndex = commit.IndexOf(' ', commit.IndexOf(' ') + 1);
+                int i = 0;
+                int checksumIndex;
+                int messageIndex;
 
-                Console.WriteLine(commit.Substring(0, graphIndex));
-                Console.WriteLine(commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1));
-                Console.WriteLine(commit.Substring(checksumIndex + 1, commit.Length - checksumIndex-  1));
-                //Console.WriteLine(commit.Length - checksumIndex - 1);
+                //Console.WriteLine(checksumIndex);
+                
+                
+
+                //Console.WriteLine(commit.Substring(0, checksumIndex-1));
+                //Console.WriteLine(commit.Substring(checksumIndex, messageIndex - checksumIndex - 1));
+                //Console.WriteLine(commit.Substring(messageIndex + 1, commit.Length - messageIndex-  1));
+                
                 ListViewItem listViewItem;
 
                 if (!commit.Contains('*'))
                 {
                     listViewItem = new ListViewItem(
-                    new string[] { commit.Substring(0, graphIndex), "", ""});
+                    new string[] { commit, "", ""});
                 }
 
                 else
                 {
+                    while (true)
+                    {
+                        if (commit[i] != ' ' && commit[i] != '*' && commit[i] != '\\' && commit[i] != '/' && commit[i] != '|')
+                        {
+                            checksumIndex = i;
+                            break;
+                        }
+                        i++;
+                    }
+
+                    messageIndex = commit.IndexOf(' ', checksumIndex);
+
                     listViewItem = new ListViewItem(
-                    new string[] { commit.Substring(0, graphIndex), commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1), commit.Substring(checksumIndex + 1, commit.Length - checksumIndex - 1) });
+                    new string[] { commit.Substring(0, checksumIndex - 1), commit.Substring(checksumIndex, 7), 
+                        commit.Substring(messageIndex + 1, commit.Length - messageIndex - 1) });
                 }
                                 
                 listViewItem.Tag = commit;
