@@ -65,10 +65,18 @@ namespace FileManager
                 result = result.Substring(index2).Trim();
 
                 string result_back = result.Remove(result.IndexOf("no changes"));
-                MessageBox.Show(result_back + "conflict occured and automatically aborted merge");
+                int index3 = result_back.IndexOf("(fix");
+                int index4 = result_back.IndexOf("merge)");
+                result_back = result_back.Remove(index3, index4 - index3 + 7);
+                int index5 = result_back.IndexOf("(use");
+                int index6 = result_back.IndexOf("resolution)");
+                result_back = result_back.Remove(index5, index6 - index5 + 12);
+
+
                 //textBox1.Text = result + " conflict occured and automatically aborted merge";
                 //textBox1.Text = "conflict occured and automatically aborted merge";
                 cmd_ex(path, "merge --abort");
+                MessageBox.Show(result_back + "conflict occured and automatically aborted merge");
             }
             else
             {
