@@ -153,7 +153,6 @@
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(680, 17);
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //this.toolStripStatusLabel2.Text = currentDirectory;
             // 
             // HistoryMenu
             // 

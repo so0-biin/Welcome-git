@@ -20,11 +20,12 @@ namespace FileManager
         {
             InitializeComponent();
             GraphListView = new CommitHistory();
-            GraphListView.Initialize();
+            GraphListView.Initialize(textBox1);
             currentDirectory = data;
 
             splitContainer2.Panel1.Controls.Add(GraphListView);
 
+            
             GraphRefresh(currentDirectory);
 
         }

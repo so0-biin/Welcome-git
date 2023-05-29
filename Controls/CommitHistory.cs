@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.Presentation;
 using System;
@@ -22,8 +23,9 @@ namespace FileManager.Controls
         private List<FileType> FileTypes;
         private FileType Document;
         private FileType Folder;
-
-        public void Initialize()
+        private string currentDirectory;
+        TextBox commitTextBox;
+        public void Initialize(TextBox textBox)
         {
 
             this.View = View.Details;
@@ -34,11 +36,13 @@ namespace FileManager.Controls
             this.Columns.Add("commit message", 150, HorizontalAlignment.Left);
 
             this.FullRowSelect = true;
-            
+            this.MouseClick += m_ListView_MouseClick;
+            this.commitTextBox = textBox;
         }
 
         public string[] GetCommitLog(string path)
         {
+            currentDirectory = path;
             string[] commitLog;
 
             ProcessStartInfo cmd = new ProcessStartInfo();
@@ -139,8 +143,22 @@ namespace FileManager.Controls
             this.EndUpdate();
         }
 
-        void cmd_ex(String real_path, String command)
+        private void m_ListView_MouseClick(object sender, MouseEventArgs e)
         {
+            if (e.Button.Equals(MouseButtons.Left))
+            {
+                ListViewItem item = (sender as CommitHistory).SelectedItems[0];
+                string checksum = item.SubItems[1].Text;
+                commitTextBox.Clear();
+                if (checksum.Length != 0)
+                {
+                    GetChecksum(checksum);
+                }
+            }
+        }
+        public void GetChecksum(String checksum)
+        {
+            string[] result;
             ProcessStartInfo cmd = new ProcessStartInfo();
             Process process = new Process();
 
@@ -161,17 +179,60 @@ namespace FileManager.Controls
 
             // cmd 명령 입히는거 시작                     
 
-            process.StandardInput.Write(@"cd " + real_path + Environment.NewLine);
-            
-            process.StandardInput.Close(); // cmd  명령 입력 끝
+            process.StandardInput.Write(@"cd " + currentDirectory + Environment.NewLine);
+            process.StandardInput.Write(@"git cat-file -p " + checksum + Environment.NewLine);
 
+
+            process.StandardInput.Close(); // cmd  명령 입력 끝
+            StreamReader reader = process.StandardOutput;
+            string output = reader.ReadToEnd();
+            result = output.Split(Environment.NewLine.ToCharArray());
+
+
+            commitTextBox.Text += ("commit: " + checksum + "\r\n");
+            printCommitText(result);
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
 
-            this.Items.Clear();
-            this.LargeImageList.Images.Clear();
-            this.SmallImageList.Images.Clear();
-
         }
+
+        public void printCommitText(string[] catCommitObj)
+        {
+            string[] print;
+            bool parentFlag = true, authorFlag = true, committerFlag = true, commitMsgFlag = false,endFlag = false;
+            foreach (string line in catCommitObj)
+            {
+                if (commitMsgFlag)
+                {
+                    if (line.Equals(currentDirectory + ">"))
+                        commitMsgFlag = false;
+                    else
+                    {
+                        endFlag = true;
+                        commitTextBox.Text += (line + "\r\n");
+                    }
+
+                }
+                if (parentFlag && (line.IndexOf("parent") == 0))
+                {
+                    print = line.Split(' ');
+                    commitTextBox.Text += ("parent: " + print[1].Substring(0, 5) + "\r\n");
+                    parentFlag=false;
+                }
+                if (authorFlag && (line.IndexOf("author") == 0))
+                {
+                    print = line.Split(' ');
+                    commitTextBox.Text += ("author: " + print[1] +" " + print[2] + "\r\n");
+                    authorFlag = false;
+                }
+                if (committerFlag && (line.IndexOf("committer") == 0))
+                {
+                    print = line.Split(' ');
+                    commitTextBox.Text += ("committer: " + print[1] + "\r\n");
+                    committerFlag = false;
+                    commitMsgFlag = true;
+                }
+            }
+        } 
     }
 }
