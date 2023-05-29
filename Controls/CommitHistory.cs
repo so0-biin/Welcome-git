@@ -97,14 +97,6 @@ namespace FileManager.Controls
                 int checksumIndex;
                 int messageIndex;
 
-                //Console.WriteLine(checksumIndex);
-                
-                
-
-                //Console.WriteLine(commit.Substring(0, checksumIndex-1));
-                //Console.WriteLine(commit.Substring(checksumIndex, messageIndex - checksumIndex - 1));
-                //Console.WriteLine(commit.Substring(messageIndex + 1, commit.Length - messageIndex-  1));
-                
                 ListViewItem listViewItem;
 
                 if (!commit.Contains('*'))
@@ -125,11 +117,11 @@ namespace FileManager.Controls
                         i++;
                     }
 
-                    messageIndex = commit.IndexOf(' ', checksumIndex);
+                    messageIndex = commit.IndexOf(' ', checksumIndex) + 1;
 
                     listViewItem = new ListViewItem(
                     new string[] { commit.Substring(0, checksumIndex - 1), commit.Substring(checksumIndex, 7), 
-                        commit.Substring(messageIndex + 1, commit.Length - messageIndex - 1) });
+                        commit.Substring(messageIndex, commit.Length - messageIndex) });
                 }
                                 
                 listViewItem.Tag = commit;
