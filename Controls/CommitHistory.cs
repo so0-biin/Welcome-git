@@ -93,9 +93,20 @@ namespace FileManager.Controls
                 Console.WriteLine(commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1));
                 Console.WriteLine(commit.Substring(checksumIndex + 1, commit.Length - checksumIndex-  1));
                 //Console.WriteLine(commit.Length - checksumIndex - 1);
+                ListViewItem listViewItem;
 
-                ListViewItem listViewItem = new ListViewItem(
-                    new string[] {commit.Substring(0, graphIndex), commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1), commit.Substring(checksumIndex + 1, commit.Length - checksumIndex-  1)});
+                if (!commit.Contains('*'))
+                {
+                    listViewItem = new ListViewItem(
+                    new string[] { commit.Substring(0, graphIndex), "", ""});
+                }
+
+                else
+                {
+                    listViewItem = new ListViewItem(
+                    new string[] { commit.Substring(0, graphIndex), commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1), commit.Substring(checksumIndex + 1, commit.Length - checksumIndex - 1) });
+                }
+                                
                 listViewItem.Tag = commit;
                 listViewItem.UseItemStyleForSubItems = false;
                 //listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
