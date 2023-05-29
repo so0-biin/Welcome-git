@@ -16,14 +16,11 @@ namespace FileManager
 {
   public partial class HistoryMenu : Form
   {
-    string currentDirectory;
-    public HistoryMenu(string data);
     private BranchList BranchListView;
     private string currentDirectory;
     public HistoryMenu()
     {
       InitializeComponent();
-      currentDirectory = data;
     }
 
     public HistoryMenu(string data)
