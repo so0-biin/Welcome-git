@@ -71,9 +71,17 @@ namespace FileManager.Controls
 
         public string getGraph(string[] commitLog)
         {
+            string[] commitG;
+            string[] commitC;
+            string[] commitM;
+
             foreach (string commit in commitLog)
             {
-                int graphIndex = commit.IndexOf(' ');
+                int graphIndex = commit.IndexOf(' ') + 1;
+                int checksumIndex = commit.IndexOf(' ', commit.IndexOf(' ') + 1) + 1;
+
+                commitG = commit.Split
+
                 Console.WriteLine(graphIndex);
             }
             return "Unmodified/Committed";
