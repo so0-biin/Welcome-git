@@ -106,7 +106,7 @@
             this.Controls.Add(this.button1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Merge";
-            this.Text = "v";
+            this.Text = "Merge";
             this.ResumeLayout(false);
             this.PerformLayout();
 
