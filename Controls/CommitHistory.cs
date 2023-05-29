@@ -60,7 +60,13 @@ namespace FileManager.Controls
             // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
             process.StandardInput.Close();
             StreamReader reader = process.StandardOutput;
+
+            //String result = process.StandardOutput.ReadToEnd();
+            //MessageBox.Show(result);
             string output = reader.ReadToEnd();
+            int start = output.IndexOf('*');
+            output = output.Substring(start, output.Length - start - 1);
+
             commitLog = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
             process.WaitForExit();
@@ -69,53 +75,28 @@ namespace FileManager.Controls
             return commitLog;
         }
 
-        public string getGraph(string[] commitLog)
+        public void showGraph(string[] commitLog)
         {
-            string[] commitG;
-            string[] commitC;
-            string[] commitM;
-
+            List<string> commitList = new List<string>();
+            
             foreach (string commit in commitLog)
             {
-                int graphIndex = commit.IndexOf(' ') + 1;
-                int checksumIndex = commit.IndexOf(' ', commit.IndexOf(' ') + 1) + 1;
+                int graphIndex = commit.IndexOf(' ');
+                int checksumIndex = commit.IndexOf(' ', commit.IndexOf(' ') + 1);
 
-                commitG = commit.Split
-
+                Console.WriteLine(commit);
                 Console.WriteLine(graphIndex);
-            }
-            return "Unmodified/Committed";
-        }
+                Console.WriteLine(checksumIndex-graphIndex-1);
+                Console.WriteLine(commit.Length - checksumIndex - 1);
 
-        public void ShowCommitList(string path)
-        {
-            
-            List<string> commitList = new List<string>();
-
-            commitList.AddRange(Directory.GetDirectories(path));
-
-            this.BeginUpdate();
-
-            foreach (string commit in commitList)
-            {
                 ListViewItem listViewItem = new ListViewItem(
-                    new string[] {Path.GetFileName(commit),"",
-                        File.GetLastWriteTime(commit).ToString(),
-                        Folder.Description},
-                    this.SmallImageList.Images.Count - 1);
-                listViewItem.Tag = commit;
-                listViewItem.UseItemStyleForSubItems = false;
-                listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
+                    new string[] {commit.Substring(0, graphIndex), commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1), commit.Substring(checksumIndex + 1, commit.Length - checksumIndex-  1)});
+                //listViewItem.Tag = commit;
+                //listViewItem.UseItemStyleForSubItems = false;
+                //listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
-                this.Items.Add(listViewItem);
             }
-
-            this.EndUpdate();
         }
-
-
-
-
 
         void cmd_ex(String real_path, String command)
         {

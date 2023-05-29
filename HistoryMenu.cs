@@ -21,10 +21,14 @@ namespace FileManager
             InitializeComponent();
             GraphListView = new CommitHistory();
             GraphListView.Initialize();
-            splitContainer2.Panel1.Controls.Add(GraphListView);
-            
             currentDirectory = data;
-            Console.WriteLine(currentDirectory);
+            splitContainer2.Panel1.Controls.Add(GraphListView);
+
+            string[] commitLog = GraphListView.GetCommitLog(currentDirectory);
+            MessageBox.Show(commitLog[1]);
+            
+            GraphListView.showGraph(commitLog);
+
         }
 
 
