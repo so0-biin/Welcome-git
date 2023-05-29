@@ -52,10 +52,12 @@ namespace FileManager
                 if (Directory.Exists(this.CurrentDirectory.Text + "\\.git"))
                 {
                     button1.Enabled = false;
+                    button5.Enabled = true;
                 }
                 else
                 {
                     button1.Enabled = true;
+                    button5.Enabled = false;    
                 }
                 FilesListView.ShowFiles(path);
                 FilesListView.ShowDirectories(path);
