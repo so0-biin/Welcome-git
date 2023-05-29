@@ -22,13 +22,27 @@ namespace FileManager
             GraphListView = new CommitHistory();
             GraphListView.Initialize();
             currentDirectory = data;
+
             splitContainer2.Panel1.Controls.Add(GraphListView);
 
-            string[] commitLog = GraphListView.GetCommitLog(currentDirectory);
-            MessageBox.Show(commitLog[1]);
-            
-            GraphListView.showGraph(commitLog);
+            GraphRefresh(currentDirectory);
 
+        }
+
+        public void GraphRefresh(string path)
+        {
+            string[] commitLog = GraphListView.GetCommitLog(path);
+            
+
+            GraphListView.Items.Clear();
+            try 
+            {
+                GraphListView.showGraph(commitLog);
+            }
+            catch
+            {
+
+            }
         }
 
 

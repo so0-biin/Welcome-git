@@ -65,7 +65,10 @@ namespace FileManager.Controls
             //MessageBox.Show(result);
             string output = reader.ReadToEnd();
             int start = output.IndexOf('*');
-            output = output.Substring(start, output.Length - start - 1);
+            int length = path.Length;
+            output = output.Substring(start, output.Length - start - length - 1);
+
+            Console.WriteLine(output);
 
             commitLog = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
@@ -78,24 +81,30 @@ namespace FileManager.Controls
         public void showGraph(string[] commitLog)
         {
             List<string> commitList = new List<string>();
+
+            this.BeginUpdate();
             
             foreach (string commit in commitLog)
             {
                 int graphIndex = commit.IndexOf(' ');
                 int checksumIndex = commit.IndexOf(' ', commit.IndexOf(' ') + 1);
 
-                Console.WriteLine(commit);
-                Console.WriteLine(graphIndex);
-                Console.WriteLine(checksumIndex-graphIndex-1);
-                Console.WriteLine(commit.Length - checksumIndex - 1);
+                Console.WriteLine(commit.Substring(0, graphIndex));
+                Console.WriteLine(commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1));
+                Console.WriteLine(commit.Substring(checksumIndex + 1, commit.Length - checksumIndex-  1));
+                //Console.WriteLine(commit.Length - checksumIndex - 1);
 
                 ListViewItem listViewItem = new ListViewItem(
                     new string[] {commit.Substring(0, graphIndex), commit.Substring(graphIndex + 1, checksumIndex - graphIndex - 1), commit.Substring(checksumIndex + 1, commit.Length - checksumIndex-  1)});
-                //listViewItem.Tag = commit;
-                //listViewItem.UseItemStyleForSubItems = false;
+                listViewItem.Tag = commit;
+                listViewItem.UseItemStyleForSubItems = false;
                 //listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
 
+                this.Items.Add(listViewItem);
+
             }
+
+            this.EndUpdate();
         }
 
         void cmd_ex(String real_path, String command)
