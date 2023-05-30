@@ -34,7 +34,7 @@ namespace FileManager.Controls
 
             this.Columns.Add("graph", 150, HorizontalAlignment.Left);
             this.Columns.Add("checksum", 150, HorizontalAlignment.Left);
-            this.Columns.Add("commit message", 150, HorizontalAlignment.Left);
+            this.Columns.Add("commit message", 500, HorizontalAlignment.Left);
             this.Columns.Add("cm", 0, HorizontalAlignment.Left);
 
             this.Columns[3].Dispose();

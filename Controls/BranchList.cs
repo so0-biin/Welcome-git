@@ -19,7 +19,7 @@ namespace FileManager.Controls
       this.View = View.Details;
       this.Dock = DockStyle.Fill;
 
-      this.Columns.Add("Branch List", 200, HorizontalAlignment.Left);
+      this.Columns.Add("Branch List", 500, HorizontalAlignment.Left);
 
       this.FullRowSelect = true;
 
