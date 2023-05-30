@@ -76,6 +76,9 @@
     <Compile Include="Controls\BranchList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\CommitHistory.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Navigation.cs">
       <SubType>Component</SubType>
     </Compile>
