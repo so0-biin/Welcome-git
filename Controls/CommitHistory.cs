@@ -34,6 +34,7 @@ namespace FileManager.Controls
             this.Columns.Add("graph", 150, HorizontalAlignment.Left);
             this.Columns.Add("checksum", 150, HorizontalAlignment.Left);
             this.Columns.Add("commit message", 150, HorizontalAlignment.Left);
+            this.Columns.Add("", 0, HorizontalAlignment.Left);
 
             this.FullRowSelect = true;
             this.MouseClick += m_ListView_MouseClick;
@@ -121,7 +122,7 @@ namespace FileManager.Controls
 
                     listViewItem = new ListViewItem(
                     new string[] { commit.Substring(0, checksumIndex - 1), commit.Substring(checksumIndex, 7), 
-                        commit.Substring(messageIndex, commit.Length - messageIndex) });
+                        commit.Substring(messageIndex, commit.Length - messageIndex), commit.Substring(checksumIndex, 40)});
                 }
                                 
                 listViewItem.Tag = commit;
@@ -140,7 +141,7 @@ namespace FileManager.Controls
             if (e.Button.Equals(MouseButtons.Left))
             {
                 ListViewItem item = (sender as CommitHistory).SelectedItems[0];
-                string checksum = item.SubItems[1].Text;
+                string checksum = item.SubItems[3].Text;
                 commitTextBox.Clear();
                 if (checksum.Length != 0)
                 {
@@ -181,7 +182,7 @@ namespace FileManager.Controls
             result = output.Split(Environment.NewLine.ToCharArray());
 
 
-            commitTextBox.Text += ("commit: " + checksum + "\r\n");
+            commitTextBox.Text += ("commit: " + checksum + " [" + checksum.Substring(0, 6)+"]\r\n");
             printCommitText(result);
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
