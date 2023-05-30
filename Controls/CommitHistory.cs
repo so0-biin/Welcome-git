@@ -99,13 +99,14 @@ namespace FileManager.Controls
                 int i = 0;
                 int checksumIndex;
                 int messageIndex;
-
+                string transCommit;
                 ListViewItem listViewItem;
 
                 if (!commit.Contains('*'))
                 {
+                    transCommit=transGraph(commit);
                     listViewItem = new ListViewItem(
-                    new string[] { commit, "", "",""});
+                    new string[] { transCommit, "", "",""});
                 }
 
                 else
@@ -121,9 +122,9 @@ namespace FileManager.Controls
                     }
 
                     messageIndex = commit.IndexOf(' ', checksumIndex) + 1;
-
+                    transCommit = transGraph(commit.Substring(0, checksumIndex - 1));
                     listViewItem = new ListViewItem(
-                    new string[] { commit.Substring(0, checksumIndex - 1), commit.Substring(checksumIndex, 7), 
+                    new string[] { transCommit, commit.Substring(checksumIndex, 7), 
                         commit.Substring(messageIndex, commit.Length - messageIndex), commit.Substring(checksumIndex, 40)});
 
                 }
@@ -137,6 +138,23 @@ namespace FileManager.Controls
             }
 
             this.EndUpdate();
+        }
+
+        private string transGraph(string commit)
+        {
+            string result = "";
+            for (int i = 0; i< commit.Length; i++)
+            {
+                if (commit[i].Equals('*'))
+                    result += "o";
+                if (commit[i].Equals('\\'))
+                    result += "⧹";
+                if (commit[i].Equals('/'))
+                    result += "⧸";
+                if (commit[i].Equals('|'))
+                    result += "⎪";
+            }
+            return result;
         }
 
         private void m_ListView_MouseClick(object sender, MouseEventArgs e)
