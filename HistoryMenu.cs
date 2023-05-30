@@ -28,7 +28,7 @@ namespace FileManager
             currentDirectory = data;
            
             BranchListView = new BranchList();
-            BranchListView.Initialize();
+            BranchListView.Initialize(GraphListView);
             splitContainer1.Panel1.Controls.Add(BranchListView);
 
             BranchRefresh();
