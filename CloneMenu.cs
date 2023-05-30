@@ -69,12 +69,36 @@ namespace FileManager
         private void button1_Click(object sender, EventArgs e) // clone button click
         {
             repoClone(textBox2.Text, textBox1.Text); // clone 버튼 클릭하면 clone하기 - private / public, 경로, 주소
-
-
-
         }
 
-        private void cloneCmd(string path, string repoAddress)
+        private void storeIDandToken(string pathtoclone, string dir, string ID, string token) // 만들어진 .git 내에 생성
+        {
+
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+
+            process.Start();
+            process.StandardInput.Write(@"cd " + pathtoclone + Environment.NewLine);
+            process.StandardInput.Write(@"cd " + dir + Environment.NewLine);
+            process.StandardInput.Write(@"cd " + ".git" + Environment.NewLine); // .git 내부로 이동
+            process.StandardInput.Write(@"echo " + ID + " " + token + ">> new.txt " + Environment.NewLine);
+            process.StandardInput.Write(@"" + ID + " " + token + Environment.NewLine);
+            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
+            process.StandardInput.Close();
+        }
+        private bool cloneCmd(string path, string repoAddress)
         {
             // repoAddress가 public이면 입력받은 address로 그냥 오고 private이면 변형되어서 올 것임
 
@@ -107,7 +131,7 @@ namespace FileManager
 
             process.WaitForExit();
             process.Close();
-            this.Close();
+            //this.Close();
 
             bool successClone = true;
             foreach(string output in cloneError)
@@ -119,6 +143,7 @@ namespace FileManager
                 }
             }
             form1.setTextAfterClone(successClone, cloneError);
+            return successClone;
 
 
         }
@@ -140,12 +165,25 @@ namespace FileManager
                 {
                     // "https://"github.com, id, token 넣기 위해서 잘라서 넣기
                     repoAddress = "https://" + textBox3.Text + ":" + textBox4.Text + "@" + address.Substring(Index + 2);
-                    cloneCmd(path, repoAddress);
+                    //cloneCmd(path, repoAddress); // private repository를 cmd로 clone
+                    string reversedAddress = new String(address.Reverse().ToArray()); 
+                    // string을 뒤집고 .git을 거꾸로한 것을 자르고 첫번째 /까지 자르면 repo 이름 생성
+                    int reversedIndex = reversedAddress.IndexOf("/"); // 첫번째 /
+                    string cloneDir = new String(reversedAddress.Substring(4, reversedIndex - 4).Reverse().ToArray());
+                    bool cloneSuccessFlag = cloneCmd(path, repoAddress); // private repository를 cmd로 clone, 잠시 확인, 지울 예정
+          
+                    if(cloneSuccessFlag)
+                    {
+                        storeIDandToken(path, cloneDir, textBox3.Text, textBox4.Text); // clone에 성공했을 때만 적어야 함
+                    }
+                    
+                    this.Close();
                 }               
             }
             else // public일 때 그냥 수행
             {
                 cloneCmd(path, repoAddress);
+                this.Close();
             }
                                
         }
