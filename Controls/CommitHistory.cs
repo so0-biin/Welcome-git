@@ -128,10 +128,10 @@ namespace FileManager.Controls
                         commit.Substring(messageIndex, commit.Length - messageIndex), commit.Substring(checksumIndex, 40)});
 
                 }
-                                
+                        
                 listViewItem.Tag = commit;
                 listViewItem.UseItemStyleForSubItems = false;
-                //listViewItem.SubItems[2].ForeColor = listViewItem.SubItems[3].ForeColor = Color.Gray;
+                listViewItem.SubItems[0].ForeColor = Color.Green;
 
                 this.Items.Add(listViewItem);
 
@@ -146,13 +146,13 @@ namespace FileManager.Controls
             for (int i = 0; i< commit.Length; i++)
             {
                 if (commit[i].Equals('*'))
-                    result += "o";
+                    result += " ⍥";
                 if (commit[i].Equals('\\'))
-                    result += "⧹";
+                    result += " ⧹";
                 if (commit[i].Equals('/'))
-                    result += "⧸";
+                    result += " ⧸";
                 if (commit[i].Equals('|'))
-                    result += "⎪";
+                    result += " |";
             }
             return result;
         }
