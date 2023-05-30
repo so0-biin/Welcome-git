@@ -20,7 +20,7 @@ namespace FileManager
 
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
 
             FilesListView = new Explorer();
             FilesListView.Initialize();
@@ -67,7 +67,7 @@ namespace FileManager
 
             }
 
-            
+
         }
 
         private void InitializeViewOptions()
@@ -150,8 +150,8 @@ namespace FileManager
         private void button1_Click(object sender, EventArgs e)
         {
             //http://redreans.tistory.com/58
-            
-            
+
+
             // cmd를 사용하기 위한 준비
             ProcessStartInfo cmd = new ProcessStartInfo();
             Process process = new Process();
@@ -173,29 +173,30 @@ namespace FileManager
             StringBuilder sb = new StringBuilder();
             sb.Append(this.CurrentDirectory.Text);
             directoryPath = sb.ToString();
-            
+
             process.Start(); // cmd 명령 입히는거 시작                     
             process.StandardInput.Write(@"cd " + directoryPath + Environment.NewLine);
             StringBuilder sb2 = new StringBuilder();
             process.StandardInput.Write(@"git init" + Environment.NewLine);
 
 
-            if (directoryPath.Length >= 1) {
+            if (directoryPath.Length >= 1)
+            {
                 textBox1.Text = "Initialized empty Git repository in " + directoryPath + "\\.git\\";
                 button1.Enabled = false;
             }
-            else 
+            else
             {
                 textBox1.Text = "Choose directory to initialize empty Git repository.";
             }
 
-            
+
             process.StandardInput.Close(); // cmd  명령 입력 끝
-            
+
 
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
-            
+
             // git init file Redirection
             FilesListView.Items.Clear();
             try
@@ -207,17 +208,17 @@ namespace FileManager
             {
 
             }
-            
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
+
             string[] gitStatus;
             string[] result;
 
@@ -227,7 +228,7 @@ namespace FileManager
             CommitMenu commitMenu = new CommitMenu(this);
             commitMenu.Show(); // commitmenu 닫기 전에는 form1 제어 불가
             commitMenu.SetTextBeforeCommit(this.CurrentDirectory.Text, result);
-                       
+
 
         }
 
@@ -240,7 +241,7 @@ namespace FileManager
         }
 
         public string[] GetStatus(string path)
-        {           
+        {
             string[] gitStatus;
             ProcessStartInfo cmd = new ProcessStartInfo();
             Process process = new Process();
@@ -262,7 +263,7 @@ namespace FileManager
             process.StandardInput.Close();
 
             StreamReader reader = process.StandardOutput;
-            string output = reader.ReadToEnd();            
+            string output = reader.ReadToEnd();
 
             gitStatus = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             process.WaitForExit();
@@ -272,7 +273,7 @@ namespace FileManager
 
         public string[] FindStatus(string[] gitStatus)
         {
-            string[] result = new string[gitStatus.Length]; 
+            string[] result = new string[gitStatus.Length];
 
             bool flag = false;
             int i = 0;
@@ -287,7 +288,7 @@ namespace FileManager
                 if (flag && status.Contains("modified: "))
                 {
                     result[i++] = status;
-                }                   
+                }
                 if (flag && status.Contains("new file: "))
                 {
                     result[i++] = status;
@@ -383,9 +384,14 @@ namespace FileManager
         }
 
         private void button5_Click(object sender, EventArgs e)
-        {            
-            HistoryMenu historyMenu = new HistoryMenu();
-            historyMenu.Show();
+        {
+            HistoryMenu historyMenu = new HistoryMenu(this.CurrentDirectory.Text);
+            historyMenu.Show(); // historymenu 닫기 전에는 form1 제어 불가
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
