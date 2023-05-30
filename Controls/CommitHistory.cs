@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.Presentation;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -34,8 +35,9 @@ namespace FileManager.Controls
             this.Columns.Add("graph", 150, HorizontalAlignment.Left);
             this.Columns.Add("checksum", 150, HorizontalAlignment.Left);
             this.Columns.Add("commit message", 150, HorizontalAlignment.Left);
-            this.Columns.Add("", 0, HorizontalAlignment.Left);
+            this.Columns.Add("cm", 0, HorizontalAlignment.Left);
 
+            this.Columns[3].Dispose();
             this.FullRowSelect = true;
             this.MouseClick += m_ListView_MouseClick;
             this.commitTextBox = textBox;
@@ -123,6 +125,7 @@ namespace FileManager.Controls
                     listViewItem = new ListViewItem(
                     new string[] { commit.Substring(0, checksumIndex - 1), commit.Substring(checksumIndex, 7), 
                         commit.Substring(messageIndex, commit.Length - messageIndex), commit.Substring(checksumIndex, 40)});
+
                 }
                                 
                 listViewItem.Tag = commit;
