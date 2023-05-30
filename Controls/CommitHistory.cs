@@ -105,7 +105,7 @@ namespace FileManager.Controls
                 if (!commit.Contains('*'))
                 {
                     listViewItem = new ListViewItem(
-                    new string[] { commit, "", ""});
+                    new string[] { commit, "", "",""});
                 }
 
                 else
@@ -195,30 +195,34 @@ namespace FileManager.Controls
         public void printCommitText(string[] catCommitObj)
         {
             string[] print;
-            bool parentFlag = true, authorFlag = true, committerFlag = true, commitMsgFlag = false,endFlag = false;
+            bool parentFlag = true, authorFlag = true, committerFlag = true, commitMsgFlag = false, readMeFlag = false;
             foreach (string line in catCommitObj)
             {
                 if (commitMsgFlag)
                 {
                     if (line.Equals(currentDirectory + ">"))
                         commitMsgFlag = false;
-                    else
+                    else if (line.Contains("-----BEGIN PGP SIGNATURE-----") || line.Contains("-----END PGP SIGNATURE-----"))
                     {
-                        endFlag = true;
+                        readMeFlag = !readMeFlag;
+                    }
+                    else if (!readMeFlag)
+                    {
                         commitTextBox.Text += (line + "\r\n");
                     }
+
 
                 }
                 if (parentFlag && (line.IndexOf("parent") == 0))
                 {
                     print = line.Split(' ');
-                    commitTextBox.Text += ("parent: " + print[1].Substring(0, 5) + "\r\n");
-                    parentFlag=false;
+                    commitTextBox.Text += ("parent: " + print[1].Substring(0, 7) + "\r\n");
+                    parentFlag = false;
                 }
                 if (authorFlag && (line.IndexOf("author") == 0))
                 {
                     print = line.Split(' ');
-                    commitTextBox.Text += ("author: " + print[1] +" " + print[2] + "\r\n");
+                    commitTextBox.Text += ("author: " + print[1] + " " + print[2] + "\r\n");
                     authorFlag = false;
                 }
                 if (committerFlag && (line.IndexOf("committer") == 0))
@@ -229,6 +233,6 @@ namespace FileManager.Controls
                     commitMsgFlag = true;
                 }
             }
-        } 
+        }
     }
 }
