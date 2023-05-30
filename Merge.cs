@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileManager.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,11 +17,14 @@ namespace FileManager
     {
         string path;
         string current_branch;
-
-        public Merge(string currentDirectory)
+        CommitHistory history;
+        BranchList branch;
+        public Merge(string currentDirectory,CommitHistory commitHistory,BranchList branchList)
         {
             InitializeComponent();
             path = currentDirectory;
+            this.history = commitHistory;
+            this.branch = branchList;
 
             label1.Text = "current branch";
             label2.Text = "merge branch";
@@ -76,12 +80,45 @@ namespace FileManager
                 //textBox1.Text = result + " conflict occured and automatically aborted merge";
                 //textBox1.Text = "conflict occured and automatically aborted merge";
                 cmd_ex(path, "merge --abort");
-                MessageBox.Show(result_back + "conflict occured and automatically aborted merge");
+                MessageBox.Show(result_back + "conflict occured and automatically aborted merge","",MessageBoxButtons.OK);
             }
             else
             {
                 //textBox1.Text = "successfully merged";
-                MessageBox.Show("successfully merged");
+                DialogResult dialogResult =  MessageBox.Show("successfully merged", "", MessageBoxButtons.OK);
+                if (dialogResult == DialogResult.OK)
+                {
+                    BranchRefresh();
+                    GraphRefresh(path);
+                }
+            }
+        }
+        public void GraphRefresh(string path)
+        {
+            string[] commitLog = history.GetCommitLog(path);
+
+            history.Items.Clear();
+            try
+            {
+                history.showGraph(commitLog);
+            }
+            catch
+            {
+
+            }
+        }
+
+
+        public void BranchRefresh()
+        {
+            branch.Items.Clear();
+            try
+            {
+                branch.ShowBranches(path);
+            }
+            catch
+            {
+
             }
         }
 

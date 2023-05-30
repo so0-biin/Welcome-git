@@ -177,7 +177,7 @@ namespace FileManager
 
         private void button1_Click(object sender, EventArgs e)
         {
-          Merge merge = new Merge(currentDirectory);
+          Merge merge = new Merge(currentDirectory, GraphListView,BranchListView);
           merge.Show();
         }
     }
