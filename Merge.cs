@@ -67,8 +67,20 @@ namespace FileManager
                 int index = result.IndexOf(search_front);
                 int index2 = index + search_front.Length;
                 result = result.Substring(index2).Trim();
+                string result_back = "";
 
-                string result_back = result.Remove(result.IndexOf("no changes"));
+                if (result.Contains("no changes added to commit"))
+                {
+                    result_back = result.Remove(result.IndexOf("no changes"));
+                }
+                else if(result.Contains("Untracked paths:"))
+                {
+                    result_back = result.Remove(result.IndexOf("\"Untracked paths:"));
+                }
+                else
+                {
+                    result_back = result;
+                }
                 int index3 = result_back.IndexOf("(fix");
                 int index4 = result_back.IndexOf("merge)");
                 result_back = result_back.Remove(index3, index4 - index3 + 7);
