@@ -109,8 +109,18 @@ namespace FileManager
             string output = reader.ReadToEnd();
 
             gitAfterCommit = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            form1.setTextAfterCommit(gitAfterCommit, textBox2.Text);
- 
+
+            StreamReader readError = process.StandardError;
+            string error = readError.ReadToEnd();
+            if (error.Contains("error") || error.Contains("fatal"))
+            {
+                form1.setTextAfterCommit(error, gitAfterCommit, textBox2.Text);
+            }
+            else
+            {
+                form1.setTextAfterCommit(null, gitAfterCommit, textBox2.Text);
+            }
+
             process.WaitForExit();
             process.Close(); // cmd 창을 닫음
 

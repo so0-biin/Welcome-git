@@ -319,24 +319,33 @@ namespace FileManager
             return result;
         }
 
-        public void setTextAfterCommit(string[] result, string commitMsg)
+        public void setTextAfterCommit(string commitFail, string[] result, string commitMsg)
         {
-            textBox1.Text = "";
-            textBox1.Text += "Successfully Committed!\r\n" + commitMsg;
-
-            string directoryPath = this.CurrentDirectory.Text;
-
-            FilesListView.Items.Clear();
-            try
+            if(commitFail == null)
             {
+                textBox1.Text = "";
+                textBox1.Text += "Successfully Committed!\r\n" + commitMsg;
 
-                FilesListView.ShowFiles(directoryPath);
-                FilesListView.ShowDirectories(directoryPath);
+                string directoryPath = this.CurrentDirectory.Text;
+
+                FilesListView.Items.Clear();
+                try
+                {
+
+                    FilesListView.ShowFiles(directoryPath);
+                    FilesListView.ShowDirectories(directoryPath);
+                }
+                catch
+                {
+
+                }
             }
-            catch
+            else
             {
-
+                textBox1.Text = "";
+                textBox1.Text += commitFail;
             }
+
 
         }
 
