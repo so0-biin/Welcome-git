@@ -373,6 +373,48 @@ namespace FileManager
 
         }
 
+        private bool CheckBranch(string path)
+        {
+            bool branchFlag = false;
+            string[] gitBranch;
+            ProcessStartInfo cmd = new ProcessStartInfo();
+            Process process = new Process();
+
+            cmd.FileName = @"cmd";
+            cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmd창이 숨겨지도록 하기
+            cmd.CreateNoWindow = true;                               // cmd창을 띄우지 안도록 하기
+            cmd.UseShellExecute = false;
+            cmd.RedirectStandardOutput = true;        // cmd창에서 데이터를 가져오기
+            cmd.RedirectStandardInput = true;          // cmd창으로 데이터 보내기
+            cmd.RedirectStandardError = true;          // cmd창에서 오류 내용 가져오기
+
+            process.EnableRaisingEvents = false;
+            process.StartInfo = cmd;
+            process.Start();
+            process.StandardInput.Write(@"cd " + path + Environment.NewLine);
+            process.StandardInput.Write(@"git branch" + Environment.NewLine);
+            // 명령어를 보낼때는 꼭 마무리를 해줘야 한다. 그래서 마지막에 NewLine가 필요하다
+            process.StandardInput.Close();
+
+            StreamReader reader = process.StandardOutput;
+            string output = reader.ReadToEnd();
+
+            gitBranch = output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string result in gitBranch)
+            {
+                if (!result.Contains(@"\") && !result.Contains("Microsoft"))
+                {
+                    branchFlag = true; 
+                    break;
+                }
+            }
+
+            process.WaitForExit();
+            process.Close();
+            return branchFlag;
+        }
+
         private void button3_Click_1(object sender, EventArgs e)
         {
             string directoryPath = this.CurrentDirectory.Text;
@@ -407,8 +449,17 @@ namespace FileManager
 
         private void button5_Click(object sender, EventArgs e)
         {
-            HistoryMenu historyMenu = new HistoryMenu(this.CurrentDirectory.Text);
-            historyMenu.Show(); // historymenu 닫기 전에는 form1 제어 불가
+            string path = this.CurrentDirectory.Text;
+            if (CheckBranch(path))
+            {
+                HistoryMenu historyMenu = new HistoryMenu(path);
+                historyMenu.Show(); // historymenu 닫기 전에는 form1 제어 불가
+            }
+            else
+            {
+                textBox1.Clear();
+                textBox1.Text = "current directory not yet version controlled by git";
+            }
         }
 
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
