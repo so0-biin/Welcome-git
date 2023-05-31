@@ -202,6 +202,16 @@ namespace FileManager
             FilesListView.Items.Clear();
             try
             {
+                if (Directory.Exists(this.CurrentDirectory.Text + "\\.git"))
+                {
+                    button1.Enabled = false;
+                    button5.Enabled = true;
+                }
+                else
+                {
+                    button1.Enabled = true;
+                    button5.Enabled = false;
+                }
                 FilesListView.ShowFiles(directoryPath);
                 FilesListView.ShowDirectories(directoryPath);
             }
@@ -319,6 +329,7 @@ namespace FileManager
             FilesListView.Items.Clear();
             try
             {
+
                 FilesListView.ShowFiles(directoryPath);
                 FilesListView.ShowDirectories(directoryPath);
             }
@@ -368,6 +379,16 @@ namespace FileManager
             FilesListView.Items.Clear();
             try
             {
+                if (Directory.Exists(directoryPath + "\\.git"))
+                {
+                    button1.Enabled = false;
+                    button5.Enabled = true;
+                }
+                else
+                {
+                    button1.Enabled = true;
+                    button5.Enabled = false;
+                }
                 FilesListView.ShowFiles(directoryPath);
                 FilesListView.ShowDirectories(directoryPath);
             }
