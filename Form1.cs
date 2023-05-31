@@ -184,6 +184,7 @@ namespace FileManager
             {
                 textBox1.Text = "Initialized empty Git repository in " + directoryPath + "\\.git\\";
                 button1.Enabled = false;
+                button5.Enabled = true;
             }
             else
             {
