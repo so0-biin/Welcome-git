@@ -75,7 +75,7 @@ namespace FileManager
                 }
                 else if(result.Contains("Untracked paths:"))
                 {
-                    result_back = result.Remove(result.IndexOf("\"Untracked paths:"));
+                    result_back = result.Remove(result.IndexOf("Untracked paths:"));
                 }
                 else
                 {
