@@ -71,28 +71,24 @@ namespace FileManager
 
                 if (result.Contains("no changes added to commit"))
                 {
-                    result_back = result.Remove(result.IndexOf("no changes"));
+                    result = result.Remove(result.IndexOf("no changes"));
                 }
-                else if(result.Contains("Untracked paths:"))
+                if(result.Contains("Untracked files:"))
                 {
-                    result_back = result.Remove(result.IndexOf("Untracked paths:"));
+                    result = result.Remove(result.IndexOf("Untracked files:"));
                 }
-                else
-                {
-                    result_back = result;
-                }
-                int index3 = result_back.IndexOf("(fix");
-                int index4 = result_back.IndexOf("merge)");
-                result_back = result_back.Remove(index3, index4 - index3 + 7);
-                int index5 = result_back.IndexOf("(use");
-                int index6 = result_back.IndexOf("resolution)");
-                result_back = result_back.Remove(index5, index6 - index5 + 12);
+                int index3 = result.IndexOf("(fix");
+                int index4 = result.IndexOf("merge)");
+                result = result.Remove(index3, index4 - index3 + 7);
+                int index5 = result.IndexOf("(use");
+                int index6 = result.IndexOf("resolution)");
+                result = result.Remove(index5, index6 - index5 + 12);
 
 
                 //textBox1.Text = result + " conflict occured and automatically aborted merge";
                 //textBox1.Text = "conflict occured and automatically aborted merge";
                 cmd_ex(path, "merge --abort");
-                MessageBox.Show(result_back + "conflict occured and automatically aborted merge","",MessageBoxButtons.OK);
+                MessageBox.Show(result + "conflict occured and automatically aborted merge","",MessageBoxButtons.OK);
             }
             else
             {
