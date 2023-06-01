@@ -6,21 +6,20 @@
 
 Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. The original file explorer used to create our program is [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
 
-Feature #1. File explorer
-![git_init](https://github.com/so0-biin/Welcome-git/assets/69229909/d4f6bf37-e17d-4c4d-b9b5-efe48ffac1b3)
+Feature #1-1. File explorer
 
 - The file browsing starts from the root directory(C:\) of the computer.
 - All files and directories included in the current directory are displayed with their icon, name, and extensions(Status, Date Modified, Type).
 - A user can browse a directory by double clicking its icon.
 
-Feature #2. Git repository creation
+Feature #1-2. Git repository creation
 
 Welcome-git supports to turn any local directory into a git repository.
 
 - It provides a "git init" button as menu for a git repository creation only if a current directory in the browser is not managed by git yet.
 - Once the repository creation is requested, the service creates a new git repository for the current working directory.
 
-Feature #3. Version controlling
+Feature #1-3. Version controlling
 
 Welcome-git supports the version controlling of a git repository.
 
@@ -28,12 +27,40 @@ Welcome-git supports the version controlling of a git repository.
 - It provides a different menu depending on the status(untracked/modified/staged/committed or unmodified) of a selected file.
 - It provides a "git commit" button as separate menu for committing staged changes.
 
+Feature #2-1. Branch management
+
+Welcome-git supports basic functionalities related with branches.
+
+- Create / Delete / Rename / Checkout
+
+Feature #2-2 Branch merge 
+
+Welcome-git provides a menu to merge a target branch to the current branch.
+
+- If the merge is failed due to confilct, it provides the user with unmerged paths and simply aborts the merge process.
+
+Feature #2-3 Git commit history
+
+Welcome-git shows the commit history of a project in the form of a simplified graph, checksum, commit message.
+
+- When you click the commit object, you can see more information about that commit object like entire checksum, parent commit object's checksum, author's ID, committer's ID and commit message.
+
+- History menu is activated when current directory has .git directory.
+
+Feature #2-4 Git clone from Github
+
+Welcome-git provides a functionality to clone a git repository form Github to local.
+
+- A user can clone public repository and private repository.
+
 [![Demo_video](http://img.youtube.com/vi/ro7aTemv6Us/0.jpg)](https://youtu.be/ro7aTemv6Us)
 
 ## Build
 If you want to run this program in your local system, please follow this guide. 
 
 #### 1. Prerequisites
+
+OS: Windows 10
 
 [Visual Studio 2022](https://visualstudio.microsoft.com/ko/vs/community/) with the following components
 
