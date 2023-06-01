@@ -53,7 +53,11 @@ Welcome-git provides a functionality to clone a git repository form Github to lo
 
 - A user can clone public repository and private repository.
 
+#### Demo Video about Feature #1
+
 [![Demo_video](http://img.youtube.com/vi/ro7aTemv6Us/0.jpg)](https://youtu.be/ro7aTemv6Us)
+
+#### Demo Video about Feature #2
 
 [![Demo_video](http://img.youtube.com/vi/xbegL4UpUvw/0.jpg)](https://youtu.be/xbegL4UpUvw)
 
