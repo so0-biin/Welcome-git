@@ -55,6 +55,8 @@ Welcome-git provides a functionality to clone a git repository form Github to lo
 
 [![Demo_video](http://img.youtube.com/vi/ro7aTemv6Us/0.jpg)](https://youtu.be/ro7aTemv6Us)
 
+[![Demo_video](http://img.youtube.com/vi/xbegL4UpUvw/0.jpg)](https://youtu.be/xbegL4UpUvw)
+
 ## Build
 If you want to run this program in your local system, please follow this guide. 
 
