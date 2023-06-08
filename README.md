@@ -6,9 +6,12 @@
 
 Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. The original file explorer used to create our program is [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
 
-OS: Windows 10
-Language: C#
-Needed: .NET, .NET Desktop, above .NET 6.0 Runtime
+#### OS: Windows 10
+
+#### Language: C#
+
+#### Needed: .NET, .NET Desktop, above .NET 6.0 Runtime
+
 
 Feature #1-1. File explorer
 
