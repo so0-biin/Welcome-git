@@ -104,6 +104,7 @@ Click the run button and Enjoy our program!
 
 - As the operation does not work when a korean titled file is created, please create file names only in English.
 - Due to the absence of the redirection function in the internal navigation panel of the file browser, the program cannot load newly created directories from external sources while it is running. Therefore, although a new directory appears in the right Explorer, clicking it takes you to an entirely different path. To use the new directory, you need to create it first and then start the program.
+- Due to the file browser problem above, when you clone the repository using the clone button(feature #2-4), the program cannot get access to newly cloned directories. You can see the cloned directory when the Explorer panel is refreshed. However, clicking it will take you to a different path. Therefore, in order to approach the newly cloned repository, you need to restart the program.
 
 ## Bug Reporting and Feature Request
 If you find any bugs, please report it by submitting an issue on our [issue page](https://github.com/so0-biin/Welcome-git/issues) with a detailed explanation. Giving some screenshots would also be very helpful. You can also submit a feature request on our [issue page](https://github.com/so0-biin/Welcome-git/issues) and we will try to implement it as soon as possible.
