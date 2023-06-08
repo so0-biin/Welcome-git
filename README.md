@@ -6,6 +6,9 @@
 
 Welcome-git is a simple GUI-based git repository management service using FileManager by arsabyaneh. The original file explorer used to create our program is [arsabyaneh/FileManager](https://github.com/arsabyaneh/FileManager). Our program provides the following MVP functions.
 
+#### Tag v1.0 : contains Feature #1-1, #1-2, #1-3
+#### Tag v2.0 : Feature #2-1, #2-2, #2-3, #2-4 added
+
 #### OS: Windows 10
 
 #### Language: C#
